@@ -1,0 +1,13 @@
+.app-container { 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    height: 100vh;
+    width: 100%;
+}
+
+.button {
+    width: 20em !important;
+    margin: .5em !important;
+}

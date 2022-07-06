@@ -1,0 +1,22 @@
+.form-component {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+
+    justify-content: center;
+    align-items: center;
+
+    width: 40%;
+    min-width: 22em;
+
+}
+
+.text-input-container {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+
+    justify-content: center;
+    align-items: center;
+
+}
