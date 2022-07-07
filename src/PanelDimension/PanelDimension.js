@@ -21,7 +21,7 @@ export const PanelDimensions = () => {
     setAnimationFinished(false);
     setTimeout(() => {
       setAnimationFinished(true);
-      if (!isHovered) {
+      if (isHovered) {
         setClassName(PANEL_CLASS.IDLE);
       }
     }, 1000);
@@ -35,8 +35,8 @@ export const PanelDimensions = () => {
 
   const styles = {
     panel: {
-      minWidth: panelWidth,
-      minHeight: panelHeight,
+      width: panelWidth,
+      height: panelHeight,
     },
 
     widthDimension: {
