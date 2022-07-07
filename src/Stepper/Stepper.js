@@ -11,8 +11,10 @@ import { ACTIONS } from "../ContextProvider/ContextProvider";
 import { AppStateContext } from "../ContextProvider/ContextProvider";
 
 export default function HorizontalLinearStepper({ children }) {
-  const { steps } = useContext(StepsContext);
   const { appState, dispatch } = useContext(AppStateContext);
+
+  const steps = children.labels;
+  const components = children.components;
 
   const handleNext = () => {
     dispatch({ type: ACTIONS.NEXT_SCREEN });
@@ -29,7 +31,7 @@ export default function HorizontalLinearStepper({ children }) {
   return (
     <div className="stepper">
       <Stepper activeStep={appState.screen} className="stepper-steps">
-        {steps.labels.map((label) => {
+        {steps.map((label) => {
           return (
             <Step key={label}>
               <StepLabel>{label}</StepLabel>
@@ -37,16 +39,16 @@ export default function HorizontalLinearStepper({ children }) {
           );
         })}
       </Stepper>
-      {appState.screen === steps.labels.length ? (
+      {appState.screen === steps.length ? (
         <>
-          finito
+          {components[appState.screen]}
           <Button className="button" variant="outlined" onClick={handleReset}>
             Reset
           </Button>
         </>
       ) : (
         <>
-          {children}
+          {components[appState.screen]}
           <div className="stepper-button-container">
             <Button
               className="button stepper-button"
@@ -61,9 +63,7 @@ export default function HorizontalLinearStepper({ children }) {
               variant="outlined"
               onClick={handleNext}
             >
-              {appState.screen === steps.labels.length - 1
-                ? "Dokončiť"
-                : "Ďalej"}
+              {appState.screen === steps.length - 1 ? "Dokončiť" : "Ďalej"}
             </Button>
           </div>
         </>

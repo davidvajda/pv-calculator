@@ -3,7 +3,9 @@ import React from "react";
 import { ContextProvider } from "../ContextProvider/ContextProvider";
 
 import FormComponent from "../FormComponent/FormComponent";
-import { PanelDimensions } from "../PanelDimension/PanelDimension";
+import PanelComponent from "../PanelComponent/PanelComponent";
+import RoofComponent from "../RoofComponent/RoofComponent";
+import OutputComponent from "../OutputComponent/OutputComponent";
 import Stepper from "../Stepper/Stepper";
 import "./App.css";
 
@@ -12,16 +14,23 @@ const App = () => {
     <ContextProvider>
       <div className="app-container">
         <Stepper>
-          <FormComponent />
+          {{
+            labels: [
+              "Vlastnosti strechy",
+              "Vlastnosti panelu",
+              "Náčrt strechy",
+            ],
+            components: [
+              <FormComponent />,
+              <PanelComponent />,
+              <RoofComponent />,
+              <OutputComponent />,
+            ],
+          }}
         </Stepper>
       </div>
     </ContextProvider>
   );
 };
-
-// <FormComponent/>
-// <PanelComponent/>
-// <RoofComponent/>
-// <OutputComponent/>
 
 export default App;
