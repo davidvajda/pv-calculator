@@ -6,7 +6,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
 
-export const SelectInput = ({ label, itemLabels, values, setValue, defaultValue }) => {
+export const SelectInput = ({ label, itemLabels, values, dispatch, dispatchAction, defaultValue }) => {
   const menuItems = [];
   for (let i = 0; i < values.length; i++) {
     menuItems.push(<MenuItem key={i} value={values[i]}>{itemLabels[i]}</MenuItem>);
@@ -21,7 +21,7 @@ export const SelectInput = ({ label, itemLabels, values, setValue, defaultValue 
         labelId={labelId}
         fullWidth={true}
         value={defaultValue}
-        onChange={(e) => setValue(e.target.value)}
+        onChange={(e) => dispatch({type: dispatchAction, payload: {value: e.target.value}})}
       >
         {menuItems}
       </Select>

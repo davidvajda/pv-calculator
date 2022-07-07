@@ -12,7 +12,8 @@ export const RadioButtonInput = ({
   radioLabels,
   values,
   defaultValue,
-  setValue,
+  dispatch,
+  dispatchAction,
 }) => {
   const radioButtonId = React.useId();
 
@@ -36,7 +37,12 @@ export const RadioButtonInput = ({
         row
         aria-labelledby={radioButtonId}
         value={defaultValue}
-        onChange={(e) => setValue(parseInt(e.target.value))}
+        onChange={(e) =>
+          dispatch({
+            type: dispatchAction,
+            payload: { value: parseInt(e.target.value) },
+          })
+        }
       >
         {radios}
       </RadioGroup>

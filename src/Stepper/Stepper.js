@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useContext } from "react";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
@@ -7,42 +7,40 @@ import Button from "@mui/material/Button";
 import "./Stepper.css";
 import { StepsContext } from "../ContextProvider/ContextProvider";
 
-export default function HorizontalLinearStepper({ children }) {
-  const {steps} = React.useContext(StepsContext)
+import { ACTIONS } from "../ContextProvider/ContextProvider";
+import { AppStateContext } from "../ContextProvider/ContextProvider";
 
-  const [activeStep, setActiveStep] = React.useState(0);
+export default function HorizontalLinearStepper({ children }) {
+  const { steps } = useContext(StepsContext);
+  const { appState, dispatch } = useContext(AppStateContext);
 
   const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    dispatch({ type: ACTIONS.NEXT_SCREEN });
   };
 
   const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    dispatch({ type: ACTIONS.PREV_SCREEN });
   };
 
   const handleReset = () => {
-    setActiveStep(0);
+    dispatch({ type: ACTIONS.RESET_FORM });
   };
 
   return (
     <div className="stepper">
-      <Stepper activeStep={activeStep} className="stepper-steps">
+      <Stepper activeStep={appState.screen} className="stepper-steps">
         {steps.labels.map((label) => {
           return (
-            <Step key={label} >
+            <Step key={label}>
               <StepLabel>{label}</StepLabel>
             </Step>
           );
         })}
       </Stepper>
-      {activeStep === steps.labels.length ? (
+      {appState.screen === steps.labels.length ? (
         <>
           finito
-          <Button
-            className="button"
-            variant="outlined"
-            onClick={handleReset}
-          >
+          <Button className="button" variant="outlined" onClick={handleReset}>
             Reset
           </Button>
         </>
@@ -53,7 +51,7 @@ export default function HorizontalLinearStepper({ children }) {
             <Button
               className="button stepper-button"
               variant="outlined"
-              disabled={activeStep === 0}
+              disabled={appState.screen === 0}
               onClick={handleBack}
             >
               Späť
@@ -63,7 +61,9 @@ export default function HorizontalLinearStepper({ children }) {
               variant="outlined"
               onClick={handleNext}
             >
-              {activeStep === steps.labels.length - 1 ? "Dokončiť" : "Ďalej"}
+              {appState.screen === steps.labels.length - 1
+                ? "Dokončiť"
+                : "Ďalej"}
             </Button>
           </div>
         </>

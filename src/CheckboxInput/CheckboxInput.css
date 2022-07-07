@@ -7,6 +7,14 @@
 
     width: 20em;
     margin: .5em;
+    border-radius: 5em;
+
+    transition: background-color .1s;
+}
+
+.checkbox-input:hover {
+    background-color: #fafafa;
+    
 }
 
 
