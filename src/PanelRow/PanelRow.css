@@ -1,0 +1,11 @@
+.panel {
+    border: 1px solid #999;
+    background-image: radial-gradient(#999 1px, transparent 0px);
+    background-size: 5px 5px;
+    transition: background-color .5s;
+ 
+}
+
+.panel:hover {
+    background-color: #d1222b;
+}

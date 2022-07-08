@@ -39,7 +39,11 @@ const defaultMaterialContext = {
 };
 
 const defaultOutputContext = {
-  panelLayout: [],
+  panelLayout: {
+    panels: [],
+    usableWidths: [],
+    panelsFromTop: false,
+  },
   invertor: {
     suitableTypes: [],
     stringDivision: [],
@@ -99,7 +103,7 @@ export const ContextProvider = ({ children }) => {
       case ACTIONS.MAX_POWER:
         return { ...appState, maxPlantPower: action.payload.value };
 
-        // screen handling
+      // screen handling
       case ACTIONS.NEXT_SCREEN:
         return { ...appState, screen: appState.screen + 1 };
       case ACTIONS.PREV_SCREEN:
@@ -111,10 +115,13 @@ export const ContextProvider = ({ children }) => {
     }
   };
 
-  const [materialState, setMaterialState] = useLocalStorage("materialContext", defaultMaterialContext);
+  const [materialState, setMaterialState] = useLocalStorage(
+    "materialContext",
+    defaultMaterialContext
+  );
   const [outputState, setOutputState] = useState(() => defaultOutputContext);
   const [appState, dispatch] = useReducer(changeState, defaultAppContext);
-  
+
   return (
     <AppStateContext.Provider value={{ appState, dispatch }}>
       <MaterialStateContext.Provider

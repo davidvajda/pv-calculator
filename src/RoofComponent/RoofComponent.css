@@ -1,0 +1,11 @@
+.roof-component {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.roof-info {
+    font-size: small;
+    margin: 1em;
+}

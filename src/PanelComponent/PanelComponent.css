@@ -1,7 +1,6 @@
 .panel-component {
-    border: 1px solid red;
-}
 
+}
 
 .text-input-container {
     display: flex;
@@ -17,5 +16,5 @@
     justify-content: center;
     align-content: center;
 
-    margin: 4em;
+    margin: 3em;
 }

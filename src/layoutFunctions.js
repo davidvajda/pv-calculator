@@ -28,11 +28,6 @@ export const getPanelLayoutRectangle = (
   panelPower,
   maxPower
 ) => {
-  roofHeight = parseInt(roofHeight);
-  roofWidth = parseInt(roofWidth);
-  panelWidth = parseInt(panelWidth);
-  panelHeight = parseInt(panelHeight);
-  bracketWidth = parseInt(bracketWidth);
 
   let panelsHorizontally = Math.floor(
     (roofWidth - EDGE_SAFE_DISTANCE) / (panelWidth + bracketWidth)
@@ -57,9 +52,11 @@ export const getPanelLayoutRectangle = (
     }
     usableWidths.push(roofWidth - EDGE_SAFE_DISTANCE);
   }
+
   return {
     panels: panels,
     usableWidths: usableWidths,
+    panelsFromTop: false,
   };
 };
 
@@ -72,11 +69,6 @@ export const getPanelLayoutTriangle = (
   panelPower,
   maxPower
 ) => {
-  roofHeight = parseInt(roofHeight);
-  roofWidth = parseInt(roofWidth);
-  panelWidth = parseInt(panelWidth);
-  panelHeight = parseInt(panelHeight);
-  bracketWidth = parseInt(bracketWidth);
 
   let c = roofHeight; // height
   let b = roofWidth / 2; // base
@@ -124,6 +116,7 @@ export const getPanelLayoutTriangle = (
   return {
     panels: panels.reverse(),
     usableWidths: usableWidths,
+    panelsFromTop: false,
   };
 };
 
@@ -137,12 +130,6 @@ export const getPanelLayoutTrapezoid = (
   panelPower,
   maxPower
 ) => {
-  roofHeight = parseInt(roofHeight);
-  topWidth = parseInt(topWidth);
-  bottomWidth = parseInt(bottomWidth);
-  panelWidth = parseInt(panelWidth);
-  panelHeight = parseInt(panelHeight);
-  bracketWidth = parseInt(bracketWidth);
 
   const triangleWidth = Math.abs(bottomWidth - topWidth);
 

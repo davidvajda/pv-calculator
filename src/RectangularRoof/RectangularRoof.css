@@ -1,0 +1,14 @@
+.roof-base-rectangle {
+    position: relative;
+    border: 1px solid #999;
+}
+
+.roof-panels-rectangle {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-content: center;
+    justify-content: flex-end;
+    align-items: center;
+
+}

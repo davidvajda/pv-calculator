@@ -1,0 +1,19 @@
+.roof-base-trapezoid {
+    position: relative;
+    border-bottom: 1px solid #999;
+}
+
+.wall {
+    position: absolute;
+    background: #999;
+    height: 1px;
+}
+
+.roof-panels-trapezoid {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-content: center;
+    justify-content: flex-end;
+    align-items: center;
+}
