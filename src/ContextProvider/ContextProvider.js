@@ -61,7 +61,7 @@ const steps = {
   screens: ["roof", "panel", "canvas", "output"],
 };
 
-export const ACTIONS = {
+export const APP_ACTIONS = {
   POWER_RESERVE: "allowPowerReserve",
   ROOF_HEIGHT: "roofHeight",
   ROOF_WIDTH: "roofWidth",
@@ -78,56 +78,75 @@ export const ACTIONS = {
   RESET_FORM: "resetForm",
 };
 
+export const OUTPUT_ACTIONS = {
+  PANEL_LAYOUT: "panelLayout",
+  MOUNTING_MATERIAL: "mountingMaterial",
+  INVERTOR_MATERIAL: "invertorMaterial",
+};
+
 export const ContextProvider = ({ children }) => {
-  const changeState = (appState, action) => {
+  const changeAppState = (appState, action) => {
     switch (action.type) {
       // inputs
-      case ACTIONS.POWER_RESERVE:
+      case APP_ACTIONS.POWER_RESERVE:
         return { ...appState, allowPowerReserve: !appState.allowPowerReserve };
-      case ACTIONS.ROOF_HEIGHT:
+      case APP_ACTIONS.ROOF_HEIGHT:
         return { ...appState, roofHeight: action.payload.value };
-      case ACTIONS.ROOF_WIDTH:
+      case APP_ACTIONS.ROOF_WIDTH:
         return { ...appState, roofWidthBottom: action.payload.value };
-      case ACTIONS.ROOF_WIDTH_TOP:
+      case APP_ACTIONS.ROOF_WIDTH_TOP:
         return { ...appState, roofWidthTop: action.payload.value };
-      case ACTIONS.HOOK_RUSTER:
+      case APP_ACTIONS.HOOK_RUSTER:
         return { ...appState, hookRuster: action.payload.value };
-      case ACTIONS.SNOW_LOAD:
+      case APP_ACTIONS.SNOW_LOAD:
         return { ...appState, snowLoad: action.payload.value };
-      case ACTIONS.WIND_LOAD:
+      case APP_ACTIONS.WIND_LOAD:
         return { ...appState, windLoad: action.payload.value };
-      case ACTIONS.ROOF_SHAPE:
+      case APP_ACTIONS.ROOF_SHAPE:
         return { ...appState, roofShape: action.payload.value };
-      case ACTIONS.ROOF_TYPE:
+      case APP_ACTIONS.ROOF_TYPE:
         return { ...appState, roofType: action.payload.value };
-      case ACTIONS.MAX_POWER:
+      case APP_ACTIONS.MAX_POWER:
         return { ...appState, maxPlantPower: action.payload.value };
 
       // screen handling
-      case ACTIONS.NEXT_SCREEN:
+      case APP_ACTIONS.NEXT_SCREEN:
         return { ...appState, screen: appState.screen + 1 };
-      case ACTIONS.PREV_SCREEN:
+      case APP_ACTIONS.PREV_SCREEN:
         return { ...appState, screen: appState.screen - 1 };
-      case ACTIONS.RESET_FORM:
+      case APP_ACTIONS.RESET_FORM:
         return defaultAppContext;
       default:
         return appState;
     }
   };
 
+  const changeOutputState = (outputState, action) => {
+    switch (action.type) {
+      case OUTPUT_ACTIONS.PANEL_LAYOUT:
+        return { ...outputState, panelLayout: action.payload.value };
+      case OUTPUT_ACTIONS.MOUNTING_MATERIAL:
+        return { ...outputState, mountingMaterial: action.payload.value };
+      case OUTPUT_ACTIONS.INVERTOR_MATERIAL:
+        return { ...outputState, invertor: action.payload.value };
+      default:
+        return outputState;
+    }
+  };
   const [materialState, setMaterialState] = useLocalStorage(
     "materialContext",
     defaultMaterialContext
   );
-  const [outputState, setOutputState] = useState(() => defaultOutputContext);
-  const [appState, dispatch] = useReducer(changeState, defaultAppContext);
+  const [outputState, outputDispatch] = useReducer(
+    changeOutputState,
+    defaultOutputContext
+  );
+  const [appState, appDispatch] = useReducer(changeAppState, defaultAppContext);
 
   return (
-    <AppStateContext.Provider value={{ appState, dispatch }}>
-      <MaterialStateContext.Provider
-        value={{ materialState, setMaterialState }}
-      >
-        <OutputContext.Provider value={{ outputState, setOutputState }}>
+    <AppStateContext.Provider value={{ appState, appDispatch }}>
+      <MaterialStateContext.Provider value={{ materialState, setMaterialState }}>
+        <OutputContext.Provider value={{ outputState, outputDispatch }}>
           <StepsContext.Provider value={{ steps }}>
             {children}
           </StepsContext.Provider>

@@ -18,6 +18,8 @@ import {
   OutputContext,
 } from "../ContextProvider/ContextProvider";
 
+import { OUTPUT_ACTIONS } from "../ContextProvider/ContextProvider";
+
 export const EDGE_SAFE_DISTANCE = 600;
 export const CANVAS_SIZE = 600;
 
@@ -29,7 +31,7 @@ const countPanels = (panelLayout) => {
 
 const RoofComponent = () => {
   const { materialState } = useContext(MaterialStateContext);
-  const { outputState, setOutputState } = useContext(OutputContext);
+  const { outputState, outputDispatch } = useContext(OutputContext);
   const { appState } = useContext(AppStateContext);
 
   const [roofComponent, setRoofComponent] = useState(() => null);
@@ -45,10 +47,10 @@ const RoofComponent = () => {
     switch (appState.roofShape) {
       case "rectangle": {
         setRoofComponent(<RectangularRoof />);
-        setOutputState((prev) => {
-          return {
-            ...prev,
-            panelLayout: getPanelLayoutRectangle(
+        outputDispatch({
+          type: OUTPUT_ACTIONS.PANEL_LAYOUT,
+          payload: {
+            value: getPanelLayoutRectangle(
               appState.roofHeight,
               appState.roofWidthBottom,
               materialState.panelWidth,
@@ -57,15 +59,15 @@ const RoofComponent = () => {
               materialState.panelPower,
               appState.maxPlantPower
             ),
-          };
+          },
         });
       }
       case "triangle": {
         setRoofComponent(<TriangularRoof />);
-        setOutputState((prev) => {
-          return {
-            ...prev,
-            panelLayout: getPanelLayoutTriangle(
+        outputDispatch({
+          type: OUTPUT_ACTIONS.PANEL_LAYOUT,
+          payload: {
+            value: getPanelLayoutTriangle(
               appState.roofHeight,
               appState.roofWidthBottom,
               materialState.panelWidth,
@@ -74,15 +76,15 @@ const RoofComponent = () => {
               materialState.panelPower,
               appState.maxPlantPower
             ),
-          };
+          },
         });
       }
       case "trapezoid": {
         setRoofComponent(<TrapezoidRoof />);
-        setOutputState((prev) => {
-          return {
-            ...prev,
-            panelLayout: getPanelLayoutTrapezoid(
+        outputDispatch({
+          type: OUTPUT_ACTIONS.PANEL_LAYOUT,
+          payload: {
+            value: getPanelLayoutTrapezoid(
               appState.roofHeight,
               appState.roofWidthTop,
               appState.roofWidthBottom,
@@ -92,7 +94,7 @@ const RoofComponent = () => {
               materialState.panelPower,
               appState.maxPlantPower
             ),
-          };
+          },
         });
       }
     }

@@ -5,27 +5,26 @@ import StepLabel from "@mui/material/StepLabel";
 import Button from "@mui/material/Button";
 
 import "./Stepper.css";
-import { StepsContext } from "../ContextProvider/ContextProvider";
 
-import { ACTIONS } from "../ContextProvider/ContextProvider";
+import { APP_ACTIONS } from "../ContextProvider/ContextProvider";
 import { AppStateContext } from "../ContextProvider/ContextProvider";
 
 export default function HorizontalLinearStepper({ children }) {
-  const { appState, dispatch } = useContext(AppStateContext);
+  const { appState, appDispatch } = useContext(AppStateContext);
 
   const steps = children.labels;
   const components = children.components;
 
   const handleNext = () => {
-    dispatch({ type: ACTIONS.NEXT_SCREEN });
+    appDispatch({ type: APP_ACTIONS.NEXT_SCREEN });
   };
 
   const handleBack = () => {
-    dispatch({ type: ACTIONS.PREV_SCREEN });
+    appDispatch({ type: APP_ACTIONS.PREV_SCREEN });
   };
 
   const handleReset = () => {
-    dispatch({ type: ACTIONS.RESET_FORM });
+    appDispatch({ type: APP_ACTIONS.RESET_FORM });
   };
 
   return (

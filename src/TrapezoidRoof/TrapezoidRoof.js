@@ -25,7 +25,6 @@ const TrapezoidRoof = () => {
     const wTop = appState.roofWidthTop;
     const h = appState.roofHeight;
     const conversion = getConversion(wBottom, wTop, h, CANVAS_SIZE);
-  
     const triangleData = getTriangleData(wBottom - wTop, h);  
   
     const panelDivHeight = outputState.panelLayout.panelsFromTop

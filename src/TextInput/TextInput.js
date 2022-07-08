@@ -4,25 +4,25 @@ import "./TextInput.css";
 
 import TextField from "@mui/material/TextField";
 
-export const TextInput = ({ label, value, dispatch, dispatchAction, type }) => {
-  const numberDispatch = (value) => {
+export const TextInput = ({ label, value, appDispatch, appDispatchAction, type }) => {
+  const numberappDispatch = (value) => {
     const numericValue = parseInt(value);
 
     if (numericValue < 0 || value === "") {
-      return dispatch({
-        type: dispatchAction,
+      return appDispatch({
+        type: appDispatchAction,
         payload: { value: 0 },
       });
     } else {
-      return dispatch({
-        type: dispatchAction,
+      return appDispatch({
+        type: appDispatchAction,
         payload: { value: numericValue },
       });
     }
   };
 
-  const textDispatch = (value) => {
-    return dispatch({ type: dispatchAction, payload: { value: value } });
+  const textappDispatch = (value) => {
+    return appDispatch({ type: appDispatchAction, payload: { value: value } });
   };
 
   return (
@@ -35,8 +35,8 @@ export const TextInput = ({ label, value, dispatch, dispatchAction, type }) => {
         type={type}
         onChange={(e) => {
           type === "number"
-            ? numberDispatch(e.target.value)
-            : textDispatch(e.target.value);
+            ? numberappDispatch(e.target.value)
+            : textappDispatch(e.target.value);
         }}
       />
     </div>

@@ -6,7 +6,7 @@ import {
   AppStateContext,
   MaterialStateContext,
 } from "../ContextProvider/ContextProvider";
-import { ACTIONS } from "../ContextProvider/ContextProvider";
+import { APP_ACTIONS } from "../ContextProvider/ContextProvider";
 
 import { TextInput } from "../TextInput/TextInput";
 import { SelectInput } from "../SelectInput/SelectInput";
@@ -14,11 +14,11 @@ import { CheckboxInput } from "../CheckboxInput/CheckboxInput";
 import { RadioButtonInput } from "../RadioButtonInput/RadioButtonInput";
 
 const FormComponent = () => {
-  const { appState, dispatch } = useContext(AppStateContext);
+  const { appState, appDispatch } = useContext(AppStateContext);
   const { materialState } = useContext(MaterialStateContext);
 
   useEffect(() => {
-    dispatch({
+    appDispatch({
       type: "hookRuster",
       payload: { value: materialState.hookRuster[appState.roofType] },
     });
@@ -52,23 +52,23 @@ const FormComponent = () => {
           label={"Tvar strechy"}
           itemLabels={roofShapeOptions.labels}
           values={roofShapeOptions.values}
-          dispatch={dispatch}
-          dispatchAction={ACTIONS.ROOF_SHAPE}
+          appDispatch={appDispatch}
+          appDispatchAction={APP_ACTIONS.ROOF_SHAPE}
           defaultValue={appState.roofShape}
         />
         <SelectInput
           label={"Typ strešnej krytiny"}
           itemLabels={roofTypeOptions.labels}
           values={roofTypeOptions.values}
-          dispatch={dispatch}
-          dispatchAction={ACTIONS.ROOF_TYPE}
+          appDispatch={appDispatch}
+          appDispatchAction={APP_ACTIONS.ROOF_TYPE}
           defaultValue={appState.roofType}
         />
         <TextInput
           label={"Rozteč trámov, falcov [mm]"}
           value={appState.hookRuster}
-          dispatch={dispatch}
-          dispatchAction={ACTIONS.HOOK_RUSTER}
+          appDispatch={appDispatch}
+          appDispatchAction={APP_ACTIONS.HOOK_RUSTER}
           type={"number"}
         />
       </div>
@@ -77,8 +77,8 @@ const FormComponent = () => {
           <TextInput
             label={"Šírka strechy vrch [mm]"}
             value={appState.roofWidthTop}
-            dispatch={dispatch}
-            dispatchAction={ACTIONS.ROOF_WIDTH_TOP}
+            appDispatch={appDispatch}
+            appDispatchAction={APP_ACTIONS.ROOF_WIDTH_TOP}
               type={"number"}
           />
         ) : null}
@@ -86,22 +86,22 @@ const FormComponent = () => {
         <TextInput
           label={"Šírka strechy [mm]"}
           value={appState.roofWidthBottom}
-          dispatch={dispatch}
-          dispatchAction={ACTIONS.ROOF_WIDTH}
+          appDispatch={appDispatch}
+          appDispatchAction={APP_ACTIONS.ROOF_WIDTH}
           type={"number"}
         />
         <TextInput
           label={"Výška strechy [mm]"}
           value={appState.roofHeight}
-          dispatch={dispatch}
-          dispatchAction={ACTIONS.ROOF_HEIGHT}
+          appDispatch={appDispatch}
+          appDispatchAction={APP_ACTIONS.ROOF_HEIGHT}
           type={"number"}
         />
         <TextInput
           label={"Max. povolený výkon [Wp]"}
           value={appState.maxPlantPower}
-          dispatch={dispatch}
-          dispatchAction={ACTIONS.MAX_POWER}
+          appDispatch={appDispatch}
+          appDispatchAction={APP_ACTIONS.MAX_POWER}
           type={"number"}
         />
       </div>
@@ -111,24 +111,24 @@ const FormComponent = () => {
           radioLabels={loadIndexOptions.labels}
           values={loadIndexOptions.values}
           defaultValue={appState.windLoad}
-          dispatch={dispatch}
-          dispatchAction={ACTIONS.WIND_LOAD}
+          appDispatch={appDispatch}
+          appDispatchAction={APP_ACTIONS.WIND_LOAD}
         />
         <RadioButtonInput
           label={"Index predpokladanej záťaže snehom"}
           radioLabels={loadIndexOptions.labels}
           values={loadIndexOptions.values}
           defaultValue={appState.snowLoad}
-          dispatch={dispatch}
-          dispatchAction={ACTIONS.SNOW_LOAD}
+          appDispatch={appDispatch}
+          appDispatchAction={APP_ACTIONS.SNOW_LOAD}
         />
       </div>
       <div className="text-input-container">
         <CheckboxInput
           label={"Použiť výkonovú rezervu striedača"}
           value={appState.allowPowerReserve}
-          dispatch={dispatch}
-          dispatchAction={ACTIONS.POWER_RESERVE}
+          appDispatch={appDispatch}
+          appDispatchAction={APP_ACTIONS.POWER_RESERVE}
         />
       </div>
     </div>
