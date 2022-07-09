@@ -79,7 +79,7 @@ const FormComponent = () => {
             value={appState.roofWidthTop}
             appDispatch={appDispatch}
             appDispatchAction={APP_ACTIONS.ROOF_WIDTH_TOP}
-              type={"number"}
+            type={"number"}
           />
         ) : null}
 

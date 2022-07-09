@@ -44,8 +44,9 @@ const RoofComponent = () => {
   };
 
   useEffect(() => {
-    switch (appState.roofShape) {
-      case "rectangle": {
+    const roofShape = appState.roofShape;
+    switch (roofShape) {
+      case "rectangle":
         setRoofComponent(<RectangularRoof />);
         outputDispatch({
           type: OUTPUT_ACTIONS.PANEL_LAYOUT,
@@ -61,8 +62,9 @@ const RoofComponent = () => {
             ),
           },
         });
-      }
-      case "triangle": {
+        break;
+
+      case "triangle":
         setRoofComponent(<TriangularRoof />);
         outputDispatch({
           type: OUTPUT_ACTIONS.PANEL_LAYOUT,
@@ -78,8 +80,11 @@ const RoofComponent = () => {
             ),
           },
         });
-      }
-      case "trapezoid": {
+        break;
+
+      case "trapezoid":
+        console.log("TRAPEZOID", appState.roofShape);
+
         setRoofComponent(<TrapezoidRoof />);
         outputDispatch({
           type: OUTPUT_ACTIONS.PANEL_LAYOUT,
@@ -96,7 +101,7 @@ const RoofComponent = () => {
             ),
           },
         });
-      }
+        break;
     }
   }, []);
 

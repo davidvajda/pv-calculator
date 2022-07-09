@@ -1,4 +1,4 @@
-import React, { useState, useReducer, createContext } from "react";
+import React, { useReducer, createContext } from "react";
 
 import { useLocalStorage } from "../useLocalStorage";
 
@@ -82,6 +82,7 @@ export const OUTPUT_ACTIONS = {
   PANEL_LAYOUT: "panelLayout",
   MOUNTING_MATERIAL: "mountingMaterial",
   INVERTOR_MATERIAL: "invertorMaterial",
+  DELETE_PANEL: "deletePanel",
 };
 
 export const ContextProvider = ({ children }) => {
@@ -129,6 +130,19 @@ export const ContextProvider = ({ children }) => {
         return { ...outputState, mountingMaterial: action.payload.value };
       case OUTPUT_ACTIONS.INVERTOR_MATERIAL:
         return { ...outputState, invertor: action.payload.value };
+      case OUTPUT_ACTIONS.DELETE_PANEL: // TODO: panel removes from other row
+        const newPanels = outputState.panelLayout.panels.map((amount, idx) => {
+          return idx === action.payload.value
+            ? amount > 0
+              ? amount - 1
+              : 0
+            : amount;
+        });
+        const newPanelLayout = {
+          ...outputState.panelLayout,
+          panels: newPanels,
+        };
+        return { ...outputState, panelLayout: newPanelLayout };
       default:
         return outputState;
     }
@@ -145,7 +159,9 @@ export const ContextProvider = ({ children }) => {
 
   return (
     <AppStateContext.Provider value={{ appState, appDispatch }}>
-      <MaterialStateContext.Provider value={{ materialState, setMaterialState }}>
+      <MaterialStateContext.Provider
+        value={{ materialState, setMaterialState }}
+      >
         <OutputContext.Provider value={{ outputState, outputDispatch }}>
           <StepsContext.Provider value={{ steps }}>
             {children}

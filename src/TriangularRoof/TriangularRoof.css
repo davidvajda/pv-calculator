@@ -3,7 +3,7 @@
     border-bottom: 1px solid #999;
 }
 
-.roof-anels {
+.roof-panels {
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;

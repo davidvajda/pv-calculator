@@ -3,7 +3,10 @@
     background-image: radial-gradient(#999 1px, transparent 0px);
     background-size: 5px 5px;
     transition: background-color .5s;
- 
+}
+
+.panel-row {
+    display: flex;
 }
 
 .panel:hover {

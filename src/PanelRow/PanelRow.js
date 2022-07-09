@@ -1,7 +1,3 @@
-// TODO:
-// need to change state management
-// move css into css file
-
 import React, { useContext } from "react";
 
 import "./PanelRow.css";
@@ -9,15 +5,18 @@ import "./PanelRow.css";
 import {
   AppStateContext,
   MaterialStateContext,
+  OutputContext,
 } from "../ContextProvider/ContextProvider";
 
 import { getConversion } from "../getConversion";
 
 import { CANVAS_SIZE } from "../RoofComponent/RoofComponent";
+import { OUTPUT_ACTIONS } from "../ContextProvider/ContextProvider";
 
 const PanelRow = ({ indice, count }) => {
   const { appState } = useContext(AppStateContext);
   const { materialState } = useContext(MaterialStateContext);
+  const { outputDispatch } = useContext(OutputContext);
 
   const conversion = getConversion(
     appState.roofWidthBottom,
@@ -27,13 +26,13 @@ const PanelRow = ({ indice, count }) => {
   );
 
   const styles = {
-    row: {
-      display: "flex",
-    },
     panel: {
       minWidth: materialState.panelWidth / conversion - 1,
       minHeight: materialState.panelHeight / conversion - 1,
       marginRight: materialState.bracketWidth / conversion,
+    },
+    panelRow: {
+      height: materialState.panelHeight / conversion,
     },
   };
 
@@ -42,7 +41,20 @@ const PanelRow = ({ indice, count }) => {
   for (let i = 0; i < count; i++) {
     panels.push(<div key={i} style={styles.panel} className="panel"></div>);
   }
-  return <div style={styles.row}>{panels}</div>;
+  return (
+    <div
+      className="panel-row"
+      style={styles.panelRow}
+      onClick={() => {
+        outputDispatch({
+          type: OUTPUT_ACTIONS.DELETE_PANEL,
+          payload: { value: 1 },
+        });
+      }}
+    >
+      {panels}
+    </div>
+  );
 };
 
 export default PanelRow;
