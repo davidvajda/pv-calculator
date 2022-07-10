@@ -27,12 +27,13 @@ const PanelRow = ({ indice, count }) => {
 
   const styles = {
     panel: {
-      minWidth: materialState.panelWidth / conversion - 1,
-      minHeight: materialState.panelHeight / conversion - 1,
+      width: materialState.panelWidth / conversion - 2,
+      height: materialState.panelHeight / conversion - 2,
       marginRight: materialState.bracketWidth / conversion,
     },
     panelRow: {
       height: materialState.panelHeight / conversion,
+      width: ((materialState.panelWidth + materialState.bracketWidth) * count) / conversion
     },
   };
 

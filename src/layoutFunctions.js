@@ -28,7 +28,6 @@ export const getPanelLayoutRectangle = (
   panelPower,
   maxPower
 ) => {
-
   let panelsHorizontally = Math.floor(
     (roofWidth - EDGE_SAFE_DISTANCE) / (panelWidth + bracketWidth)
   );
@@ -43,12 +42,12 @@ export const getPanelLayoutRectangle = (
   let panelCount = 0;
 
   for (let i = 0; i < panelsVertically; i++) {
-    if (panelsHorizontally < maxPanels - panelCount) {
+    if (panelsHorizontally <= maxPanels - panelCount) {
       panels.push(panelsHorizontally);
       panelCount += panelsHorizontally;
     } else {
       panels.push(maxPanels - panelCount);
-      break;
+      panelCount += maxPanels - panelCount;
     }
     usableWidths.push(roofWidth - EDGE_SAFE_DISTANCE);
   }
@@ -69,7 +68,6 @@ export const getPanelLayoutTriangle = (
   panelPower,
   maxPower
 ) => {
-
   let c = roofHeight; // height
   let b = roofWidth / 2; // base
   let a = Math.sqrt(Math.pow(b, 2) + Math.pow(c, 2)); // the other arm
@@ -104,18 +102,19 @@ export const getPanelLayoutTriangle = (
       break;
     }
 
-    if (upperEdgePanelCount < maxPanels - panelCount) {
+    if (upperEdgePanelCount <= maxPanels - panelCount) {
       panels.push(upperEdgePanelCount);
       panelCount += upperEdgePanelCount;
     } else {
       panels.push(maxPanels - panelCount);
+      panelCount += maxPanels - panelCount;
     }
     usableWidths.push(roofWidthUpperEdge);
   }
 
   return {
     panels: panels.reverse(),
-    usableWidths: usableWidths,
+    usableWidths: usableWidths.reverse(),
     panelsFromTop: false,
   };
 };
@@ -130,7 +129,6 @@ export const getPanelLayoutTrapezoid = (
   panelPower,
   maxPower
 ) => {
-
   const triangleWidth = Math.abs(bottomWidth - topWidth);
 
   const rectangleWidth =
@@ -182,6 +180,7 @@ export const getPanelLayoutTrapezoid = (
       panelCount += upperEdgePanelCount;
     } else {
       panels.push(maxPanels - panelCount);
+      panelCount += maxPanels - panelCount;
     }
     usableWidths.push(roofWidthUpperEdge);
 
@@ -192,6 +191,7 @@ export const getPanelLayoutTrapezoid = (
 
   if (!panelsStartingFromTop) {
     panels.reverse();
+    usableWidths.reverse();
   }
 
   return {
