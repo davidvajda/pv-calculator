@@ -48,7 +48,7 @@ const PanelRow = ({ indice, count }) => {
       onClick={() => {
         outputDispatch({
           type: OUTPUT_ACTIONS.DELETE_PANEL,
-          payload: { value: 1 },
+          payload: { value: indice },
         });
       }}
     >
