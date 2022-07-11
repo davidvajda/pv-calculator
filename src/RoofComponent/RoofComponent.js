@@ -1,5 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
 
+import { OUTPUT_ACTIONS } from "../ContextProvider/ContextProvider";
+
+import {
+  AppStateContext,
+  MaterialStateContext,
+  OutputContext,
+} from "../ContextProvider/ContextProvider";
 import RectangularRoof from "../RectangularRoof/RectangularRoof";
 import TriangularRoof from "../TriangularRoof/TriangularRoof";
 import TrapezoidRoof from "../TrapezoidRoof/TrapezoidRoof";
@@ -11,14 +18,6 @@ import {
 } from "../layoutFunctions";
 
 import "./RoofComponent.css";
-
-import {
-  AppStateContext,
-  MaterialStateContext,
-  OutputContext,
-} from "../ContextProvider/ContextProvider";
-
-import { OUTPUT_ACTIONS } from "../ContextProvider/ContextProvider";
 
 export const EDGE_SAFE_DISTANCE = 600;
 export const CANVAS_SIZE = 600;

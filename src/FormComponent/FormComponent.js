@@ -1,28 +1,21 @@
-import React, { useState, useEffect, useContext, startTransition } from "react";
+import React, { useEffect, useContext } from "react";
 
-import "./FormComponent.css";
+import { APP_ACTIONS } from "../ContextProvider/ContextProvider";
 
 import {
   AppStateContext,
   MaterialStateContext,
 } from "../ContextProvider/ContextProvider";
-import { APP_ACTIONS } from "../ContextProvider/ContextProvider";
-
 import { TextInput } from "../TextInput/TextInput";
 import { SelectInput } from "../SelectInput/SelectInput";
 import { CheckboxInput } from "../CheckboxInput/CheckboxInput";
 import { RadioButtonInput } from "../RadioButtonInput/RadioButtonInput";
 
+import "./FormComponent.css";
+
 const FormComponent = () => {
   const { appState, appDispatch } = useContext(AppStateContext);
   const { materialState } = useContext(MaterialStateContext);
-
-  useEffect(() => {
-    appDispatch({
-      type: "hookRuster",
-      payload: { value: materialState.hookRuster[appState.roofType] },
-    });
-  }, [appState.roofType]);
 
   const roofShapeOptions = {
     labels: ["Obdĺžniková", "Trojuholníková", "Lichobežníková"],
@@ -44,6 +37,13 @@ const FormComponent = () => {
     labels: ["1", "2", "3", "4", "5"],
     values: [1, 2, 3, 4, 5],
   };
+
+  useEffect(() => {
+    appDispatch({
+      type: "hookRuster",
+      payload: { value: materialState.hookRuster[appState.roofType] },
+    });
+  }, [appState.roofType]);
 
   return (
     <div className="form-component">
