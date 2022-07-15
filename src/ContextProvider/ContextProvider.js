@@ -1,6 +1,6 @@
 import React, { useReducer, createContext } from "react";
 
-import { useLocalStorage } from "../useLocalStorage";
+import { useLocalStorage } from "../Hooks/useLocalStorage";
 
 export const AppStateContext = createContext();
 export const MaterialStateContext = createContext();
@@ -22,6 +22,7 @@ const defaultAppContext = {
 };
 
 const defaultMaterialContext = {
+  useDefaultPanel: true,
   panelWidth: 1134,
   panelHeight: 1722,
   panelVoltage: 31.8,
@@ -85,7 +86,7 @@ export const OUTPUT_ACTIONS = {
   DELETE_PANEL: "deletePanel",
 };
 
-export const ContextProvider = ({ children }) => {
+const ContextProvider = ({ children }) => {
   const changeAppState = (appState, action) => {
     switch (action.type) {
       // inputs
@@ -171,3 +172,5 @@ export const ContextProvider = ({ children }) => {
     </AppStateContext.Provider>
   );
 };
+
+export default ContextProvider;

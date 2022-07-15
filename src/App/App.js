@@ -2,12 +2,11 @@ import React from "react";
 
 import { ContextProvider } from "../ContextProvider/ContextProvider";
 
-import FormComponent from "../FormComponent/FormComponent";
-import PanelComponent from "../PanelComponent/PanelComponent";
-import RoofComponent from "../RoofComponent/RoofComponent";
-import OutputComponent from "../OutputComponent/OutputComponent";
-import Stepper from "../Stepper/Stepper";
-import "./App.css";
+import FormPage from "../Pages/FormPage/FormPage";
+import PanelPage from "../Pages/PanelPage/PanelPage";
+import RoofPage from "../Pages/RoofPage/RoofPage";
+import OutputPage from "../Pages/OutputPage/OutputPage";
+import Stepper from "../Components/Stepper/Stepper";
 
 const App = () => {
   return (
@@ -21,10 +20,10 @@ const App = () => {
               "Náčrt strechy",
             ],
             components: [
-              <FormComponent />,
-              <PanelComponent />,
-              <RoofComponent />,
-              <OutputComponent />,
+              <FormPage />,
+              <PanelPage />,
+              <RoofPage />,
+              <OutputPage />,
             ],
           }}
         </Stepper>
