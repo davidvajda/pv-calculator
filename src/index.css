@@ -52,15 +52,14 @@ code {
 }
 
 .stepper {
-  min-width: 30em;
+  width: 100%;
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  
   margin: 2em;
 }
+
 
 .page-wrapper {
   display: flex;
@@ -77,6 +76,62 @@ code {
   margin: .5em;
   min-width: 20em;
 }
+
+.invertor-card {
+  width: 100%;
+  min-width: 25em;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+  border: .1em solid transparent;
+  padding: .5em 1em;
+  margin: .2em;
+
+  transition: 200ms;
+}
+
+.invertor-card-selected {
+  border: .1em solid #1976d2;
+  border-radius: .5em;
+}
+
+.selected-mark {
+  position: absolute;
+
+  left: 1em;
+  bottom: 1em;
+
+  border: .3em solid #1976d2;
+  color: #1976d2;
+  text-align: center;
+  border-radius: 1em;
+  width: 1.5em;
+  height: 1.5em;
+}
+
+.invertor-card:hover {
+  border: .1em solid #1976d2;
+  border-radius: .5em;
+}
+
+.card-image-wrapper {
+width: 10em;
+height: 10em;
+}
+
+.card-image {
+  max-width: 10em;
+  max-height: 10em;
+}
+
+.card-text-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
 
 .text-input-container {
   display: flex;

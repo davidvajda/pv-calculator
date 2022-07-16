@@ -45,10 +45,9 @@ const defaultOutputContext = {
     usableWidths: [],
     panelsFromTop: false,
   },
-  invertor: {
-    suitableTypes: [],
-    stringDivision: [],
-    amounts: [],
+  invertors: {
+    invertor: {},
+    stringDivisions: [],
   },
   mountingMaterial: {
     orderNumbers: [],
@@ -86,7 +85,7 @@ export const OUTPUT_ACTIONS = {
   DELETE_PANEL: "deletePanel",
 };
 
-const ContextProvider = ({ children }) => {
+export const ContextProvider = ({ children }) => {
   const changeAppState = (appState, action) => {
     switch (action.type) {
       // inputs
@@ -130,8 +129,11 @@ const ContextProvider = ({ children }) => {
       case OUTPUT_ACTIONS.MOUNTING_MATERIAL:
         return { ...outputState, mountingMaterial: action.payload.value };
       case OUTPUT_ACTIONS.INVERTOR_MATERIAL:
-        return { ...outputState, invertor: action.payload.value };
-      case OUTPUT_ACTIONS.DELETE_PANEL: // TODO: panel removes from other row
+        return { ...outputState, invertors: {
+          invertor: action.payload.invertor,
+          stringDivisions: action.payload.stringDivision,
+        } };
+      case OUTPUT_ACTIONS.DELETE_PANEL:
         const newPanels = outputState.panelLayout.panels.map((amount, idx) => {
           return idx === action.payload.value
             ? amount > 0
@@ -172,5 +174,3 @@ const ContextProvider = ({ children }) => {
     </AppStateContext.Provider>
   );
 };
-
-export default ContextProvider;
