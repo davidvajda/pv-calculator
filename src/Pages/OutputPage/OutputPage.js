@@ -77,14 +77,16 @@ const renderMountingMaterial = (mountingMaterial) => {
 
   let i = 0;
   for (let key in mountingMaterial.orderNumbers) {
+
     const orderNumber = mountingMaterial.orderNumbers[key];
     const amount = [mountingMaterial.amounts[key]];
     const description = [mountingMaterial.descriptions[key]];
 
+
     itemComponents.push(
       <ItemCard
         key={i}
-        textUp={amount + " " + orderNumber}
+        textUp={amount + "x " + orderNumber}
         textDown={description}
         imageUrl={getSchrackImageUrl(orderNumber)}
         eshopUrl={getScrachEshopUrl(orderNumber)}
@@ -122,7 +124,7 @@ const OutputPage = () => {
   );
 
   return (
-    <div className="page-wrapper">
+    <div className="page-wrapper output-page">
       <div>Vhodné striedače:</div>
       <div className="output-component-items">
         {renderInvertors(

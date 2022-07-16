@@ -51,6 +51,17 @@ code {
   
 }
 
+.stepper {
+  min-width: 30em;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  
+  margin: 2em;
+}
+
 .page-wrapper {
   display: flex;
   flex-wrap: wrap;
@@ -60,6 +71,7 @@ code {
 
   margin: 1em;
 }
+
 
 .input {
   margin: .5em;

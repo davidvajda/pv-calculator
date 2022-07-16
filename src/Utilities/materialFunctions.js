@@ -1,9 +1,9 @@
 // material with indices 0 to 4 according to snow,  and wind load 1-5
 const HOOKS = {
   tile: ["PVF31025-A", "PVF31025-A", "PVF31015-A", "PVF31015-A", null],
-  bobrovka: ["PVF31050--", "PVF31050--", "PVF31050--", null, null],
-  eternit: ["PVF31065--", "PVF31065--", "PVF31085--", "PVF31085--", null],
-  sheet: ["PVF31090--", "PVF31090--", "PVF31090--", null, null],
+  beaver: ["PVF31050--", "PVF31050--", "PVF31050--", null, null],
+  wave: ["PVF31065--", "PVF31065--", "PVF31085--", "PVF31085--", null],
+  fold: ["PVF31090--", "PVF31090--", "PVF31090--", null, null],
   trapez: ["PVF31111--", "PVF31111--", "PVF31100--", "PVF31100--", null],
 };
 
@@ -59,51 +59,37 @@ export const getMountingMaterialAmounts = (
 
   let railOrderNumber = RAILS.standard[higherLoadValue];
 
-  if (roofType === "sheet") {
+  if (roofType === "fold") {
     railOrderNumber = RAILS.sheet[higherLoadValue];
   }
 
   if (roofType === "trapez") {
     return {
-      amounts: {
-        endClamps: endClamps,
-        middleClamps: middleClamps,
-        hooks: endClamps + middleClamps,
-      },
-      orderNumbers: {
-        endClamps: END_CLAMP,
-        middleClamps: MIDDLE_CLAMP,
-        hooks: hookOrderNumber,
-      },
-      descriptions: {
-        endClamps: "Koncové úchyty panelov",
-        middleClamps: "Stredové úchyty panelov",
-        hooks: "Lišta na trapézový plech",
-      }
+      amounts: [endClamps, middleClamps, endClamps + middleClamps],
+      orderNumbers: [END_CLAMP, MIDDLE_CLAMP, hookOrderNumber],
+      descriptions: [
+        "Koncové úchyty panelov",
+        "Stredové úchyty panelov",
+        "Lišta na trapézový plech",
+      ],
     };
   }
 
   return {
-    amounts: {
-      rails: rails,
-      railConnectors: railConnectors,
-      endClamps: endClamps,
-      middleClamps: middleClamps,
-      hooks: hooks,
-    },
-    orderNumbers: {
-      rails: railOrderNumber,
-      railConnectors: RAIL_CONNECTOR,
-      endClamps: END_CLAMP,
-      middleClamps: MIDDLE_CLAMP,
-      hooks: hookOrderNumber,
-    },
-    descriptions: {
-      rails: "Montážne lišty",
-      railConnectors: "Spojky montážnych líšt",
-      endClamps: "Koncové úchyty panelov",
-      middleClamps: "Stredové úchyty panelov",
-      hooks: "Montážny hák",
-    },
+    amounts: [rails, railConnectors, endClamps, middleClamps, hooks],
+    orderNumbers: [
+      railOrderNumber,
+      RAIL_CONNECTOR,
+      END_CLAMP,
+      MIDDLE_CLAMP,
+      hookOrderNumber,
+    ],
+    descriptions: [
+      "Montážne lišty",
+      "Spojky montážnych líšt",
+      "Koncové úchyty panelov",
+      "Stredové úchyty panelov",
+      "Montážny hák",
+    ],
   };
 };
