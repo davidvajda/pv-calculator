@@ -77,26 +77,6 @@ code {
   min-width: 20em;
 }
 
-.invertor-card {
-  width: 100%;
-  min-width: 25em;
-  position: relative;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-
-  border: .1em solid transparent;
-  padding: .5em 1em;
-  margin: .2em;
-
-  transition: 200ms;
-}
-
-.invertor-card-selected {
-  border: .1em solid #1976d2;
-  border-radius: .5em;
-}
 
 .selected-mark {
   position: absolute;
@@ -112,19 +92,40 @@ code {
   height: 1.5em;
 }
 
-.invertor-card:hover {
+.card {
+  width: 20em;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+
+  border: .1em solid transparent;
+  padding: .5em 1em;
+  margin: .2em;
+
+  transition: 200ms;
+}
+
+.card-selected {
+  border: .1em solid #1976d2;
+  border-radius: .5em;
+}
+
+.card:hover {
   border: .1em solid #1976d2;
   border-radius: .5em;
 }
 
 .card-image-wrapper {
-width: 10em;
-height: 10em;
+width: 5em;
+height: 5em;
+margin-right: 1em;
 }
 
 .card-image {
-  max-width: 10em;
-  max-height: 10em;
+  max-width: 5em;
+  max-height: 5em;
 }
 
 .card-text-wrapper {
@@ -132,6 +133,31 @@ height: 10em;
   flex-direction: column;
 }
 
+.output-page {
+  display: flex;
+  flex-direction: row;  
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.output-component-items {
+  display: flex;
+  flex-direction: column;
+}
+
+.big-card  {
+  width: 25em;
+}
+
+.big-card .card-image-wrapper {
+  width: 10em;
+  height: 10em;
+}
+
+.big-card .card-image-wrapper .card-image {
+   max-width: 10em;
+   max-height: 10em;
+}
 
 .text-input-container {
   display: flex;
@@ -143,14 +169,6 @@ height: 10em;
 
 }
 
-.output-component-items {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
-  align-items: center;
-
-  margin-bottom: 1em;
-}
 
 .item-card-container {
   width: 12em;

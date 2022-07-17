@@ -131,7 +131,7 @@ export const ContextProvider = ({ children }) => {
       case OUTPUT_ACTIONS.INVERTOR_MATERIAL:
         return { ...outputState, invertors: {
           invertor: action.payload.invertor,
-          stringDivisions: action.payload.stringDivision,
+          stringDivisions: action.payload.stringDivisions,
         } };
       case OUTPUT_ACTIONS.DELETE_PANEL:
         const newPanels = outputState.panelLayout.panels.map((amount, idx) => {

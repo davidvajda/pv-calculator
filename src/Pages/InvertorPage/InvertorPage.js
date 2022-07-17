@@ -41,6 +41,7 @@ const InvertorPage = () => {
           data={invertor}
           selected={idx === selectedInvertor ? true : false}
           onClick={() => setSelectedInvertor(idx)}
+          size={"big"}
         />
       );
     });

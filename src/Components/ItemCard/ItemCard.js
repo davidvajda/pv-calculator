@@ -14,9 +14,9 @@ const getSchrackImageUrl = (orderNumber) => {
 
 const ItemCard = ({ orderNumber, description, amount }) => {
   return (
-    <div className={"invertor-card"}>
+    <div className={"card"}>
       <div className="card-image-wrapper">
-        <img src={getSchrackImageUrl(orderNumber)} alt={data.description} className="card-image" />
+        <img src={getSchrackImageUrl(orderNumber)} alt={description} className="card-image" />
       </div>
       <div className="card-text-wrapper">
         <div>{description}</div>

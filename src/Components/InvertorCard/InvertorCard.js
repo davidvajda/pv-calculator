@@ -13,9 +13,10 @@ const translateSystem = (gridType) => {
     }
 }
 
-const InvertorCard = ({ data, selected, onClick }) => {
+const InvertorCard = ({ data, selected, onClick, size = "small" }) => {
+  const bigCardClass = size === "big" ? "big-card" : "";
   return (
-    <div onClick={onClick} className={selected ? "invertor-card invertor-card-selected" : "invertor-card"}>
+    <div onClick={onClick} className={selected ? "card " + bigCardClass + " card-selected" : "card " + bigCardClass}>
         {selected ? <div className="selected-mark">&#10004;</div>: null}
       <div className="card-image-wrapper">
         <img src={data.imageUrl} alt={data.description} className="card-image" />
