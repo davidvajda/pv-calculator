@@ -217,43 +217,11 @@ margin-right: 1em;
   margin: 3em;
 }
 
-@keyframes panel-turning-hover {
-  from {
-      transform: rotate3d(.5,-.866,0,20deg) rotate(3deg);
-      border-bottom: 6px solid #999;
-      border-right: 6px solid #999;
-  }
-  to {
-      transform: rotate3d(0,0,0,00deg) rotate(0deg);
-      border-bottom: 1px solid #999;
-      border-right: 1px solid #999;
-  }
+.dimension-panel:hover {
+  transform: rotate3d(0,0,0,00deg) rotate(0deg);
+  border-bottom: 1px solid #999;
+  border-right: 1px solid #999;
 }
-@keyframes panel-turning-unhover {
-  from {
-      transform: rotate3d(0,0,0,00deg) rotate(0deg);
-      border-bottom: 1px solid #999;
-      border-right: 1px solid #999;
-  }
-  to {
-      transform: rotate3d(.5,-.866,0,20deg) rotate(3deg);
-      border-bottom: 6px solid #999;
-      border-right: 6px solid #999;
-  }
-}
-
-.dimension-panel-animation-hover {
-  animation-name: panel-turning-hover;
-  animation-timing-function: ease;
-  animation-duration: 1s;
-  animation-fill-mode: forwards;
-}
-
-.dimension-panel-animation {
-  animation-name: panel-turning-unhover;
-  animation-timing-function: ease;
-  animation-duration: 1s;
-  animation-fill-mode: forwards;}
 
 .dimension-panel {
   border: 1px solid #999;
@@ -263,6 +231,8 @@ margin-right: 1em;
   transform: rotate3d(.5,-.866,0,20deg) rotate(3deg);
   border-bottom: 5px solid #999;
   border-right: 5px solid #999;
+
+  transition: .7s;
 }
 
 .dimension-panel-dimmension {
