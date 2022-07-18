@@ -13,15 +13,25 @@ const surgeProtectionDevices = {
 };
 
 export const getProtectionDevices = (stringDivisions) => {
+  if (!stringDivisions) {
+    return;
+  }
+
   const strings = stringDivisions.length;
 
   if (strings === 0) {
-    return null;
+    return;
   }
 
   return {
     amounts: [1, strings],
-    orderNumbers: [surgeProtectionDevices.withoutContactor[0][strings - 1], "BM015216--"],
-    descriptions: ["Prepäťová skrinka BC pre " + strings + "MPPT", "Istič DC C16/2 10kA, charakteristika C, 16A, 2‑pólový"]
+    orderNumbers: [
+      surgeProtectionDevices.withoutContactor[0][strings - 1],
+      "BM015216--",
+    ],
+    descriptions: [
+      "Prepäťová skrinka BC pre " + strings + "MPPT",
+      "Istič DC C16/2 10kA, charakteristika C, 16A, 2‑pólový",
+    ],
   };
 };

@@ -79,8 +79,6 @@ const RoofPage = () => {
         break;
 
       case "trapezoid":
-        console.log("TRAPEZOID", appState.roofShape);
-
         setRoofComponent(<TrapezoidRoof />);
         outputDispatch({
           type: OUTPUT_ACTIONS.PANEL_LAYOUT,

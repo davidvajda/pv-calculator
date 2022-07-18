@@ -1,11 +1,10 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useContext } from "react";
 
 import {
   AppStateContext,
   MaterialStateContext,
   OutputContext,
 } from "../../ContextProvider/ContextProvider";
-import { getSuitableInvertorAndStrings } from "../../Utilities/invertorFunctions";
 import { getMountingMaterialAmounts } from "../../Utilities/materialFunctions";
 import { getProtectionDevices } from "../../Utilities/getProtectionDevices";
 
@@ -15,12 +14,13 @@ import ItemCard from "../../Components/ItemCard/ItemCard";
 import Button from "@mui/material/Button";
 
 const renderInvertor = (invertor) => {
-  return <InvertorCard data={invertor.invertor} selected={true} />;
+  return <InvertorCard data={invertor} selected={true} />;
 };
 
 const renderCards = (data) => {
   const cards = [];
   for (let i = 0; i < data.orderNumbers.length; i++) {
+    // Skip items with zero amount
     if (data.amounts[i] <= 0) {
       continue;
     }
@@ -75,14 +75,16 @@ const OutputPage = () => {
     <div className="page-wrapper">
       <div className="output-page">
         <div className="output-component-items">
-          {renderInvertor(outputState.invertors)}
-          {renderCards(defaultPanel)}
-          {renderCards(protectionDevices)}
+          {outputState.invertors.invertor
+            ? renderInvertor(outputState.invertors.invertor)
+            : null}
+          {defaultPanel ? renderCards(defaultPanel) : null}
+          {protectionDevices ? renderCards(protectionDevices) : null}
         </div>
         <div className="output-component-items">
-          {renderCards(mountingMaterial)}
+          {mountingMaterial ? renderCards(mountingMaterial) : null}
         </div>
-      </div>{" "}
+      </div>
       <Button className="download-button" variant="outlined">
         Stiahnuť zoznam materiálu do .csv
       </Button>
