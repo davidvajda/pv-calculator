@@ -34,6 +34,14 @@ const InvertorPage = () => {
   }, [selectedInvertor])
 
   const renderInvertors = (invertors) => {
+    if (invertors.invertors.length === 0) {
+      return (
+        <div>
+          <div>Nebol nájdený vhodný striedač pre danú situáciu...</div>
+        </div>
+      )
+    }
+
     return invertors.invertors.map((invertor, idx) => {
       return (
         <InvertorCard

@@ -96,8 +96,11 @@ const RoofPage = () => {
           },
         });
         break;
+      default:
+        // shouldn't happen
+        console.log("Unvalid roof type in RoofShape switch!");
     }
-  }, []);
+  }, [appState, materialState, outputDispatch]);
 
   return (
     <>
