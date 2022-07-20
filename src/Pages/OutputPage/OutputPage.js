@@ -11,7 +11,7 @@ import { getProtectionDevices } from "../../Utilities/getProtectionDevices";
 import InvertorCard from "../../Components/InvertorCard/InvertorCard";
 import ItemCard from "../../Components/ItemCard/ItemCard";
 
-import Button from "@mui/material/Button";
+import { CSVLink } from "react-csv";
 
 const renderInvertor = (invertor) => {
   return <InvertorCard data={invertor} selected={true} />;
@@ -65,6 +65,41 @@ const OutputPage = () => {
     return count;
   };
 
+  const formatCsvData = (obj1, obj2, obj3, invertor) => {
+    const orderNumbers = [
+      ...obj1.orderNumbers,
+      ...obj2.orderNumbers,
+      ...obj3.orderNumbers,
+      ...[invertor.orderNumber],
+    ];
+    const amounts = [...obj1.amounts, ...obj2.amounts, ...obj3.amounts, 1];
+    const descriptions = [
+      ...obj1.descriptions,
+      ...obj2.descriptions,
+      ...obj3.descriptions,
+      ...[invertor.description],
+    ];
+
+    const csvData = [
+      ["Objednávacie číslo", "Množstvo", "Merná jednotka", "Názov  produktu"],
+    ];
+
+    for (let i = 0; i < orderNumbers.length; i++) {
+      const orderNumber = orderNumbers[i];
+      const description = descriptions[i];
+      const amount = amounts[i];
+      const unit = "ks";
+
+      if (amount === 0) {
+        continue;
+      }
+
+      csvData.push([orderNumber, amount, unit, description]);
+    }
+
+    return csvData;
+  };
+
   const defaultPanel = {
     orderNumbers: ["PVM44150-S"],
     amounts: [countPanels(outputState.panelLayout.panels)],
@@ -85,9 +120,18 @@ const OutputPage = () => {
           {mountingMaterial ? renderCards(mountingMaterial) : null}
         </div>
       </div>
-      <Button className="download-button" variant="outlined">
+      <CSVLink
+        data={formatCsvData(
+          defaultPanel,
+          mountingMaterial,
+          protectionDevices,
+          outputState.invertors.invertor
+        )}
+        className="download-button"
+        download={"pv-calculator-material"}
+      >
         Stiahnuť zoznam materiálu do .csv
-      </Button>
+      </CSVLink>
     </div>
   );
 };
