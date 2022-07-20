@@ -10,6 +10,7 @@ import {
 import { getSuitableInvertorAndStrings } from "../../Utilities/invertorFunctions";
 
 import InvertorCard from "../../Components/InvertorCard/InvertorCard";
+import TextBoard from "../../Components/TextBoard/TextBoard";
 
 const InvertorPage = () => {
   const { appState } = useContext(AppStateContext);
@@ -27,19 +28,26 @@ const InvertorPage = () => {
   );
 
   useEffect(() => {
-    outputDispatch({type: OUTPUT_ACTIONS.INVERTOR_MATERIAL, payload: {
+    outputDispatch({
+      type: OUTPUT_ACTIONS.INVERTOR_MATERIAL,
+      payload: {
         invertor: suitableInvertors.invertors[selectedInvertor],
-        stringDivisions: suitableInvertors.stringDivisions[selectedInvertor], 
-    }})
-  }, [selectedInvertor])
+        stringDivisions: suitableInvertors.stringDivisions[selectedInvertor],
+      },
+    });
+  }, [selectedInvertor]);
 
   const renderInvertors = (invertors) => {
     if (invertors.invertors.length === 0) {
       return (
-        <div>
-          <div>Nebol nájdený vhodný striedač pre danú situáciu...</div>
-        </div>
-      )
+        <TextBoard
+          text_array={[
+            "Nebol nájdený vhodný striedač pre daný počet panelov.",
+            "Výsledný materiál nebude obsahovať striedač a ochranné zariadenia.",
+          ]}
+          header={"Pozor!"}
+        />
+      );
     }
 
     return invertors.invertors.map((invertor, idx) => {

@@ -22,6 +22,22 @@ code {
   width: 100%;
 }
 
+.text-board {
+  border: 1px solid #323232;
+  border-radius: 4px;
+  padding: 10px;
+}
+
+.text-board-header {
+  font-size: larger;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.text-board-text {
+  margin-bottom: 5px;
+}
+
 .button {
   width: 10em !important;
   margin: .5em !important;
@@ -69,6 +85,8 @@ code {
   align-items: center;
 
   margin: 1em;
+
+  min-height: 65vh;
 }
 
 
@@ -243,6 +261,8 @@ margin-right: 1em;
   transform: rotate3d(0,0,0,00deg) rotate(0deg);
   border-bottom: 1px solid #999;
   border-right: 1px solid #999;
+  margin-bottom: 4px;
+  margin-right: 4px;
 }
 
 .dimension-panel {

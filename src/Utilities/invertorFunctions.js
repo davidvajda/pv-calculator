@@ -1,6 +1,6 @@
 const divideIntoStrings = (invertor, panelCount, panelVoltage) => {
   const ratedVoltage =
-    invertor.ratedVoltage + Math.round(invertor.ratedVoltage / 10); // + 10%
+    invertor.ratedVoltage + Math.round(invertor.ratedVoltage / 5); // + 5%
   const minimalVoltage = invertor.minVoltage;
 
   // in this version, I'm not counting with parallel connection of strings, just one string per MPPT

@@ -6,11 +6,14 @@ import Button from "@mui/material/Button";
 
 import {
   AppStateContext,
+  OutputContext,
   APP_ACTIONS,
 } from "../../ContextProvider/ContextProvider";
+import { countPanels } from "../../Utilities/countPanels";
 
 export default function HorizontalLinearStepper({ children }) {
   const { appState, appDispatch } = useContext(AppStateContext);
+  const { outputState } = useContext(OutputContext);
 
   const steps = children.labels;
   const components = children.components;
@@ -59,7 +62,11 @@ export default function HorizontalLinearStepper({ children }) {
             >
               Späť
             </Button>
-            <Button className="button" variant="outlined" onClick={handleNext}>
+            <Button
+              className="button"
+              variant="outlined"
+              onClick={handleNext}
+            >
               {appState.screen === steps.length - 1 ? "Dokončiť" : "Ďalej"}
             </Button>
           </div>

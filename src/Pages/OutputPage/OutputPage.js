@@ -5,8 +5,10 @@ import {
   MaterialStateContext,
   OutputContext,
 } from "../../ContextProvider/ContextProvider";
+
 import { getMountingMaterialAmounts } from "../../Utilities/materialFunctions";
 import { getProtectionDevices } from "../../Utilities/getProtectionDevices";
+import { countPanels } from "../../Utilities/countPanels"
 
 import InvertorCard from "../../Components/InvertorCard/InvertorCard";
 import ItemCard from "../../Components/ItemCard/ItemCard";
@@ -57,26 +59,34 @@ const OutputPage = () => {
     outputState.invertors.stringDivisions
   );
 
-  const countPanels = (panels) => {
-    let count = 0;
-    for (let amount of panels) {
-      count += amount;
-    }
-    return count;
-  };
+  const formatCsvData = (obj1, obj2, obj3, inv) => {
+    const object3 =
+      typeof obj3 === "undefined"
+        ? {
+            orderNumbers: [],
+            amounts: [],
+            descriptions: [],
+          }
+        : obj3;
 
-  const formatCsvData = (obj1, obj2, obj3, invertor) => {
+    const invertor = inv
+      ? inv
+      : {
+          orderNumber: null,
+          description: null,
+        };
+
     const orderNumbers = [
       ...obj1.orderNumbers,
       ...obj2.orderNumbers,
-      ...obj3.orderNumbers,
+      ...object3.orderNumbers,
       ...[invertor.orderNumber],
     ];
-    const amounts = [...obj1.amounts, ...obj2.amounts, ...obj3.amounts, 1];
+    const amounts = [...obj1.amounts, ...obj2.amounts, ...object3.amounts, 1];
     const descriptions = [
       ...obj1.descriptions,
       ...obj2.descriptions,
-      ...obj3.descriptions,
+      ...object3.descriptions,
       ...[invertor.description],
     ];
 

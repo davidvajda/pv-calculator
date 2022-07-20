@@ -10,20 +10,17 @@ import RectangularRoof from "../../RoofComponents/RectangularRoof/RectangularRoo
 import TriangularRoof from "../../RoofComponents/TriangularRoof/TriangularRoof";
 import TrapezoidRoof from "../../RoofComponents/TrapezoidRoof/TrapezoidRoof";
 
+import TextBoard from "../../Components/TextBoard/TextBoard";
+
 import {
   getPanelLayoutRectangle,
   getPanelLayoutTriangle,
   getPanelLayoutTrapezoid,
 } from "../../Utilities/layoutFunctions";
+import { countPanels } from "../../Utilities/countPanels"
 
 export const EDGE_SAFE_DISTANCE = 600;
 export const CANVAS_SIZE = 600;
-
-const countPanels = (panelLayout) => {
-  let panels = 0;
-  panelLayout.panels.forEach((rowAmount) => (panels += rowAmount));
-  return panels;
-};
 
 const RoofPage = () => {
   const { materialState } = useContext(MaterialStateContext);
@@ -105,11 +102,21 @@ const RoofPage = () => {
   return (
     <>
       <div className="page-wrapper" style={styles.roofComponent}>
-        {roofComponent}
+        {countPanels(outputState.panelLayout.panels) > 0 ? (
+          roofComponent
+        ) : (
+          <TextBoard
+            text_array={[
+              "Do Vami zadaného rozmeru strechy sa nezmestí žiadny panel!",
+              "Prosím, zadajte iný rozmer strechy alebo iný rozmer použitého panelu.",
+            ]}
+            header={"Chyba!"}
+          />
+        )}
       </div>
       <div className="roof-info">
-        Počet panelov: {countPanels(outputState.panelLayout)} s celkovým výkonom{" "}
-        {countPanels(outputState.panelLayout) * materialState.panelPower}Wp
+        Počet panelov: {countPanels(outputState.panelLayout.panels)} s celkovým výkonom{" "}
+        {countPanels(outputState.panelLayout.panels) * materialState.panelPower}Wp
       </div>
     </>
   );
