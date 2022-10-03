@@ -1,0 +1,5 @@
+{
+  "withCable": ["PVF31140-A", "PVF31140-A", "PVF31140-A", "PVF31140-A", null],
+  "standard": ["PVF31115-A", "PVF31115-A", "PVF31125-A", "PVF31130-A", null],
+  "sheet": ["PVF31120-A", "PVF31120-A", "PVF31130-A", "PVF31130-A", null]
+}

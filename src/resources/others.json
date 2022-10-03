@@ -1,0 +1,5 @@
+{
+    "railConnector": ["PVF31150--", "PVF31150--", "PVF31150--", "PVF31150--", null],
+    "endClamp": ["PVF31180--", "PVF31180--", "PVF31180--", "PVF31180--", null],
+    "middleClamp": ["PVF31175-A", "PVF31175-A", "PVF31175-A", "PVF31175-A", null]
+}

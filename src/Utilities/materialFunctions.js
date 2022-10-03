@@ -1,21 +1,7 @@
 // material with indices 0 to 4 according to snow,  and wind load 1-5
-const HOOKS = {
-  tile: ["PVF31025-A", "PVF31025-A", "PVF31015-A", "PVF31015-A", null],
-  beaver: ["PVF31050--", "PVF31050--", "PVF31050--", null, null],
-  wave: ["PVF31065--", "PVF31065--", "PVF31085--", "PVF31085--", null],
-  fold: ["PVF31090--", "PVF31090--", "PVF31090--", null, null],
-  trapez: ["PVF31111--", "PVF31111--", "PVF31100--", "PVF31100--", null],
-};
-
-const RAILS = {
-  withCable: ["PVF31140-A", "PVF31140-A", "PVF31140-A", "PVF31140-A", null],
-  standard: ["PVF31115-A", "PVF31115-A", "PVF31125-A", "PVF31130-A", null],
-  sheet: ["PVF31120-A", "PVF31120-A", "PVF31130-A", "PVF31130-A", null],
-};
-
-const RAIL_CONNECTOR = "PVF31150--";
-const END_CLAMP = "PVF31180--";
-const MIDDLE_CLAMP = "PVF31175-A";
+const HOOKS = require("../resources/hooks.json")
+const RAILS = require("../resources/rails.json")
+const OTHERS = require("../resources/others.json")
 
 export const getMountingMaterialAmounts = (
   roofType,
@@ -26,10 +12,14 @@ export const getMountingMaterialAmounts = (
   panelLlayout,
   snowLoad,
   windLoad
-) => {
-  let hookOrderNumber = null;
-
-  const higherLoadValue = (snowLoad > windLoad ? snowLoad : windLoad) - 1; // -1 because of indexing
+  ) => {
+    let hookOrderNumber = null;
+    
+    const higherLoadValue = (snowLoad > windLoad ? snowLoad : windLoad) - 1; // -1 because of indexing
+    
+    const railConnector   = OTHERS["railConnector"][higherLoadValue]
+    const endClamp        = OTHERS["endClamp"][higherLoadValue]
+    const middleClamp     = OTHERS["middleClamp"][higherLoadValue]
 
   for (let key in HOOKS) {
     if (HOOKS.hasOwnProperty(key) && key === roofType) {
@@ -66,7 +56,7 @@ export const getMountingMaterialAmounts = (
   if (roofType === "trapez") {
     return {
       amounts: [endClamps, middleClamps, endClamps + middleClamps],
-      orderNumbers: [END_CLAMP, MIDDLE_CLAMP, hookOrderNumber],
+      orderNumbers: [endClamp, middleClamp, hookOrderNumber],
       descriptions: [
         "Koncové úchyty panelov",
         "Stredové úchyty panelov",
@@ -75,13 +65,14 @@ export const getMountingMaterialAmounts = (
     };
   }
 
+
   return {
     amounts: [rails, railConnectors, endClamps, middleClamps, hooks],
     orderNumbers: [
       railOrderNumber,
-      RAIL_CONNECTOR,
-      END_CLAMP,
-      MIDDLE_CLAMP,
+      railConnector,
+      endClamp,
+      middleClamp,
       hookOrderNumber,
     ],
     descriptions: [
