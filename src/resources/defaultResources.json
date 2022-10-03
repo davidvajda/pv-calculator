@@ -1,0 +1,31 @@
+{
+  "hooks": {
+    "tile": ["PVF31025-A", "PVF31025-A", "PVF31015-A", "PVF31015-A", null],
+    "beaver": ["PVF31050--", "PVF31050--", "PVF31050--", null, null],
+    "wave": ["PVF31065--", "PVF31065--", "PVF31085--", "PVF31085--", null],
+    "fold": ["PVF31090--", "PVF31090--", "PVF31090--", null, null],
+    "trapez": ["PVF31111--", "PVF31111--", "PVF31100--", "PVF31100--", null]
+  },
+  "rails": {
+    "withCable": ["PVF31140-A", "PVF31140-A", "PVF31140-A", "PVF31140-A", null],
+    "standard": ["PVF31115-A", "PVF31115-A", "PVF31125-A", "PVF31130-A", null],
+    "sheet": ["PVF31120-A", "PVF31120-A", "PVF31130-A", "PVF31130-A", null]
+  },
+  "others": {
+    "railConnector": [
+      "PVF31150--",
+      "PVF31150--",
+      "PVF31150--",
+      "PVF31150--",
+      null
+    ],
+    "endClamp": ["PVF31180--", "PVF31180--", "PVF31180--", "PVF31180--", null],
+    "middleClamp": [
+      "PVF31175-A",
+      "PVF31175-A",
+      "PVF31175-A",
+      "PVF31175-A",
+      null
+    ]
+  }
+}

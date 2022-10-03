@@ -1,7 +1,7 @@
 // material with indices 0 to 4 according to snow,  and wind load 1-5
-const HOOKS = require("../resources/hooks.json")
-const RAILS = require("../resources/rails.json")
-const OTHERS = require("../resources/others.json")
+const HOOKS   =  require("../resources/hooks.json")
+const RAILS   =  require("../resources/rails.json")
+const OTHERS  =  require("../resources/others.json")
 
 export const getMountingMaterialAmounts = (
   roofType,
@@ -13,6 +13,7 @@ export const getMountingMaterialAmounts = (
   snowLoad,
   windLoad
   ) => {
+    
     let hookOrderNumber = null;
     
     const higherLoadValue = (snowLoad > windLoad ? snowLoad : windLoad) - 1; // -1 because of indexing
@@ -27,11 +28,11 @@ export const getMountingMaterialAmounts = (
     }
   }
 
-  let rails = 0;
-  let railConnectors = 0;
-  let endClamps = 0;
-  let middleClamps = 0;
-  let hooks = 0;
+  let rails           = 0;
+  let railConnectors  = 0;
+  let endClamps       = 0;
+  let middleClamps    = 0;
+  let hooks           = 0;
 
   for (let i = 0; i < panelLlayout.panels.length; i++) {
     const amount = panelLlayout.panels[i];

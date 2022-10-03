@@ -29,7 +29,7 @@ export const TextInput = ({ label, value, appDispatch, appDispatchAction, type, 
         disabled={disabled}
         fullWidth={true}
         label={label}
-        value={value}
+        value={value === 0 || value === "" ? "" : value}
         variant="standard"
         type={type}
         onChange={(e) => {
