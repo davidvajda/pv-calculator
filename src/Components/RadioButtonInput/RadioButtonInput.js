@@ -4,6 +4,7 @@ import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormLabel from "@mui/material/FormLabel";
+import Tooltip from "@mui/material/Tooltip";
 
 export const RadioButtonInput = ({
   label,
@@ -12,6 +13,7 @@ export const RadioButtonInput = ({
   defaultValue,
   appDispatch,
   appDispatchAction,
+  description,
 }) => {
   const radioButtonId = React.useId();
 
@@ -29,21 +31,23 @@ export const RadioButtonInput = ({
   }
 
   return (
-    <div className="input">
-      <FormLabel id={radioButtonId}>{label}</FormLabel>
-      <RadioGroup
-        row
-        aria-labelledby={radioButtonId}
-        value={defaultValue}
-        onChange={(e) =>
-          appDispatch({
-            type: appDispatchAction,
-            payload: { value: parseInt(e.target.value) },
-          })
-        }
-      >
-        {radios}
-      </RadioGroup>
-    </div>
+    <Tooltip title={description} followCursor enterDelay={300} leaveDelay={50} placement="left">
+      <div className="input">
+        <FormLabel id={radioButtonId}>{label}</FormLabel>
+        <RadioGroup
+          row
+          aria-labelledby={radioButtonId}
+          value={defaultValue}
+          onChange={(e) =>
+            appDispatch({
+              type: appDispatchAction,
+              payload: { value: parseInt(e.target.value) },
+            })
+          }
+        >
+          {radios}
+        </RadioGroup>
+      </div>
+    </Tooltip>
   );
 };
