@@ -15,6 +15,7 @@ code {
 
 .app-container { 
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 
@@ -358,4 +359,19 @@ margin-right: 1em;
   background: #999;
   width: 1px;
   position: absolute;
+}
+
+.developer-info {
+  display: flex;
+  justify-self: flex-end;
+
+  font-size: smaller;
+  color: grey;
+}
+
+.developer-info p a{
+  color: lightblue;
+  text-decoration: none;
+
+  font-weight: 700;
 }
