@@ -2,12 +2,14 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const fs = require("fs");
 const path = require("path");
+const cors = require("cors");
 const port = process.env.PORT || 8080;
 
 require("dotenv").config();
 
 const app = express();
 
+app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(__dirname));
@@ -27,9 +29,22 @@ const checkEnvPassword = (pass) => {
 };
 
 const writeFile = (fileName, fileContent) => {
-  fs.writeFile(`./src/resources/${fileName}`, JSON.stringify(fileContent), (err) => {
-    if (err) throw err;
-  });
+  fs.writeFile(
+    `./src/resources/${fileName}`,
+    JSON.stringify(fileContent),
+    (err) => {
+      if (err) throw err;
+    }
+  );
+};
+
+const readFile = (fileName) => {
+  try {
+    return JSON.parse(fs.readFileSync(fileName, "utf-8"));
+  } catch (err) {
+    console.log(err);
+    return {};
+  }
 };
 
 const resetResources = () => {
@@ -39,9 +54,9 @@ const resetResources = () => {
   const rails = defaults.rails;
   const others = defaults.others;
 
-  writeFile("hooks.json", hooks)
-  writeFile("rails.json", rails)
-  writeFile("others.json", others)
+  writeFile("hooks.json", hooks);
+  writeFile("rails.json", rails);
+  writeFile("others.json", others);
 };
 
 app.get("/", (req, res) => {
@@ -52,10 +67,19 @@ app.get("/ping", (req, res) => {
   res.send("pong");
 });
 
+app.post("/authenticate", (req, res) => {
+  const adminPassword = req.body["adminPassword"];
+  if (!checkEnvPassword(adminPassword)) {
+    res.sendStatus(400);
+    return;
+  }
+  res.sendStatus(200);
+});
+
 app.get("/get_available_resources", (req, res) => {
   res.json(AVAILABLE_RESOURCES);
-  return
-})
+  return;
+});
 
 app.post("/get_resource", (req, res) => {
   const resourceName = req.body["resourceName"];
@@ -68,7 +92,7 @@ app.post("/get_resource", (req, res) => {
     return;
   }
 
-  const resource = require(`./src/resources/${resourceName}`);
+  const resource = readFile(`./src/resources/${resourceName}`)
   res.json(resource);
 });
 
