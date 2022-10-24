@@ -1,18 +1,18 @@
 import React, {useState, useEffect} from "react";
+import { redirect } from "react-router-dom";
 import axios from "axios"
 
 const checkAdminPassword = (password) => {
     axios.post('/auth', {
         "password": password
       })
-      .then(function (response) {
-        console.log("response", response);
+      .then((response) => {
+        if (response.status === 400) {
+            return redirect("/")
+        }
       })
-      .catch(function (error) {
-        console.log("error:", error);
-      })
-      .then(() => {
-        console.log("idk")
+      .catch((error) => {
+        throw error;
       })
 }
 
