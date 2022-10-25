@@ -21,6 +21,7 @@ const AVAILABLE_RESOURCES = [
   "others.json",
   "rails.json",
   "defaultResources.json",
+  "invertorStructure.json",
 ];
 
 const checkEnvPassword = (pass) => {
@@ -147,3 +148,7 @@ console.log("Server listening at port " + port);
 // spare rails
 
 // 2x8 panels uncorrect material amounts
+//dcInputs make into array
+// save the invertors
+// parse ints when creating new invertor
+// when adding or deleting invertor modify modifiedInvertors so it stays at the same invertor

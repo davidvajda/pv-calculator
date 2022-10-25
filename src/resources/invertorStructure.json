@@ -1,0 +1,15 @@
+{
+  "orderNumber": "XXXXXXXXXX",
+  "description": "Striedač super úžadný značky XXX",
+  "imageUrl": "https://image.schrackcdn.com/340x380/f_XXXXXXXXXX.jpg",
+  "eshopUrl": "http://www.schrack.sk/eshop/sd/sd?a=XXXXXXXXXX",
+  "system": "grid alebo hybrid",
+  "phase": 3,
+  "nominalPower": 10000,
+  "maxPower": 15000,
+  "minVoltage": 200,
+  "ratedVoltage": 600,
+  "maxCurrent": 27,
+  "mppt": 2,
+  "dcInputs": [3, 2]
+}
