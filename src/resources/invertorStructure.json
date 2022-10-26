@@ -3,7 +3,7 @@
   "description": "Striedač super úžadný značky XXX",
   "imageUrl": "https://image.schrackcdn.com/340x380/f_XXXXXXXXXX.jpg",
   "eshopUrl": "http://www.schrack.sk/eshop/sd/sd?a=XXXXXXXXXX",
-  "system": "grid alebo hybrid",
+  "system": "grid, hybrid",
   "phase": 3,
   "nominalPower": 10000,
   "maxPower": 15000,

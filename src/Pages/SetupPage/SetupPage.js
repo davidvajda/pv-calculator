@@ -23,11 +23,21 @@ const setResource = (password, state, resourceName) => {
       resourceName: resourceName,
       resourceContent: state,
     })
-    .then((res) => {
-      return true;
+    .catch((err) => {
+      alert(err);
+    });
+};
+
+const setDefaultResources = (password) => {
+  axios
+    .post("http://127.0.0.1:8080/reset_resources", {
+      adminPassword: password,
+    })
+    .then(() => {
+      alert("Resources set to default!");
     })
     .catch((err) => {
-      return false;
+      alert(err);
     });
 };
 
@@ -67,45 +77,59 @@ const renderResource = (resource, setState, resourceName) => {
     <form>
       <h1>{resourceName}</h1>
       <div>{resourceRows}</div>
-      <button
-        onClick={(e) => {
-          e.preventDefault();
-          setResource("test", resource, resourceName);
-        }}
-      >
-        Save
-      </button>
     </form>
   );
 };
 
-const renderInvertors = (
-  invertorsJson,
-  setInvertorsState,
-  modifiedInvertors,
-  setModifiedInvertors
-) => {
+const renderInvertors = (invertorsJson, setInvertorsState) => {
+  const intKeyNamesToParse = [
+    "phase",
+    "nominalPower",
+    "maxPower",
+    "ratedVoltage",
+    "minVoltage",
+    "maxCurrent",
+    "mppt",
+  ];
+  const intArrayNamesToParse = ["dcInputs"];
+
   return invertorsJson.map((invertorObject, invertorIdx) => {
     const invertorElement = [];
 
     for (const [key, value] of Object.entries(invertorObject)) {
+      if (key === "modified") {
+        continue;
+      }
+
       invertorElement.push(
         <tr key={key}>
           <td>
             <b>{key}:</b>
           </td>
           <td>
-            {modifiedInvertors.includes(invertorIdx) ? (
+            {invertorObject["modified"] ? (
               <input
                 className="invertor-param-value"
+                type={intKeyNamesToParse.includes(key) ? "number" : "text"}
                 value={value}
                 onChange={(e) => {
                   setInvertorsState((prev) => {
                     return prev.map((obj, idx) => {
                       if (invertorIdx === idx) {
-                        const newObj = { ...obj };
-                        newObj[key] = e.target.value;
-                        return newObj;
+                        if (intKeyNamesToParse.includes(key)) {
+                          obj[key] = parseInt(e.target.value) | 0;
+                        } else if (intArrayNamesToParse.includes(key)) {
+                          const dcInputs = [];
+                          const dcInputsUnparsed = e.target.value.split(",");
+                          dcInputsUnparsed.forEach((num) => {
+                            dcInputs.push(
+                              num === "" ? null : parseInt(num) | 0
+                            );
+                          });
+                          obj[key] = dcInputs;
+                        } else {
+                          obj[key] = e.target.value;
+                        }
                       }
                       return obj;
                     });
@@ -126,35 +150,33 @@ const renderInvertors = (
           <tr>
             <td colSpan={2}>
               <button
-                onClick={() => {
-                  setInvertorsState((prev) =>
-                    prev.filter((obj, idx) => {
+                onClick={() =>
+                  setInvertorsState((prev) => {
+                    return prev.filter((obj, idx) => {
                       if (idx !== invertorIdx) {
                         return obj;
-                      } else if (modifiedInvertors.includes(idx)) {
-                        setModifiedInvertors((prev) => {
-                          return prev.filter((modifiedInvertorIdx) => {
-                            if (modifiedInvertorIdx !== invertorIdx) {
-                              return modifiedInvertorIdx;
-                            }
-                          });
-                        });
                       }
-                    })
-                  );
-                }}
+                    });
+                  })
+                }
               >
                 delete
               </button>
+
               <button
-                onClick={() => {
-                  setModifiedInvertors((prev) => {
-                    if (!modifiedInvertors.includes(invertorIdx)) {
-                      return [...prev, invertorIdx];
-                    }
-                    return prev;
-                  });
-                }}
+                onClick={() =>
+                  setInvertorsState((prev) => {
+                    return prev.map((obj, idx) => {
+                      const newObj = { ...obj };
+                      if (idx === invertorIdx || newObj.modified) {
+                        newObj.modified = true;
+                      } else {
+                        newObj.modified = false;
+                      }
+                      return newObj;
+                    });
+                  })
+                }
               >
                 modify
               </button>
@@ -167,63 +189,109 @@ const renderInvertors = (
   });
 };
 
-const SetupPage = () => {
-  const servicePassword = "test"; // prompt("Servisné heslo:")
+const clearInvertors = (invertors) => {
+  return invertors.map((invertorObj) => {
+    delete invertorObj["modified"];
+    return invertorObj;
+  });
+};
 
-  const [page, setPage] = useState("material");
-  const [modifiedInvertors, setModifiedInvertors] = useState([]);
-
+const MaterialPage = () => {
   const [hooks, setHooks] = useState();
   const [rails, setRails] = useState();
   const [others, setOthers] = useState();
+
+  useEffect(() => {
+    getResource("test", setHooks, "hooks.json");
+    getResource("test", setRails, "rails.json");
+    getResource("test", setOthers, "others.json");
+  }, []);
+
+  return (
+    <>
+      <button
+        onClick={(e) => {
+          e.preventDefault();
+          setResource("test", hooks, "hooks.json");
+          setResource("test", rails, "rails.json");
+          setResource("test", others, "others.json");
+        }}
+      >
+        Save modified material
+      </button>
+      <button
+        onClick={() => {
+          const confirmation = prompt("Are you sure you want to reset material to default values? Type YES for confirmation.")
+          if (confirmation === "YES") {
+            setDefaultResources("test");
+          }
+        }}
+      >
+        Reset material to default values
+      </button>
+      {hooks ? renderResource(hooks, setHooks, "hooks.json") : <></>}
+      {rails ? renderResource(rails, setRails, "rails.json") : <></>}
+      {others ? renderResource(others, setOthers, "others.json") : <></>}
+    </>
+  );
+};
+
+const InvertorPage = () => {
   const [invertors, setInvertors] = useState();
   const [invertorStructure, setInvertorStructure] = useState();
 
   useEffect(() => {
-    getResource(servicePassword, setHooks, "hooks.json");
-    getResource(servicePassword, setRails, "rails.json");
-    getResource(servicePassword, setOthers, "others.json");
-    getResource(servicePassword, setInvertors, "invertors.json");
-    getResource(
-      servicePassword,
-      setInvertorStructure,
-      "invertorStructure.json"
-    );
+    getResource("test", setInvertors, "invertors.json");
+    getResource("test", setInvertorStructure, "invertorStructure.json");
   }, []);
 
-  const MaterialPage = () => {
-    return (
-      <div className="material-page">
-        <button onClick={() => setPage("invertors")}>Manage invertors</button>
-        {renderResource(hooks, setHooks, "hooks.json")}
-        {renderResource(rails, setRails, "rails.json")}
-        {renderResource(others, setOthers, "others.json")}
+  return (
+    <>
+      <button
+        onClick={() => {
+          setResource("test", clearInvertors(invertors), "invertors.json");
+        }}
+      >
+        Save modified invertors
+      </button>
+      <button
+        onClick={() =>
+          setInvertors((prev) => {
+            const newInvertor = { ...invertorStructure, modified: true };
+            return [newInvertor, ...prev];
+          })
+        }
+      >
+        Add new invertor
+      </button>
+      <div className="invertors">
+        {invertors ? renderInvertors(invertors, setInvertors) : <></>}
       </div>
-    );
-  };
+    </>
+  );
+};
 
-  const InvertorPage = () => {
-    return (
-      <div className="invertor-page">
-        <button onClick={() => setPage("material")}>Manage material</button>
-        <button onClick={() => setInvertors(prev => {
-          return [invertorStructure, ...prev]
-        })}>
-          Add new invertor
-        </button>
-        <div className="invertors">
-          {renderInvertors(
-            invertors,
-            setInvertors,
-            modifiedInvertors,
-            setModifiedInvertors
-          )}
-        </div>
-      </div>
-    );
-  };
+const SetupPage = () => {
+  const servicePassword = "test"; // prompt("Servisné heslo:")
+  // TODO get service password from input
 
-  return <>{page === "material" ? <MaterialPage /> : <InvertorPage />}</>;
+  const [page, setPage] = useState("material");
+
+  return (
+    <>
+      {page === "material" ? (
+        <>
+          <button onClick={() => setPage("invertor")}>Modify invertors</button>
+          <MaterialPage />
+        </>
+      ) : (
+        <>
+          <button onClick={() => setPage("material")}>Modify material</button>
+          <InvertorPage />
+        </>
+      )}
+    </>
+  );
 };
 
 export default SetupPage;

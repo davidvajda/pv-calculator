@@ -49,7 +49,7 @@ const readFile = (fileName) => {
 };
 
 const resetResources = () => {
-  const defaults = require("../resources/defaultResources.json");
+  const defaults = readFile(`./src/resources/defaultResources.json`)
 
   const hooks = defaults.hooks;
   const rails = defaults.rails;
@@ -84,26 +84,22 @@ app.get("/get_available_resources", (req, res) => {
 
 app.post("/get_resource", (req, res) => {
   const resourceName = req.body["resourceName"];
+  const adminPassword = req.body["adminPassword"]
 
-  if (
-    resourceName === undefined ||
-    !AVAILABLE_RESOURCES.includes(resourceName)
-  ) {
+  if (resourceName === undefined || !checkEnvPassword(adminPassword)) {
     res.sendStatus(400);
     return;
   }
 
-  const resource = readFile(`./src/resources/${resourceName}`)
+  const resource = readFile(`./src/resources/${resourceName}`);
   res.json(resource);
 });
 
 app.post("/set_resource", (req, res) => {
   const resourceName = req.body["resourceName"];
 
-  if (
-    resourceName === undefined ||
-    !AVAILABLE_RESOURCES.includes(resourceName)
-  ) {
+
+  if (resourceName === undefined) {
     res.sendStatus(400);
     return;
   }
@@ -121,10 +117,10 @@ app.post("/set_resource", (req, res) => {
   return;
 });
 
-app.post("reset_resources", (req, res) => {
+app.post("/reset_resources", (req, res) => {
   const adminPassword = req.body["adminPassword"];
 
-  if (adminPassword === undefined) {
+  if (adminPassword === undefined || !checkEnvPassword(adminPassword)) {
     res.sendStatus(400);
     return;
   }
@@ -137,9 +133,6 @@ app.post("reset_resources", (req, res) => {
 app.listen(port);
 console.log("Server listening at port " + port);
 
-// option to reset to defaultResources
-// option to change resources
-// option to add // delete invertors
 // option to select 0 to 50% of invertor spare capacity
 // option to make roof for x rows with x1, x2, x3.. xn panels
 // back button on last page
@@ -148,7 +141,4 @@ console.log("Server listening at port " + port);
 // spare rails
 
 // 2x8 panels uncorrect material amounts
-//dcInputs make into array
-// save the invertors
-// parse ints when creating new invertor
-// when adding or deleting invertor modify modifiedInvertors so it stays at the same invertor
+// fix bug when adding more powerfull invertor e.g 25kW, brokes the app when selected
