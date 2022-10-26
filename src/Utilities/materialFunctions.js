@@ -37,6 +37,10 @@ export const getMountingMaterialAmounts = (
   for (let i = 0; i < panelLlayout.panels.length; i++) {
     const amount = panelLlayout.panels[i];
 
+    if (amount <= 0) {
+      continue;
+    }
+
     let railsInRow = Math.ceil(
       (amount * (panelWidth + bracketWidth)) / railLength
     );

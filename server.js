@@ -140,5 +140,7 @@ console.log("Server listening at port " + port);
 // replace mcb with fuse holder + fuses
 // spare rails
 
-// 2x8 panels uncorrect material amounts
 // fix bug when adding more powerfull invertor e.g 25kW, brokes the app when selected
+
+// add protection devices to resources
+// add possibility to change panel
