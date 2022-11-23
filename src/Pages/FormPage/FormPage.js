@@ -7,8 +7,10 @@ import {
 } from "../../ContextProvider/ContextProvider";
 import { TextInput } from "../../Components/TextInput/TextInput";
 import { SelectInput } from "../../Components/SelectInput/SelectInput";
+import { SliderInput } from "../../Components/SliderInput/SliderInput";
 import { CheckboxInput } from "../../Components/CheckboxInput/CheckboxInput";
 import { RadioButtonInput } from "../../Components/RadioButtonInput/RadioButtonInput";
+
 
 const FormPage = () => {
   const { appState, appDispatch } = useContext(AppStateContext);
@@ -35,6 +37,14 @@ const FormPage = () => {
     values: [1, 2, 3, 4, 5],
   };
 
+  const powerReserveOptions = [];
+  for (let i = 0; i <= 5; i++) {
+    powerReserveOptions.push({
+      value: i * 10,
+      label: `${i * 10}%`,
+    });
+  }
+
   useEffect(() => {
     appDispatch({
       type: "hookRuster",
@@ -45,6 +55,7 @@ const FormPage = () => {
   return (
     <div className="page-wrapper">
       <div className="text-input-container">
+        
         <SelectInput
           label={"Tvar strechy"}
           itemLabels={roofShapeOptions.labels}
@@ -131,15 +142,13 @@ const FormPage = () => {
           appDispatchAction={APP_ACTIONS.SNOW_LOAD}
           description={`Od indexu záťaže sa odvíja použitý montážny materiál.`}
         />
-      </div>
-      <div className="text-input-container">
-        <CheckboxInput
-          label={"Použiť výkonovú rezervu striedača"}
-          value={appState.allowPowerReserve}
+        <SliderInput
+          label={"Výkonová rezerva striedača"}
+          values={powerReserveOptions}
+          value={appState.powerReserve}
           appDispatch={appDispatch}
           appDispatchAction={APP_ACTIONS.POWER_RESERVE}
-          description={`Na striedač je možné pripojiť až o 50% viac výkonu než dokáže spracovať.
-          Je to kvôli tomu, že fotovoltické panely väčšinu času nepracujú na svojom max. výkone.`}
+          description={"Na striedač je možné zapojiť väčší výkon panelov až o 50%. 0% znanená, že sa pre panely s výkonom 5kW vyberie 5kW striedač. 50% znamená, že sa pre 5kW panely vyberie 3,3kW striedač."}
         />
       </div>
     </div>

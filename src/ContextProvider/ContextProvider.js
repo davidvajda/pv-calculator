@@ -19,6 +19,7 @@ const defaultAppContext = {
   roofType: "tile",
   maxPlantPower: 0,
   allowPowerReserve: true,
+  powerReserve: 0,
 };
 
 const defaultMaterialContext = {
@@ -62,7 +63,7 @@ const steps = {
 };
 
 export const APP_ACTIONS = {
-  POWER_RESERVE: "allowPowerReserve",
+  POWER_RESERVE: "powerReserve",
   ROOF_HEIGHT: "roofHeight",
   ROOF_WIDTH: "roofWidth",
   ROOF_WIDTH_TOP: "roofWidthTop",
@@ -90,7 +91,7 @@ export const ContextProvider = ({ children }) => {
     switch (action.type) {
       // inputs
       case APP_ACTIONS.POWER_RESERVE:
-        return { ...appState, allowPowerReserve: !appState.allowPowerReserve };
+        return { ...appState, powerReserve: action.payload.value };
       case APP_ACTIONS.ROOF_HEIGHT:
         return { ...appState, roofHeight: action.payload.value };
       case APP_ACTIONS.ROOF_WIDTH:

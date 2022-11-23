@@ -45,6 +45,14 @@ export default function HorizontalLinearStepper({ children }) {
         <>
           {components[appState.screen]}
           <div className="stepper-button-container">
+            <Button
+              className="button"
+              variant="outlined"
+              disabled={appState.screen === 0}
+              onClick={handleBack}
+            >
+              Späť
+            </Button>
             <Button className="button" variant="outlined" onClick={handleReset}>
               Reset
             </Button>
@@ -62,12 +70,8 @@ export default function HorizontalLinearStepper({ children }) {
             >
               Späť
             </Button>
-            <Button
-              className="button"
-              variant="outlined"
-              onClick={handleNext}
-            >
-              {appState.screen === steps.length - 1 ? "Dokončiť" : "Ďalej"}
+            <Button className="button" variant="outlined" onClick={handleNext}>
+              Ďalej
             </Button>
           </div>
         </>

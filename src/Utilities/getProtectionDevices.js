@@ -1,16 +1,4 @@
-const surgeProtectionDevices = {
-  // with contactor, class I [0] or II [1] for one or two strings [0] or [1]
-  // TODO: implement this according to current norms/standards, for now, default is class I without contactor
-  // TODO: return MCB according to the current of the string
-  withContactor: [
-    ["PVPF1001--", "PVPF1002--"],
-    ["PVPF1501--", "PVPF1502--"],
-  ],
-  withoutContactor: [
-    ["PVP10001--", "PVP10002--"],
-    ["PVP15001--", "PVP15001--"],
-  ],
-};
+const protectionMaterial = require("../resources/protectionDevices.json");
 
 export const getProtectionDevices = (stringDivisions) => {
   if (!stringDivisions) {
@@ -19,14 +7,17 @@ export const getProtectionDevices = (stringDivisions) => {
 
   const strings = stringDivisions.length;
 
-  if (strings === 0) {
-    return;
-  }
+  const FUSE_ORDER_NUMBER = protectionMaterial.fuse[0];
+
+  const spdSimpleAmount = strings % 2;
+  const spdDoubleAmount = strings / 2;
+  const fuseHolderAMount = strings;
+  const fuseAmount = strings * 2;
 
   return {
-    amounts: [1, strings],
+    amounts: [1, strings], // todo return the amounts and ONs // TODO: correct this
     orderNumbers: [
-      surgeProtectionDevices.withoutContactor[0][strings - 1],
+      "PVP10001--",
       "BM015216--",
     ],
     descriptions: [

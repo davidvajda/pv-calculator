@@ -32,7 +32,7 @@ const divideIntoStrings = (invertor, panelCount, panelVoltage) => {
 };
 
 export const getSuitableInvertorAndStrings = (
-  allowPowerReserve,
+  powerReserve,
   panelPower,
   panelVoltage,
   panelCurrent,
@@ -47,13 +47,7 @@ export const getSuitableInvertorAndStrings = (
 
   const plantPower = panelCount * panelPower;
 
-  invertors.sort((a, b) => {
-    if (allowPowerReserve) {
-      return a.maxPower - b.maxPower;
-    } else {
-      return a.nominalPower - b.nominalPower;
-    }
-  });
+  invertors.sort((a, b) => a.nominalPower - b.nominalPower);
 
   const bestFitInvertors = [];
   const stringDivisions = [];
@@ -62,10 +56,8 @@ export const getSuitableInvertorAndStrings = (
   for (let i = 0; i < invertors.length; i++) {
     const invertor = invertors[i];
 
-    if (
-      (allowPowerReserve && invertor.maxPower >= plantPower) ||
-      (!allowPowerReserve && invertor.nominalPower >= plantPower)
-    ) {
+    if (invertor.nominalPower + (invertor.nominalPower * (powerReserve / 100)) >= plantPower) {
+      console.log("Invertors with power bigger than: ", invertor.nominalPower + (invertor.nominalPower * (powerReserve / 100)))
       const stringDivision = divideIntoStrings(
         invertor,
         panelCount,

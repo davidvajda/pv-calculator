@@ -47,41 +47,62 @@ const renderResource = (resource, setState, resourceName) => {
   }
 
   const resourceRows = [];
-
   for (const [key, values] of Object.entries(resource)) {
     const valueElements = values.map((item, idx) => (
-      <input
-        key={idx}
-        maxLength={10}
-        value={item ? item : ""}
-        onChange={(e) => {
-          setState((prev) => {
-            const newResource = { ...prev };
-            newResource[key][idx] = e.target.value;
-            return newResource;
-          });
-        }}
-      />
+      <td>
+        <input
+          key={idx}
+          maxLength={10}
+          value={item ? item : ""}
+          onChange={(e) => {
+            setState((prev) => {
+              const newResource = { ...prev };
+              newResource[key][idx] = e.target.value;
+              return newResource;
+            });
+          }}
+        />
+      </td>
     ));
+
     resourceRows.push(
-      // TODO: make it a table
-      <div key={key} className="resourceRow">
-        <div className="resource-inputs">
-          <span className="resource-key">{key}</span>
-          <div>{valueElements}</div>
-        </div>
-      </div>
+      <tr key={key}>
+        <td className="resource-row-name">
+          <b>{key}</b>
+        </td>
+        {valueElements}
+      </tr>
     );
   }
   return (
-    <form>
-      <h1>{resourceName}</h1>
-      <div>{resourceRows}</div>
-    </form>
+    <div>
+      <table>
+        <tbody>
+          <th colSpan={6}>
+            <b>{resourceName}:</b>
+          </th>
+          <tr>
+            <td>
+              <b>Load index:</b>
+            </td>
+            <td>1</td>
+            <td>2</td>
+            <td>3</td>
+            <td>4</td>
+            <td>5</td>
+          </tr>
+          {resourceRows}
+        </tbody>
+      </table>
+    </div>
   );
 };
 
 const renderInvertors = (invertorsJson, setInvertorsState) => {
+  if (invertorsJson === undefined) {
+    return <></>;
+  }
+
   const intKeyNamesToParse = [
     "phase",
     "nominalPower",
@@ -103,7 +124,7 @@ const renderInvertors = (invertorsJson, setInvertorsState) => {
 
       invertorElement.push(
         <tr key={key}>
-          <td>
+          <td className="resource-row-name">
             <b>{key}:</b>
           </td>
           <td>
@@ -221,7 +242,9 @@ const MaterialPage = () => {
       </button>
       <button
         onClick={() => {
-          const confirmation = prompt("Are you sure you want to reset material to default values? Type YES for confirmation.")
+          const confirmation = prompt(
+            "Are you sure you want to reset material to default values? Type YES for confirmation."
+          );
           if (confirmation === "YES") {
             setDefaultResources("test");
           }
@@ -229,9 +252,11 @@ const MaterialPage = () => {
       >
         Reset material to default values
       </button>
-      {hooks ? renderResource(hooks, setHooks, "hooks.json") : <></>}
-      {rails ? renderResource(rails, setRails, "rails.json") : <></>}
-      {others ? renderResource(others, setOthers, "others.json") : <></>}
+      <div className="resource-table-wrapper">
+        {renderResource(hooks, setHooks, "hooks.json")}
+        {renderResource(rails, setRails, "rails.json")}
+        {renderResource(others, setOthers, "others.json")}
+      </div>
     </>
   );
 };
@@ -265,7 +290,7 @@ const InvertorPage = () => {
         Add new invertor
       </button>
       <div className="invertors">
-        {invertors ? renderInvertors(invertors, setInvertors) : <></>}
+        {renderInvertors(invertors, setInvertors)}
       </div>
     </>
   );

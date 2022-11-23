@@ -394,3 +394,15 @@ margin-right: 1em;
 .invertor-param-value {
   width: 100%;
 }
+
+.resource-row-name {
+  width: 10em;
+}
+
+.resource-table-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 90vh;
+
+  justify-content: center;
+}

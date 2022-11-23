@@ -20,7 +20,7 @@ const InvertorPage = () => {
   const [selectedInvertor, setSelectedInvertor] = useState(() => null);
 
   const suitableInvertors = getSuitableInvertorAndStrings(
-    appState.allowPowerReserve,
+    appState.powerReserve,
     materialState.panelPower,
     materialState.panelVoltage,
     materialState.panelCurrent,
