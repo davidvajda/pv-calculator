@@ -134,7 +134,7 @@ app.listen(port);
 console.log("Server listening at port " + port);
 
 // DONE ->  option to select 0 to 50% of invertor spare capacity
-//          option to make roof for x rows with x1, x2, x3.. xn panels
+// DONE ->  option to make roof for x rows with x1, x2, x3.. xn panels
 // DONE ->  back button on last page 
 //          map of load
 //          replace mcb with fuse holder + fuses
@@ -143,3 +143,5 @@ console.log("Server listening at port " + port);
 //          add protection devices to resources
 //          add possibility to change panel
 //          websupport hosting
+//          change milimeters to meters in input fields
+//          performance issue when holding power reserve

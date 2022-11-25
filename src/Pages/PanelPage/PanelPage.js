@@ -12,42 +12,40 @@ const PanelPage = () => {
       <div className="panel-dimensions">
         <PanelDimensions />
       </div>
-      <div className="text-input-container">
-        <CheckboxInput
-          label={"Použiť odporúčaný panel"}
-          value={materialState.useDefaultPanel}
-        />
-        <TextInput
-          label={"Šírka panelu [mm]"}
-          value={materialState.panelWidth}
-          type={"number"}
-          disabled={materialState.useDefaultPanel}
-        />
-        <TextInput
-          label={"Výška panelu [mm]"}
-          value={materialState.panelHeight}
-          type={"number"}
-          disabled={materialState.useDefaultPanel}
-        />
-        <TextInput
-          label={"Napätie panelu [V]"}
-          value={materialState.panelVoltage}
-          type={"number"}
-          disabled={materialState.useDefaultPanel}
-        />
-        <TextInput
-          label={"Prúd panelu [A]"}
-          value={materialState.panelCurrent}
-          type={"number"}
-          disabled={materialState.useDefaultPanel}
-        />
-        <TextInput
-          label={"Výkon panelu [Wp]"}
-          value={materialState.panelPower}
-          type={"number"}
-          disabled={materialState.useDefaultPanel}
-        />
-      </div>
+      <CheckboxInput
+        label={"Použiť odporúčaný panel"}
+        value={materialState.useDefaultPanel}
+      />
+      <TextInput
+        label={"Šírka panelu [mm]"}
+        value={materialState.panelWidth}
+        type={"number"}
+        disabled={materialState.useDefaultPanel}
+      />
+      <TextInput
+        label={"Výška panelu [mm]"}
+        value={materialState.panelHeight}
+        type={"number"}
+        disabled={materialState.useDefaultPanel}
+      />
+      <TextInput
+        label={"Napätie panelu [V]"}
+        value={materialState.panelVoltage}
+        type={"number"}
+        disabled={materialState.useDefaultPanel}
+      />
+      <TextInput
+        label={"Prúd panelu [A]"}
+        value={materialState.panelCurrent}
+        type={"number"}
+        disabled={materialState.useDefaultPanel}
+      />
+      <TextInput
+        label={"Výkon panelu [Wp]"}
+        value={materialState.panelPower}
+        type={"number"}
+        disabled={materialState.useDefaultPanel}
+      />
     </div>
   );
 };

@@ -13,7 +13,7 @@ code {
     monospace;
 }
 
-.app-container { 
+.app-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -65,7 +65,7 @@ code {
 
 .checkbox-input:hover {
   background-color: #fafafa;
-  
+
 }
 
 .stepper {
@@ -137,9 +137,9 @@ code {
 }
 
 .card-image-wrapper {
-width: 5em;
-height: 5em;
-margin-right: 1em;
+  width: 5em;
+  height: 5em;
+  margin-right: 1em;
 }
 
 .card-image {
@@ -154,7 +154,7 @@ margin-right: 1em;
 
 .output-page {
   display: flex;
-  flex-direction: row;  
+  flex-direction: row;
   justify-content: center;
   flex-wrap: wrap;
 }
@@ -164,7 +164,7 @@ margin-right: 1em;
   flex-direction: column;
 }
 
-.big-card  {
+.big-card {
   width: 25em;
 }
 
@@ -174,19 +174,10 @@ margin-right: 1em;
 }
 
 .big-card .card-image-wrapper .card-image {
-   max-width: 10em;
-   max-height: 10em;
+  max-width: 10em;
+  max-height: 10em;
 }
 
-.text-input-container {
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: column;
-
-  justify-content: center;
-  align-items: center;
-
-}
 
 .item-card-container {
   width: 12em;
@@ -218,19 +209,11 @@ margin-right: 1em;
   max-height: 9em;
 }
 
-.text-input-container {
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: column;
-
-  justify-content: center;
-  align-items: center;
-}
 
 .download-button {
   text-decoration: none;
   border: 1px solid rgba(25, 118, 210, 0.5);
-    font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
   font-weight: 500;
   font-size: 0.875rem;
   line-height: 1.75;
@@ -241,7 +224,7 @@ margin-right: 1em;
   border-radius: 4px;
   color: #1976d2;
   background-color: transparent;
-  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
 .download-button:hover {
@@ -259,7 +242,7 @@ margin-right: 1em;
 }
 
 .dimension-panel:hover {
-  transform: rotate3d(0,0,0,00deg) rotate(0deg);
+  transform: rotate3d(0, 0, 0, 00deg) rotate(0deg);
   border-bottom: 1px solid #999;
   border-right: 1px solid #999;
   margin-bottom: 4px;
@@ -271,7 +254,7 @@ margin-right: 1em;
   background-image: radial-gradient(#999 1px, transparent 0px);
   background-size: 5px 5px;
   position: relative;
-  transform: rotate3d(.5,-.866,0,20deg) rotate(3deg);
+  transform: rotate3d(.5, -.866, 0, 20deg) rotate(3deg);
   border-bottom: 5px solid #999;
   border-right: 5px solid #999;
 
@@ -369,7 +352,7 @@ margin-right: 1em;
   color: grey;
 }
 
-.developer-info p a{
+.developer-info p a {
   color: lightblue;
   text-decoration: none;
 
@@ -385,10 +368,10 @@ margin-right: 1em;
 }
 
 .invertor {
- width: 35em;
- border: 1px solid black;
- padding: .5em;
- margin: .5em;
+  width: 35em;
+  border: 1px solid black;
+  padding: .5em;
+  margin: .5em;
 }
 
 .invertor-param-value {
@@ -405,4 +388,16 @@ margin-right: 1em;
   min-height: 90vh;
 
   justify-content: center;
+}
+
+.row-inputs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 21em;
+}
+
+.small-input {
+  width: 6em;
+  margin: .2em;
 }

@@ -2,8 +2,10 @@ import React, { useEffect, useContext } from "react";
 
 import {
   AppStateContext,
+  OutputContext,
   MaterialStateContext,
   APP_ACTIONS,
+  OUTPUT_ACTIONS,
 } from "../../ContextProvider/ContextProvider";
 import { TextInput } from "../../Components/TextInput/TextInput";
 import { SelectInput } from "../../Components/SelectInput/SelectInput";
@@ -11,9 +13,9 @@ import { SliderInput } from "../../Components/SliderInput/SliderInput";
 import { CheckboxInput } from "../../Components/CheckboxInput/CheckboxInput";
 import { RadioButtonInput } from "../../Components/RadioButtonInput/RadioButtonInput";
 
-
 const FormPage = () => {
   const { appState, appDispatch } = useContext(AppStateContext);
+  const { outputState, outputDispatch } = useContext(OutputContext);
   const { materialState } = useContext(MaterialStateContext);
 
   const roofShapeOptions = {
@@ -45,6 +47,26 @@ const FormPage = () => {
     });
   }
 
+  const renderRowInputs = (amount) => {
+    const panelsInRows = [];
+    for (let i = 0; i < amount; i++) {
+      panelsInRows.push(
+        <TextInput
+          key={i}
+          idx={i}
+          label={`${i}. rad`}
+          value={outputState.panelLayout.panels[i]}
+          appDispatch={outputDispatch}
+          appDispatchAction={OUTPUT_ACTIONS.CHANGE_AMOUNT_IN_ROW}
+          type={"number"}
+          size={"small"}
+          description={`Počet panelov v ${i}. rade`}
+        />
+      );
+    }
+    return panelsInRows;
+  };
+
   useEffect(() => {
     appDispatch({
       type: "hookRuster",
@@ -54,103 +76,128 @@ const FormPage = () => {
 
   return (
     <div className="page-wrapper">
-      <div className="text-input-container">
-        
-        <SelectInput
-          label={"Tvar strechy"}
-          itemLabels={roofShapeOptions.labels}
-          values={roofShapeOptions.values}
-          appDispatch={appDispatch}
-          appDispatchAction={APP_ACTIONS.ROOF_SHAPE}
-          defaultValue={appState.roofShape}
-          description={`Tvar plochy, na ktorej majú byť panely umiestnené.`}
-        />
-        <SelectInput
-          label={"Typ strešnej krytiny"}
-          itemLabels={roofTypeOptions.labels}
-          values={roofTypeOptions.values}
-          appDispatch={appDispatch}
-          appDispatchAction={APP_ACTIONS.ROOF_TYPE}
-          defaultValue={appState.roofType}
-          description={`Typ krytitiny, ktorá je použitá na ploche umiestnenia panelov.`}
-        />
-        <TextInput
-          label={"Rozteč trámov, falcov [mm]"}
-          value={appState.hookRuster}
-          appDispatch={appDispatch}
-          appDispatchAction={APP_ACTIONS.HOOK_RUSTER}
-          type={"number"}
-          description={`Montážne háky/držiaky sa používajú na každý tám, 
+      <CheckboxInput
+        label={"Manuálne zadať počet panelov"}
+        appDispatch={appDispatch}
+        appDispatchAction={APP_ACTIONS.MANUAL_PANEL_AMOUNTS}
+        value={appState.manualPanelAmounts}
+        description={
+          "Po vybraní možnosti je možné namiesto rozmerov strechy manuálne zadať počty panelov."
+        }
+      />
+      <SelectInput
+        label={"Typ strešnej krytiny"}
+        itemLabels={roofTypeOptions.labels}
+        values={roofTypeOptions.values}
+        appDispatch={appDispatch}
+        appDispatchAction={APP_ACTIONS.ROOF_TYPE}
+        defaultValue={appState.roofType}
+        description={`Typ krytitiny, ktorá je použitá na ploche umiestnenia panelov.`}
+      />
+
+      {appState.manualPanelAmounts ? (
+        <>
+          <TextInput
+            label={"Počet radov panelov"}
+            value={outputState.panelLayout.panels.length}
+            appDispatch={outputDispatch}
+            appDispatchAction={OUTPUT_ACTIONS.CHANGE_ROW_AMOUNT}
+            type={"number"}
+            description={`Počet radov panelov.`}
+          />
+          <div className="row-inputs">
+            {renderRowInputs(outputState.panelLayout.panels.length)}
+          </div>
+        </>
+      ) : (
+        <>
+          <SelectInput
+            label={"Tvar strechy"}
+            itemLabels={roofShapeOptions.labels}
+            values={roofShapeOptions.values}
+            appDispatch={appDispatch}
+            appDispatchAction={APP_ACTIONS.ROOF_SHAPE}
+            defaultValue={appState.roofShape}
+            description={`Tvar plochy, na ktorej majú byť panely umiestnené.`}
+          />
+          {appState.roofShape === "trapezoid" ? (
+            <TextInput
+              label={"Šírka strechy vrch [mm]"}
+              value={appState.roofWidthTop}
+              appDispatch={appDispatch}
+              appDispatchAction={APP_ACTIONS.ROOF_WIDTH_TOP}
+              type={"number"}
+              description={`Šírka vrchnej hrany strechy v milimetroch.`}
+            />
+          ) : null}
+
+          <TextInput
+            label={"Šírka strechy [mm]"}
+            value={appState.roofWidthBottom}
+            appDispatch={appDispatch}
+            appDispatchAction={APP_ACTIONS.ROOF_WIDTH}
+            type={"number"}
+            description={`Šírka strechy v milimetroch.`}
+          />
+          <TextInput
+            label={"Výška strechy [mm]"}
+            value={appState.roofHeight}
+            appDispatch={appDispatch}
+            appDispatchAction={APP_ACTIONS.ROOF_HEIGHT}
+            type={"number"}
+            description={`Výška strehcy v milimetroch. Výškou je myslená dĺžka povrchu, na ktorej budú panely umiestnené.`}
+          />
+        </>
+      )}
+
+      <TextInput
+        label={"Max. povolený výkon [Wp]"}
+        value={appState.maxPlantPower}
+        appDispatch={appDispatch}
+        appDispatchAction={APP_ACTIONS.MAX_POWER}
+        type={"number"}
+        description={`Ak je zadaná hodnota (vo Wp), vyráta sa počet panelov neprekračujúci zadanú hodnotu. 
+          Ak hodnota zadaná nie je, výpočet prebehne bez obomedzenia.`}
+      />
+      <TextInput
+        label={"Rozteč trámov, falcov [mm]"}
+        value={appState.hookRuster}
+        appDispatch={appDispatch}
+        appDispatchAction={APP_ACTIONS.HOOK_RUSTER}
+        type={"number"}
+        description={`Montážne háky/držiaky sa používajú na každý tám, 
           preto je pre vyrátanie správneho počtu držiakov dôležité určiť rozteč trámov.
           Rozmer sa zadáva v milimetroch kvôli lepšej presnosti výpočtu.`}
-        />
-      </div>
-      <div className="text-input-container">
-        {appState.roofShape === "trapezoid" ? (
-          <TextInput
-            label={"Šírka strechy vrch [mm]"}
-            value={appState.roofWidthTop}
-            appDispatch={appDispatch}
-            appDispatchAction={APP_ACTIONS.ROOF_WIDTH_TOP}
-            type={"number"}
-            description={`Šírka vrchnej hrany strechy v milimetroch.`}
-          />
-        ) : null}
+      />
 
-        <TextInput
-          label={"Šírka strechy [mm]"}
-          value={appState.roofWidthBottom}
-          appDispatch={appDispatch}
-          appDispatchAction={APP_ACTIONS.ROOF_WIDTH}
-          type={"number"}
-          description={`Šírka strechy v milimetroch.`}
-        />
-        <TextInput
-          label={"Výška strechy [mm]"}
-          value={appState.roofHeight}
-          appDispatch={appDispatch}
-          appDispatchAction={APP_ACTIONS.ROOF_HEIGHT}
-          type={"number"}
-          description={`Výška strehcy v milimetroch. Výškou je myslená dĺžka povrchu, na ktorej budú panely umiestnené.`}
-        />
-        <TextInput
-          label={"Max. povolený výkon [Wp]"}
-          value={appState.maxPlantPower}
-          appDispatch={appDispatch}
-          appDispatchAction={APP_ACTIONS.MAX_POWER}
-          type={"number"}
-          description={`Ak je zadaná hodnota (vo Wp), vyráta sa počet panelov neprekračujúci zadanú hodnotu. 
-          Ak hodnota zadaná nie je, výpočet prebehne bez obomedzenia.`}
-        />
-      </div>
-      <div className="text-input-container">
-        <RadioButtonInput
-          label={"Index predpokladanej záťaže vetrom"}
-          radioLabels={loadIndexOptions.labels}
-          values={loadIndexOptions.values}
-          defaultValue={appState.windLoad}
-          appDispatch={appDispatch}
-          appDispatchAction={APP_ACTIONS.WIND_LOAD}
-          description={`Od indexu záťaže sa odvíja použitý montážny materiál.`}
-        />
-        <RadioButtonInput
-          label={"Index predpokladanej záťaže snehom"}
-          radioLabels={loadIndexOptions.labels}
-          values={loadIndexOptions.values}
-          defaultValue={appState.snowLoad}
-          appDispatch={appDispatch}
-          appDispatchAction={APP_ACTIONS.SNOW_LOAD}
-          description={`Od indexu záťaže sa odvíja použitý montážny materiál.`}
-        />
-        <SliderInput
-          label={"Výkonová rezerva striedača"}
-          values={powerReserveOptions}
-          value={appState.powerReserve}
-          appDispatch={appDispatch}
-          appDispatchAction={APP_ACTIONS.POWER_RESERVE}
-          description={"Na striedač je možné zapojiť väčší výkon panelov až o 50%. 0% znanená, že sa pre panely s výkonom 5kW vyberie 5kW striedač. 50% znamená, že sa pre 5kW panely vyberie 3,3kW striedač."}
-        />
-      </div>
+      <RadioButtonInput
+        label={"Index predpokladanej záťaže vetrom"}
+        radioLabels={loadIndexOptions.labels}
+        values={loadIndexOptions.values}
+        defaultValue={appState.windLoad}
+        appDispatch={appDispatch}
+        appDispatchAction={APP_ACTIONS.WIND_LOAD}
+        description={`Od indexu záťaže sa odvíja použitý montážny materiál.`}
+      />
+      <RadioButtonInput
+        label={"Index predpokladanej záťaže snehom"}
+        radioLabels={loadIndexOptions.labels}
+        values={loadIndexOptions.values}
+        defaultValue={appState.snowLoad}
+        appDispatch={appDispatch}
+        appDispatchAction={APP_ACTIONS.SNOW_LOAD}
+        description={`Od indexu záťaže sa odvíja použitý montážny materiál.`}
+      />
+      <SliderInput
+        label={"Výkonová rezerva striedača"}
+        values={powerReserveOptions}
+        value={appState.powerReserve}
+        appDispatch={appDispatch}
+        appDispatchAction={APP_ACTIONS.POWER_RESERVE}
+        description={
+          "Na striedač je možné zapojiť väčší výkon panelov až o 50%. 0% znanená, že sa pre panely s výkonom 5kW vyberie 5kW striedač. 50% znamená, že sa pre 5kW panely vyberie 3,3kW striedač."
+        }
+      />
     </div>
   );
 };
