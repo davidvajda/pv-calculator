@@ -57,7 +57,6 @@ export const getSuitableInvertorAndStrings = (
     const invertor = invertors[i];
 
     if (invertor.nominalPower + (invertor.nominalPower * (powerReserve / 100)) >= plantPower) {
-      console.log("Invertors with power bigger than: ", invertor.nominalPower + (invertor.nominalPower * (powerReserve / 100)))
       const stringDivision = divideIntoStrings(
         invertor,
         panelCount,

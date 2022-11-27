@@ -138,7 +138,7 @@ console.log("Server listening at port " + port);
 // DONE ->  back button on last page 
 //          map of load
 //          replace mcb with fuse holder + fuses
-//          spare rails
+// DONE ->  spare rails
 //          fix bug when adding more powerfull invertor e.g 25kW, brokes the app when selected
 //          add protection devices to resources
 //          add possibility to change panel
