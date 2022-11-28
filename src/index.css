@@ -87,7 +87,7 @@ code {
 
   margin: 1em;
 
-  min-height: 65vh;
+  min-height: 75vh;
 }
 
 
@@ -209,6 +209,9 @@ code {
   max-height: 9em;
 }
 
+.download-button-wrapper {
+
+}
 
 .download-button {
   text-decoration: none;

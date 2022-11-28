@@ -19,6 +19,8 @@ const defaultAppContext = {
   allowPowerReserve: true,
   powerReserve: 0,
   manualPanelAmounts: false,
+  overcurrentDevice: "mcb",
+  overvoltageDevice: "box",
 };
 
 const defaultMaterialContext = {
@@ -73,6 +75,9 @@ export const APP_ACTIONS = {
   ROOF_SHAPE: "roofShape",
   ROOF_TYPE: "roofType",
   MAX_POWER: "maxPlantPower",
+
+  OVERVOLTAGE_DEVICE: "overvoltageDevice",
+  OVERCURRENT_DEVICE: "overcurrentDevice",
 
   NEXT_SCREEN: "nextScreen",
   PREV_SCREEN: "prevScreen",
@@ -129,6 +134,11 @@ export const ContextProvider = ({ children }) => {
         return { ...appState, roofType: action.payload.value };
       case APP_ACTIONS.MAX_POWER:
         return { ...appState, maxPlantPower: action.payload.value };
+
+      case APP_ACTIONS.OVERVOLTAGE_DEVICE:
+        return { ...appState, overvoltageDevice: action.payload.value };
+      case APP_ACTIONS.OVERCURRENT_DEVICE:
+        return { ...appState, overcurrentDevice: action.payload.value };
 
       // screen handling
       case APP_ACTIONS.NEXT_SCREEN:

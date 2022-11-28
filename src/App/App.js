@@ -6,6 +6,7 @@ import FormPage from "../Pages/FormPage/FormPage";
 import PanelPage from "../Pages/PanelPage/PanelPage";
 import RoofPage from "../Pages/RoofPage/RoofPage";
 import InvertorPage from "../Pages/InvertorPage/InvertorPage";
+import ProtectionPage from "../Pages/ProtectionPage/ProtectionPage";
 import SetupPage from "../Pages/SetupPage/SetupPage";
 import OutputPage from "../Pages/OutputPage/OutputPage";
 import Stepper from "../Components/Stepper/Stepper";
@@ -23,12 +24,14 @@ const PvCalc = () => {
               "Vlastnosti panelu",
               "Náčrt strechy",
               "Výber striedača",
+              "Výber ochranných prístrojov"
             ],
             components: [
               <FormPage />,
               <PanelPage />,
               <RoofPage />,
               <InvertorPage />,
+              <ProtectionPage />,
               <OutputPage />,
             ],
           }}

@@ -1,28 +1,49 @@
 const protectionMaterial = require("../resources/protectionDevices.json");
 
-export const getProtectionDevices = (stringDivisions) => {
-  if (!stringDivisions) {
-    return;
+export const getProtectionDevices = (
+  stringDivisions,
+  overvoltageDevice,
+  overcurrentDevice
+) => {
+  if (!stringDivisions) return;
+
+  const returnObject = {
+    amounts: [],
+    orderNumbers: [],
+    descriptions: [],
+  };
+
+  const stringCount = stringDivisions.length;
+
+  // Currently works only for one or two strings
+
+  if (overcurrentDevice === "fuse") {
+    returnObject.amounts.push(...[stringCount, stringCount * 2]);
+    returnObject.orderNumbers.push(
+      ...[protectionMaterial.fuseHolder[0], protectionMaterial.fuse[0]]
+    );
+    returnObject.descriptions.push(
+      ...["Držiak poistiek pre FV, 2 pólový", "Poistková vložka 16A"]
+    );
+  } else {
+    returnObject.amounts.push(stringCount);
+    returnObject.orderNumbers.push(protectionMaterial.mcb[0]);
+    returnObject.descriptions.push("DC istič, 16A, char. C 2 pólový");
   }
 
-  const strings = stringDivisions.length;
+  if (overvoltageDevice === "box") {
+    returnObject.amounts.push(1);
+    returnObject.orderNumbers.push(protectionMaterial.box[stringCount - 1]);
+    returnObject.descriptions.push(
+      stringCount % 2 === 0
+        ? `Prepäťová skrinka, ${stringCount} stringy, B+C`
+        : `Prepäťová skrinka, ${stringCount} string, B+C`
+    );
+  } else {
+    returnObject.amounts.push(stringCount);
+    returnObject.orderNumbers.push(protectionMaterial.spd[0]);
+    returnObject.descriptions.push("Zvodič prepätia B+C");
+  }
 
-  const FUSE_ORDER_NUMBER = protectionMaterial.fuse[0];
-
-  const spdSimpleAmount = strings % 2;
-  const spdDoubleAmount = strings / 2;
-  const fuseHolderAMount = strings;
-  const fuseAmount = strings * 2;
-
-  return {
-    amounts: [1, strings], // todo return the amounts and ONs // TODO: correct this
-    orderNumbers: [
-      "PVP10001--",
-      "BM015216--",
-    ],
-    descriptions: [
-      "Prepäťová skrinka BC pre " + strings + "MPPT",
-      "Istič DC C16/2 10kA, charakteristika C, 16A, 2‑pólový",
-    ],
-  };
+  return returnObject;
 };

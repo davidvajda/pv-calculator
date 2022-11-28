@@ -60,7 +60,7 @@ const FormPage = () => {
         <TextInput
           key={i}
           idx={i}
-          label={`${i}. rad`}
+          label={`${i + 1}. rad`}
           value={outputState.panelLayout.panels[i]}
           appDispatch={outputDispatch}
           appDispatchAction={OUTPUT_ACTIONS.CHANGE_AMOUNT_IN_ROW}

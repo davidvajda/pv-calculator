@@ -28,7 +28,7 @@ const ItemCard = ({ orderNumber, description, amount }) => {
       <div className="card-text-wrapper">
         <div>{description}</div>
         <div>
-          <a href={getScrachEshopUrl(orderNumber)}>{orderNumber}</a>
+          <a href={getScrachEshopUrl(orderNumber)} target="_blanc">{orderNumber}</a>
         </div>
         <div>{amount}x</div>
       </div>

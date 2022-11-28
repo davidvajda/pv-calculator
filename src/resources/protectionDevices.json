@@ -1,5 +1,7 @@
 {
-  "spd": ["PVP10001--", "PVP10002--"],
-  "fuseHolder": ["IS506122-A", "IS506122-A"],
-  "fuse": ["ISV10016--", "ISV10016--"]
+  "box": ["PVP10001--", "PVP10002--"],
+  "spd": ["IS01111100", null],
+  "mcb": ["BM015216--", null],
+  "fuseHolder": ["IS506122-A", null],
+  "fuse": ["ISV10016--", null]
 }

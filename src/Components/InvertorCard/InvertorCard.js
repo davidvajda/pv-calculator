@@ -24,7 +24,7 @@ const InvertorCard = ({ data, selected, onClick, size = "small" }) => {
       <div className="card-text-wrapper">
         <div>{data.description}</div>
         <div>{data.phase}-fázový {translateSystem(data.system)} striedač</div>
-        <div><a href={data.eshopUrl}>{data.orderNumber}</a></div>
+        <div><a href={data.eshopUrl} target="_blanc">{data.orderNumber}</a></div>
         <div>Max. výkon AC: {data.nominalPower}W</div>
         <div>Max. prívod DC: {data.maxPower}W</div>
       </div>

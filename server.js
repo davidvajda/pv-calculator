@@ -137,7 +137,7 @@ console.log("Server listening at port " + port);
 // DONE ->  option to make roof for x rows with x1, x2, x3.. xn panels
 // DONE ->  back button on last page 
 // DONE ->  map of load
-//          replace mcb with fuse holder + fuses
+// DONE -> replace mcb with fuse holder + fuses
 // DONE ->  spare rails
 //          fix bug when adding more powerfull invertor e.g 25kW, brokes the app when selected
 //          add protection devices to resources
@@ -146,3 +146,4 @@ console.log("Server listening at port " + port);
 // DONE ->  change milimeters to meters in input fields
 //          add default contexts to resources
 //          performance issue when holding power reserve
+//          don't allow user to continue if some fields are not filled

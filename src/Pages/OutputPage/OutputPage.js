@@ -8,7 +8,7 @@ import {
 
 import { getMountingMaterialAmounts } from "../../Utilities/materialFunctions";
 import { getProtectionDevices } from "../../Utilities/getProtectionDevices";
-import { countPanels } from "../../Utilities/countPanels"
+import { countPanels } from "../../Utilities/countPanels";
 
 import InvertorCard from "../../Components/InvertorCard/InvertorCard";
 import ItemCard from "../../Components/ItemCard/ItemCard";
@@ -56,8 +56,11 @@ const OutputPage = () => {
   );
 
   const protectionDevices = getProtectionDevices(
-    outputState.invertors.stringDivisions
+    outputState.invertors.stringDivisions,
+    appState.overvoltageDevice,
+    appState.overcurrentDevice
   );
+  console.log(protectionDevices)
 
   const formatCsvData = (obj1, obj2, obj3, inv) => {
     const object3 =
@@ -130,18 +133,20 @@ const OutputPage = () => {
           {mountingMaterial ? renderCards(mountingMaterial) : null}
         </div>
       </div>
-      <CSVLink
-        data={formatCsvData(
-          defaultPanel,
-          mountingMaterial,
-          protectionDevices,
-          outputState.invertors.invertor
-        )}
-        className="download-button"
-        download={"pv-calculator-material"}
-      >
-        Stiahnuť zoznam materiálu do .csv
-      </CSVLink>
+      <div className="download-button-wrapper">
+        <CSVLink
+          data={formatCsvData(
+            defaultPanel,
+            mountingMaterial,
+            protectionDevices,
+            outputState.invertors.invertor
+          )}
+          className="download-button"
+          download={"pv-calculator-material"}
+        >
+          Stiahnuť zoznam materiálu do .csv
+        </CSVLink>
+      </div>
     </div>
   );
 };
