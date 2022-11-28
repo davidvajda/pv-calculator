@@ -9,7 +9,6 @@ import {
   OutputContext,
   APP_ACTIONS,
 } from "../../ContextProvider/ContextProvider";
-import { countPanels } from "../../Utilities/countPanels";
 
 export default function HorizontalLinearStepper({ children }) {
   const { appState, appDispatch } = useContext(AppStateContext);

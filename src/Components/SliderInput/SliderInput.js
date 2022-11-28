@@ -2,7 +2,7 @@ import React from "react";
 
 import Slider from "@mui/material/Slider";
 import FormLabel from "@mui/material/FormLabel";
-import Tooltip from "@mui/material/Tooltip";
+import InfoTooltip from "../InfoTooltip/InfoTooltip"
 
 export const SliderInput = ({
   label,
@@ -12,17 +12,12 @@ export const SliderInput = ({
   appDispatch,
   appDispatchAction,
   description,
+  url
 }) => {
   const sliderId = React.useId();
 
   return (
-    <Tooltip
-      title={description}
-      followCursor
-      enterDelay={300}
-      leaveDelay={50}
-      placement="left"
-    >
+    <InfoTooltip description={description} url={url}>
       <div className="input"> 
         <FormLabel id={sliderId}>{label}</FormLabel>
         <Slider
@@ -42,6 +37,6 @@ export const SliderInput = ({
           }
         />
       </div>
-    </Tooltip>
+    </InfoTooltip>
   );
 };

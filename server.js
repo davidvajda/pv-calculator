@@ -136,7 +136,7 @@ console.log("Server listening at port " + port);
 // DONE ->  option to select 0 to 50% of invertor spare capacity
 // DONE ->  option to make roof for x rows with x1, x2, x3.. xn panels
 // DONE ->  back button on last page 
-//          map of load
+// DONE ->  map of load
 //          replace mcb with fuse holder + fuses
 // DONE ->  spare rails
 //          fix bug when adding more powerfull invertor e.g 25kW, brokes the app when selected
@@ -145,3 +145,10 @@ console.log("Server listening at port " + port);
 //          websupport hosting
 //          change milimeters to meters in input fields
 //          performance issue when holding power reserve
+
+
+/*
+  use import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'; and tooltip component
+  to create custom component in which you'll wrap input components, it will be displayed only when description or/and
+  url (to make it clickable) will be provided
+*/

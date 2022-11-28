@@ -4,7 +4,7 @@ import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormLabel from "@mui/material/FormLabel";
-import Tooltip from "@mui/material/Tooltip";
+import InfoTooltip from "../InfoTooltip/InfoTooltip"
 
 export const RadioButtonInput = ({
   label,
@@ -14,6 +14,7 @@ export const RadioButtonInput = ({
   appDispatch,
   appDispatchAction,
   description,
+  url
 }) => {
   const radioButtonId = React.useId();
 
@@ -31,7 +32,7 @@ export const RadioButtonInput = ({
   }
 
   return (
-    <Tooltip title={description} followCursor enterDelay={300} leaveDelay={50} placement="left">
+    <InfoTooltip description={description} url={url}>
       <div className="input">
         <FormLabel id={radioButtonId}>{label}</FormLabel>
         <RadioGroup
@@ -48,6 +49,6 @@ export const RadioButtonInput = ({
           {radios}
         </RadioGroup>
       </div>
-    </Tooltip>
+    </InfoTooltip>
   );
 };

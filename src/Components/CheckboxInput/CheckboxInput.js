@@ -1,7 +1,7 @@
 import React from "react";
 
 import Checkbox from "@mui/material/Checkbox";
-import Tooltip from "@mui/material/Tooltip";
+import InfoTooltip from "../InfoTooltip/InfoTooltip"
 
 export const CheckboxInput = ({
   label,
@@ -9,9 +9,10 @@ export const CheckboxInput = ({
   appDispatch,
   appDispatchAction,
   description,
+  url
 }) => {
   return (
-    <Tooltip title={description} followCursor enterDelay={300} leaveDelay={50} placement="left">
+    <InfoTooltip description={description} url={url}>
       <div
         className="checkbox-input"
         onClick={() => appDispatch({ type: appDispatchAction })}
@@ -19,6 +20,6 @@ export const CheckboxInput = ({
         <Checkbox checked={value} />
         <div className="checkbox-input-label">{label}</div>
       </div>
-    </Tooltip>
+    </InfoTooltip>
   );
 };

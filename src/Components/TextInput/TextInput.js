@@ -1,7 +1,7 @@
 import React from "react";
 
 import TextField from "@mui/material/TextField";
-import Tooltip from "@mui/material/Tooltip";
+import InfoTooltip from "../InfoTooltip/InfoTooltip";
 
 export const TextInput = ({
   idx = 0,
@@ -13,6 +13,7 @@ export const TextInput = ({
   size = "regular",
   disabled,
   description,
+  url
 }) => {
   const numberappDispatch = (value) => {
     const numericValue = parseInt(value);
@@ -34,28 +35,24 @@ export const TextInput = ({
   };
 
   return (
-    <Tooltip
-      title={description}
-      followCursor
-      enterDelay={300}
-      leaveDelay={50}
-      placement="left"
-    >
-      <div className={size === "small" ? "small-input" : "input"}>
-        <TextField
-          disabled={disabled}
-          fullWidth={true}
-          label={label}
-          value={value === 0 || value === "" ? "" : value}
-          variant="standard"
-          type={type}
-          onChange={(e) => {
-            type === "number"
-              ? numberappDispatch(e.target.value)
-              : textappDispatch(e.target.value);
-          }}
-        />
-      </div>
-    </Tooltip>
+    <>
+      <InfoTooltip description={description} url={url} >
+        <div className={size === "small" ? "small-input" : "input"}>
+          <TextField
+            disabled={disabled}
+            fullWidth={true}
+            label={label}
+            value={value === 0 || value === "" ? "" : value}
+            variant="standard"
+            type={type}
+            onChange={(e) => {
+              type === "number"
+                ? numberappDispatch(e.target.value)
+                : textappDispatch(e.target.value);
+            }}
+          />
+        </div>
+      </InfoTooltip>
+    </>
   );
 };

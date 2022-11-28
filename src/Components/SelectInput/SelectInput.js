@@ -3,7 +3,7 @@ import React from "react";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
-import Tooltip from "@mui/material/Tooltip";
+import InfoTooltip from "../InfoTooltip/InfoTooltip"
 
 export const SelectInput = ({
   label,
@@ -13,6 +13,7 @@ export const SelectInput = ({
   appDispatchAction,
   defaultValue,
   description,
+  url
 }) => {
   const menuItems = [];
   for (let i = 0; i < values.length; i++) {
@@ -26,7 +27,7 @@ export const SelectInput = ({
   const labelId = React.useId();
 
   return (
-    <Tooltip title={description} followCursor enterDelay={300} leaveDelay={50} placement="left">
+    <InfoTooltip description={description} url={url}>
       <div className="input">
         <InputLabel id={labelId}>{label}</InputLabel>
         <Select
@@ -43,6 +44,6 @@ export const SelectInput = ({
           {menuItems}
         </Select>
       </div>
-    </Tooltip>
+    </InfoTooltip>
   );
 };

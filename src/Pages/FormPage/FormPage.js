@@ -34,7 +34,13 @@ const FormPage = () => {
     values: ["tile", "beaver", "trapez", "wave", "fold"],
   };
 
-  const loadIndexOptions = {
+
+  const windLoadIndexOptions = {
+    labels: ["24", "26", "30", "33"],
+    values: [1, 2, 3, 4],
+  };
+
+  const snowLoadIndexOptions = {
     labels: ["1", "2", "3", "4", "5"],
     values: [1, 2, 3, 4, 5],
   };
@@ -171,22 +177,24 @@ const FormPage = () => {
       />
 
       <RadioButtonInput
-        label={"Index predpokladanej záťaže vetrom"}
-        radioLabels={loadIndexOptions.labels}
-        values={loadIndexOptions.values}
+        label={"Predpokladaná zátaž vetrom vb0 v m/s"}
+        radioLabels={windLoadIndexOptions.labels}
+        values={windLoadIndexOptions.values}
         defaultValue={appState.windLoad}
         appDispatch={appDispatch}
         appDispatchAction={APP_ACTIONS.WIND_LOAD}
-        description={`Od indexu záťaže sa odvíja použitý montážny materiál.`}
+        description={`Od indexu záťaže sa odvíja použitý montážny materiál. Kliknutím sa dostanete na web, ktorý zdarma poskytuje informáciu o indexe zátaže na slovensku.`}
+        url="https://www.dlubal.com/en/load-zones-for-snow-wind-earthquake/wind-stn-en-1991-1-4.html"
       />
       <RadioButtonInput
         label={"Index predpokladanej záťaže snehom"}
-        radioLabels={loadIndexOptions.labels}
-        values={loadIndexOptions.values}
+        radioLabels={snowLoadIndexOptions.labels}
+        values={snowLoadIndexOptions.values}
         defaultValue={appState.snowLoad}
         appDispatch={appDispatch}
         appDispatchAction={APP_ACTIONS.SNOW_LOAD}
-        description={`Od indexu záťaže sa odvíja použitý montážny materiál.`}
+        description={`Od indexu záťaže sa odvíja použitý montážny materiál. Kliknutím sa dostanete na web, ktorý zdarma poskytuje informáciu o indexe zátaže na slovensku.`}
+        url="https://www.dlubal.com/en/load-zones-for-snow-wind-earthquake/snow-stn-en-1991-1-3.html"
       />
       <SliderInput
         label={"Výkonová rezerva striedača"}
