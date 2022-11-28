@@ -141,10 +141,12 @@ console.log("Server listening at port " + port);
 // DONE ->  spare rails
 //          fix bug when adding more powerfull invertor e.g 25kW, brokes the app when selected
 //          add protection devices to resources
-//          add possibility to change panel
+// DONE ->  add possibility to change panel
 //          websupport hosting
 //          change milimeters to meters in input fields
+//          add default contexts to resources
 //          performance issue when holding power reserve
+
 
 
 /*

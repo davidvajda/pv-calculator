@@ -78,7 +78,7 @@ const FormPage = () => {
       type: "hookRuster",
       payload: { value: materialState.hookRuster[appState.roofType] },
     });
-  }, [appState.roofType]);
+  }, [appState.roofType, materialState.hookRuster]);
 
   return (
     <div className="page-wrapper">

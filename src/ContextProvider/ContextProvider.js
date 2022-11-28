@@ -1,4 +1,3 @@
-import { TabPanelUnstyled } from "@mui/base";
 import React, { useReducer, createContext } from "react";
 
 import { useLocalStorage } from "../Hooks/useLocalStorage";
@@ -94,6 +93,15 @@ export const OUTPUT_ACTIONS = {
   FILL_USABLE_WIDTHS: "fillUsableWidths",
 };
 
+export const MATERIAL_ACTIONS = {
+  USE_DEFAULT_PANEL: "useDefaultPanel",
+  PANEL_WIDTH: "panelWidth",
+  PANEL_HEIGHT: "panelHeight",
+  PANEL_VOLTAGE: "panelVoltage",
+  PANEL_CURRENT: "panelCurrent",
+  PANEL_POWER: "panelPower",
+};
+
 export const ContextProvider = ({ children }) => {
   const changeAppState = (appState, action) => {
     switch (action.type) {
@@ -166,16 +174,21 @@ export const ContextProvider = ({ children }) => {
         };
       case OUTPUT_ACTIONS.FILL_USABLE_WIDTHS:
         let roofWidth = 600; // safe distance from left and right
-        
-        const widestPanelRow = Math.max(...panelsReference)
+
+        const widestPanelRow = Math.max(...panelsReference);
         const panelWidth = materialState.panelWidth;
-        
-        const newUsableWidths = Array(panelsReference.length).fill(roofWidth + (widestPanelRow * panelWidth))
+
+        const newUsableWidths = Array(panelsReference.length).fill(
+          roofWidth + widestPanelRow * panelWidth
+        );
 
         return {
           ...outputState,
-          panelLayout: { ...outputState.panelLayout, usableWidths: [...newUsableWidths] },
-        }
+          panelLayout: {
+            ...outputState.panelLayout,
+            usableWidths: [...newUsableWidths],
+          },
+        };
       case OUTPUT_ACTIONS.PANEL_LAYOUT:
         return { ...outputState, panelLayout: action.payload.value };
       case OUTPUT_ACTIONS.MOUNTING_MATERIAL:
@@ -206,8 +219,62 @@ export const ContextProvider = ({ children }) => {
     }
   };
 
-  const [materialState, setMaterialState] = useLocalStorage(
-    "materialContext",
+  const changeMaterialState = (materialState, action) => {
+    switch (action.type) {
+      case MATERIAL_ACTIONS.USE_DEFAULT_PANEL:
+        return materialState.useDefaultPanel
+          ? {
+              ...materialState,
+              useDefaultPanel: false,
+            }
+          : {
+              ...materialState,
+              useDefaultPanel: true,
+              panelWidth: defaultMaterialContext.panelWidth,
+              panelHeight: defaultMaterialContext.panelHeight,
+              panelVoltage: defaultMaterialContext.panelVoltage,
+              panelCurrent: defaultMaterialContext.panelCurrent,
+              panelPower: defaultMaterialContext.panelPower,
+            };
+      case MATERIAL_ACTIONS.ROTATE_PANEL:
+        return {
+          ...materialState,
+          panelWidth: materialState.panelHeight,
+          panelHeight: materialState.panelWidth,
+        };
+      case MATERIAL_ACTIONS.PANEL_WIDTH:
+        return {
+          ...materialState,
+          panelWidth: action.payload.value,
+        };
+      case MATERIAL_ACTIONS.PANEL_HEIGHT:
+        return {
+          ...materialState,
+          panelHeight: action.payload.value,
+        };
+      case MATERIAL_ACTIONS.PANEL_VOLTAGE:
+        return {
+          ...materialState,
+          panelVoltage: action.payload.value,
+        };
+      case MATERIAL_ACTIONS.PANEL_CURRENT:
+        return {
+          ...materialState,
+          panelCurrent: action.payload.value,
+        };
+      case MATERIAL_ACTIONS.PANEL_POWER:
+        return {
+          ...materialState,
+          panelPower: action.payload.value,
+        };
+
+      default:
+        return materialState;
+    }
+  };
+
+  const [materialState, materialDispatch] = useReducer(
+    changeMaterialState,
     defaultMaterialContext
   );
 
@@ -221,7 +288,7 @@ export const ContextProvider = ({ children }) => {
   return (
     <AppStateContext.Provider value={{ appState, appDispatch }}>
       <MaterialStateContext.Provider
-        value={{ materialState, setMaterialState }}
+        value={{ materialState, materialDispatch }}
       >
         <OutputContext.Provider value={{ outputState, outputDispatch }}>
           <StepsContext.Provider value={{ steps }}>
