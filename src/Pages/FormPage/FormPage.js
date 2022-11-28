@@ -66,7 +66,8 @@ const FormPage = () => {
           appDispatchAction={OUTPUT_ACTIONS.CHANGE_AMOUNT_IN_ROW}
           type={"number"}
           size={"small"}
-          description={`Počet panelov v ${i}. rade`}
+          withoutMargin={true}
+          max={20}
         />
       );
     }
@@ -110,6 +111,7 @@ const FormPage = () => {
             appDispatchAction={OUTPUT_ACTIONS.CHANGE_ROW_AMOUNT}
             type={"number"}
             description={`Počet radov panelov.`}
+            max={20}
           />
           <div className="row-inputs">
             {renderRowInputs(outputState.panelLayout.panels.length)}
@@ -128,56 +130,66 @@ const FormPage = () => {
           />
           {appState.roofShape === "trapezoid" ? (
             <TextInput
-              label={"Šírka strechy vrch [mm]"}
-              value={appState.roofWidthTop}
+              label={"Šírka strechy vrch [m]"}
+              value={appState.roofWidthTop / 1000}
               appDispatch={appDispatch}
               appDispatchAction={APP_ACTIONS.ROOF_WIDTH_TOP}
               type={"number"}
-              description={`Šírka vrchnej hrany strechy v milimetroch.`}
+              max={100}
+              ratio={[1, 1000]}
+              description={`Šírka vrchnej hrany strechy v metroch.`}
             />
           ) : null}
 
           <TextInput
-            label={"Šírka strechy [mm]"}
-            value={appState.roofWidthBottom}
+            label={"Šírka strechy [m]"}
+            value={appState.roofWidthBottom / 1000}
             appDispatch={appDispatch}
             appDispatchAction={APP_ACTIONS.ROOF_WIDTH}
             type={"number"}
-            description={`Šírka strechy v milimetroch.`}
+            max={100}
+            ratio={[1, 1000]}
+            description={`Šírka strechy v metroch.`}
           />
           <TextInput
-            label={"Výška strechy [mm]"}
-            value={appState.roofHeight}
+            label={"Výška strechy [m]"}
+            value={appState.roofHeight / 1000}
             appDispatch={appDispatch}
             appDispatchAction={APP_ACTIONS.ROOF_HEIGHT}
             type={"number"}
-            description={`Výška strehcy v milimetroch. Výškou je myslená dĺžka povrchu, na ktorej budú panely umiestnené.`}
+            max={100}
+            ratio={[1, 1000]}
+            description={`Výška strehcy v metroch. Výškou je myslená dĺžka povrchu, na ktorej budú panely umiestnené.`}
           />
         </>
       )}
 
       <TextInput
-        label={"Max. povolený výkon [Wp]"}
-        value={appState.maxPlantPower}
+        label={"Max. povolený výkon [kWp]"}
+        value={appState.maxPlantPower / 1000}
         appDispatch={appDispatch}
         appDispatchAction={APP_ACTIONS.MAX_POWER}
         type={"number"}
-        description={`Ak je zadaná hodnota (vo Wp), vyráta sa počet panelov neprekračujúci zadanú hodnotu. 
+        max={100}
+        ratio={[1, 1000]}
+        description={`Ak je zadaná hodnota (v kWp), vyráta sa počet panelov neprekračujúci zadanú hodnotu. 
           Ak hodnota zadaná nie je, výpočet prebehne bez obomedzenia.`}
       />
       <TextInput
-        label={"Rozteč trámov, falcov [mm]"}
-        value={appState.hookRuster}
+        label={"Rozteč trámov, falcov [m]"}
+        value={appState.hookRuster / 1000}
         appDispatch={appDispatch}
         appDispatchAction={APP_ACTIONS.HOOK_RUSTER}
         type={"number"}
+        ratio={[1, 1000]}
+        max={3}
         description={`Montážne háky/držiaky sa používajú na každý tám, 
           preto je pre vyrátanie správneho počtu držiakov dôležité určiť rozteč trámov.
-          Rozmer sa zadáva v milimetroch kvôli lepšej presnosti výpočtu.`}
+          Rozmer sa zadáva v metroch kvôli lepšej presnosti výpočtu.`}
       />
 
       <RadioButtonInput
-        label={"Predpokladaná zátaž vetrom vb0 v m/s"}
+        label={"Predpokladaná zátaž vetrom vb0 [m/s]"}
         radioLabels={windLoadIndexOptions.labels}
         values={windLoadIndexOptions.values}
         defaultValue={appState.windLoad}

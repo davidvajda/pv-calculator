@@ -395,6 +395,7 @@ code {
   flex-wrap: wrap;
   justify-content: center;
   max-width: 21em;
+  margin-right: 40px;
 }
 
 .small-input {

@@ -5,9 +5,13 @@ import { InfoOutlined } from "@mui/icons-material";
 
 import Tooltip from "@mui/material/Tooltip";
 
-const UrlWrapper = ({ children, url }) => {
+const UrlWrapper = ({ children, url, withoutMargin }) => {
   return url === "#" ? (
-    <div className="div-4040">{children}</div>
+    withoutMargin ? (
+      <>{children}</>
+    ) : (
+      <div className="div-4040">{children}</div>
+    )
   ) : (
     <a href={url} target="_blanc">
       <IconButton color="info">{children}</IconButton>
@@ -23,14 +27,23 @@ const TooltipWrapper = ({ children, description }) => {
   );
 };
 
-const InfoTooltip = ({ children, description, url = "#" }) => {
+const InfoTooltip = ({
+  children,
+  description,
+  url = "#",
+  withoutMargin = false,
+}) => {
   return (
     <div className="tooltip-wrapper">
       {children}
-      <UrlWrapper url={url}>
+      <UrlWrapper url={url} withoutMargin={withoutMargin}>
         <TooltipWrapper description={description}>
           {description === undefined ? (
-            <div className="div-4040"></div>
+            withoutMargin ? (
+              <></>
+            ) : (
+              <div className="div-4040"></div>
+            )
           ) : (
             <InfoOutlined />
           )}

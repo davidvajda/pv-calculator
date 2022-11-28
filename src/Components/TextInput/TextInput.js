@@ -13,21 +13,32 @@ export const TextInput = ({
   size = "regular",
   disabled,
   description,
-  url
+  url,
+  withoutMargin,
+  min = 0,
+  max,
+  ratio = [1, 1],
 }) => {
   const numberappDispatch = (value) => {
-    const numericValue = parseInt(value);
-    if (numericValue < 0 || value === "") {
-      return appDispatch({
-        type: appDispatchAction,
-        payload: { value: 0, idx: idx },
-      });
-    } else {
-      return appDispatch({
-        type: appDispatchAction,
-        payload: { value: numericValue, idx: idx },
-      });
+    let numericValue = parseFloat(value);
+    let ratioMax = max;
+    let ratioMin = min;
+
+    if (ratio[0] !== ratio[1]) {
+      numericValue = (numericValue / ratio[0]) * ratio[1];
+      ratioMax = (max / ratio[0]) * ratio[1]
+      ratioMin = (min / ratio[0]) * ratio[1]
     }
+
+    const dispatchObject = {
+      type: appDispatchAction,
+      payload: { value: numericValue, idx: idx },
+    };
+
+    if (numericValue < ratioMin || value === "") dispatchObject.payload.value = ratioMin;
+    else if (numericValue > ratioMax) dispatchObject.payload.value = ratioMax;
+
+    return appDispatch(dispatchObject);
   };
 
   const textappDispatch = (value) => {
@@ -36,7 +47,11 @@ export const TextInput = ({
 
   return (
     <>
-      <InfoTooltip description={description} url={url} >
+      <InfoTooltip
+        description={description}
+        url={url}
+        withoutMargin={withoutMargin}
+      >
         <div className={size === "small" ? "small-input" : "input"}>
           <TextField
             disabled={disabled}

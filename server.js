@@ -143,14 +143,6 @@ console.log("Server listening at port " + port);
 //          add protection devices to resources
 // DONE ->  add possibility to change panel
 //          websupport hosting
-//          change milimeters to meters in input fields
+// DONE ->  change milimeters to meters in input fields
 //          add default contexts to resources
 //          performance issue when holding power reserve
-
-
-
-/*
-  use import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'; and tooltip component
-  to create custom component in which you'll wrap input components, it will be displayed only when description or/and
-  url (to make it clickable) will be provided
-*/
