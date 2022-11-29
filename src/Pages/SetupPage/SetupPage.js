@@ -46,6 +46,9 @@ const renderResource = (resource, setState, resourceName) => {
     return <></>;
   }
 
+  const intKeyNamesToParse = ["panelWidth", "panelHeight", "panelPower"];
+  const floatKeyNamesToParse = ["panelVoltage", "panelCurrent"];
+
   const resourceRows = [];
   for (const [key, values] of Object.entries(resource)) {
     const valueElements = values.map((item, idx) => (
@@ -53,11 +56,18 @@ const renderResource = (resource, setState, resourceName) => {
         <input
           key={idx}
           maxLength={10}
+          type={intKeyNamesToParse.includes(key) || floatKeyNamesToParse.includes(key) ? "number" : "text"}
           value={item ? item : ""}
           onChange={(e) => {
             setState((prev) => {
               const newResource = { ...prev };
-              newResource[key][idx] = e.target.value;
+              if (intKeyNamesToParse.includes(key)) {
+                newResource[key][idx] = parseInt(e.target.value);
+              } else if (floatKeyNamesToParse.includes(key)) {
+                newResource[key][idx] = parseFloat(e.target.value);
+              } else {
+                newResource[key][idx] = e.target.value;
+              }
               return newResource;
             });
           }}
@@ -78,18 +88,18 @@ const renderResource = (resource, setState, resourceName) => {
     <div>
       <table>
         <tbody>
-          <th colSpan={6}>
-            <b>{resourceName}:</b>
-          </th>
+          <tr>
+            <th colSpan={6}>
+              <b>{resourceName}:</b>
+            </th>
+          </tr>
           <tr>
             <td>
               <b>Load index:</b>
             </td>
-            <td>1</td>
-            <td>2</td>
-            <td>3</td>
-            <td>4</td>
-            <td>5</td>
+            {Object.values(resource)[0].map((item, idx) => (
+              <td key={idx}>{idx + 1}</td>
+            ))}
           </tr>
           {resourceRows}
         </tbody>
@@ -112,6 +122,7 @@ const renderInvertors = (invertorsJson, setInvertorsState) => {
     "maxCurrent",
     "mppt",
   ];
+
   const intArrayNamesToParse = ["dcInputs"];
 
   return invertorsJson.map((invertorObject, invertorIdx) => {
@@ -221,11 +232,23 @@ const MaterialPage = () => {
   const [hooks, setHooks] = useState();
   const [rails, setRails] = useState();
   const [others, setOthers] = useState();
+  const [protectionDevices, setProtectionDevices] = useState();
+  const [panel, setPanel] = useState();
+
+  const states = [
+    { st: hooks, fn: setHooks, fl: "hooks.json" },
+    { st: rails, fn: setRails, fl: "rails.json" },
+    { st: others, fn: setOthers, fl: "others.json" },
+    {
+      st: protectionDevices,
+      fn: setProtectionDevices,
+      fl: "protectionDevices.json",
+    },
+    { st: panel, fn: setPanel, fl: "panel.json" },
+  ];
 
   useEffect(() => {
-    getResource("test", setHooks, "hooks.json");
-    getResource("test", setRails, "rails.json");
-    getResource("test", setOthers, "others.json");
+    states.forEach((stObj) => getResource("test", stObj.fn, stObj.fl));
   }, []);
 
   return (
@@ -233,9 +256,7 @@ const MaterialPage = () => {
       <button
         onClick={(e) => {
           e.preventDefault();
-          setResource("test", hooks, "hooks.json");
-          setResource("test", rails, "rails.json");
-          setResource("test", others, "others.json");
+          states.forEach((stObj) => setResource("test", stObj.st, stObj.fl));
         }}
       >
         Save modified material
@@ -253,9 +274,7 @@ const MaterialPage = () => {
         Reset material to default values
       </button>
       <div className="resource-table-wrapper">
-        {renderResource(hooks, setHooks, "hooks.json")}
-        {renderResource(rails, setRails, "rails.json")}
-        {renderResource(others, setOthers, "others.json")}
+        {states.map((stObj) => renderResource(stObj.st, stObj.fn, stObj.fl))}
       </div>
     </>
   );

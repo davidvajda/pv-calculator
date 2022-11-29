@@ -54,10 +54,14 @@ const resetResources = () => {
   const hooks = defaults.hooks;
   const rails = defaults.rails;
   const others = defaults.others;
+  const protectionDevices = defaults.protectionDevices;
+  const panel = defaults.panel;
 
   writeFile("hooks.json", hooks);
   writeFile("rails.json", rails);
   writeFile("others.json", others);
+  writeFile("protectionDevices.json", protectionDevices);
+  writeFile("panel.json", panel);
 };
 
 app.get("/", (req, res) => {
@@ -147,5 +151,5 @@ console.log("Server listening at port " + port);
 //          fix bug when adding more powerfull invertor e.g 25kW, brokes the app when selected
 //          performance issue when holding power reserve
 //          don't allow user to continue if some fields are not filled
-//          setup page protection devices and default context 
+//          setup page protection devices and panel 
 //          websupport hosting

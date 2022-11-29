@@ -5,9 +5,20 @@ export const MaterialStateContext = createContext();
 export const OutputContext = createContext();
 export const StepsContext = createContext();
 
-const defaultAppContext = require("../resources/appContext.json")
+const defaultAppContext = require("../resources/appContext.json");
 const defaultMaterialContext = require("../resources/materialContext.json");
-const defaultOutputContext = require("../resources/outputContext.json")
+const defaultOutputContext = require("../resources/outputContext.json");
+const panel = require("../resources/panel.json");
+
+[
+  "panelWidth",
+  "panelHeight",
+  "panelVoltage",
+  "panelCurrent",
+  "panelPower",
+].forEach(
+  (attribute) => (defaultMaterialContext[attribute] = panel[attribute][0])
+);
 
 export const APP_ACTIONS = {
   MANUAL_PANEL_AMOUNTS: "manualPanelAmounts",
@@ -245,7 +256,7 @@ export const ContextProvider = ({ children }) => {
         value={{ materialState, materialDispatch }}
       >
         <OutputContext.Provider value={{ outputState, outputDispatch }}>
-            {children}
+          {children}
         </OutputContext.Provider>
       </MaterialStateContext.Provider>
     </AppStateContext.Provider>

@@ -29,10 +29,19 @@
     ]
   }, 
   "protectionDevices": {
-    "spdSet": ["PVP10001--", "PVP10002--"],
+    "box": ["PVP10001--", "PVP10002--"],
     "spd": ["IS01111100", null],
     "mcb": ["BM015216--", null],
     "fuseHolder": ["IS506122-A", null],
     "fuse": ["ISV10016--", null]
+  },
+  "panel" : {
+    "orderNumbers": ["PVM44150-S"],
+    "descriptions": ["Fotovoltický panel EXE solar 415W, mono"],
+    "panelWidth": [1134],
+    "panelHeight": [1722],
+    "panelVoltage": [31.8],
+    "panelCurrent": [10.55],
+    "panelPower": [415]
   }
 }

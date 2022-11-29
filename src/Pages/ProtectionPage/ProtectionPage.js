@@ -13,7 +13,7 @@ const OutputPage = () => {
   const { outputState } = useContext(OutputContext);
 
   const overcurrentDevice = {
-    labels: ["Istič BM015216--", "Odpínač IS506122-A s poistkou"],
+    labels: ["Istič pre fotovoltiku", "Poistkový odpínač a poistky pre fotovoltiku"],
     values: ["mcb", "fuse"],
   };
 
