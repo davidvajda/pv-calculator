@@ -54,14 +54,11 @@ const OutputPage = () => {
     appState.snowLoad,
     appState.windLoad
   );
-
   const protectionDevices = getProtectionDevices(
     outputState.invertors.stringDivisions,
     appState.overvoltageDevice,
     appState.overcurrentDevice
   );
-  console.log(protectionDevices)
-
   const formatCsvData = (obj1, obj2, obj3, inv) => {
     const object3 =
       typeof obj3 === "undefined"
@@ -113,11 +110,17 @@ const OutputPage = () => {
     return csvData;
   };
 
-  const defaultPanel = {
-    orderNumbers: ["PVM44150-S"],
-    amounts: [countPanels(outputState.panelLayout.panels)],
-    descriptions: ["Fotovoltický panel EXE solar 415W, mono"],
-  };
+  const defaultPanel = require("../../resources/panel.json");
+  const panelPower = materialState.panelPower;
+
+  const panel =
+    materialState.useDefaultPanel && defaultPanel
+      ? defaultPanel
+      : {
+          orderNumbers: ["PANEL-----"],
+          descriptions: [`Fotovoltický panel ${panelPower}Wp`],
+        };
+  panel.amounts = [countPanels(outputState.panelLayout.panels)];
 
   return (
     <div className="page-wrapper">
@@ -126,7 +129,7 @@ const OutputPage = () => {
           {outputState.invertors.invertor
             ? renderInvertor(outputState.invertors.invertor)
             : null}
-          {defaultPanel ? renderCards(defaultPanel) : null}
+          {panel ? renderCards(panel) : null}
           {protectionDevices ? renderCards(protectionDevices) : null}
         </div>
         <div className="output-component-items">
@@ -136,7 +139,7 @@ const OutputPage = () => {
       <div className="download-button-wrapper">
         <CSVLink
           data={formatCsvData(
-            defaultPanel,
+            panel,
             mountingMaterial,
             protectionDevices,
             outputState.invertors.invertor
