@@ -1,0 +1,17 @@
+{
+    "useDefaultPanel": true,
+    "panelWidth": 1134,
+    "panelHeight": 1722,
+    "panelVoltage": 31.8,
+    "panelCurrent": 10.55,
+    "panelPower": 415,
+    "railLength": 4300,
+    "hookRuster": {
+      "tile": 800,
+      "beaver": 800,
+      "wave": 500,
+      "fold": 500,
+      "trapez": 800
+    },
+    "bracketWidth": 20
+  }

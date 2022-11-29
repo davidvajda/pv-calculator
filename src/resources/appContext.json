@@ -1,0 +1,17 @@
+{
+    "screen": 0,
+    "roofHeight": 0,
+    "roofWidthBottom": 0,
+    "roofWidthTop": 0,
+    "hookRuster": 800,
+    "snowLoad": 1,
+    "windLoad": 1,
+    "roofShape": "rectangle",
+    "roofType": "tile",
+    "maxPlantPower": 0,
+    "allowPowerReserve": true,
+    "powerReserve": 0,
+    "manualPanelAmounts": false,
+    "overcurrentDevice": "mcb",
+    "overvoltageDevice": "box"
+  }

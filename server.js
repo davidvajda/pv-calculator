@@ -139,11 +139,12 @@ console.log("Server listening at port " + port);
 // DONE ->  map of load
 // DONE -> replace mcb with fuse holder + fuses
 // DONE ->  spare rails
-//          fix bug when adding more powerfull invertor e.g 25kW, brokes the app when selected
-//          add protection devices to resources
+// DONE ->  add protection devices to resources
 // DONE ->  add possibility to change panel
-//          websupport hosting
 // DONE ->  change milimeters to meters in input fields
-//          add default contexts to resources
+// DONE ->  add default contexts to resources
+//          fix bug when adding more powerfull invertor e.g 25kW, brokes the app when selected
 //          performance issue when holding power reserve
 //          don't allow user to continue if some fields are not filled
+//          setup page protection devices and default context 
+//          websupport hosting

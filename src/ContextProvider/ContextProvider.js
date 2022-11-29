@@ -5,63 +5,9 @@ export const MaterialStateContext = createContext();
 export const OutputContext = createContext();
 export const StepsContext = createContext();
 
-const defaultAppContext = {
-  screen: 0,
-  roofHeight: 0,
-  roofWidthBottom: 0,
-  roofWidthTop: 0,
-  hookRuster: 800,
-  snowLoad: 1,
-  windLoad: 1,
-  roofShape: "rectangle",
-  roofType: "tile",
-  maxPlantPower: 0,
-  allowPowerReserve: true,
-  powerReserve: 0,
-  manualPanelAmounts: false,
-  overcurrentDevice: "mcb",
-  overvoltageDevice: "box",
-};
-
-const defaultMaterialContext = {
-  useDefaultPanel: true,
-  panelWidth: 1134,
-  panelHeight: 1722,
-  panelVoltage: 31.8,
-  panelCurrent: 10.55,
-  panelPower: 415,
-  railLength: 4300,
-  hookRuster: {
-    tile: 800,
-    beaver: 800,
-    wave: 500,
-    fold: 500,
-    trapez: 800,
-  },
-  bracketWidth: 20,
-};
-
-const defaultOutputContext = {
-  panelLayout: {
-    panels: [],
-    usableWidths: [],
-    panelsFromTop: false,
-  },
-  invertors: {
-    invertor: {},
-    stringDivisions: [],
-  },
-  mountingMaterial: {
-    orderNumbers: [],
-    descriptions: [],
-    amounts: [],
-  },
-};
-
-const steps = {
-  labels: ["Informácie o streche", "Použitý panel", "Návrh strechy"],
-  screens: ["roof", "panel", "canvas", "output"],
-};
+const defaultAppContext = require("../resources/appContext.json")
+const defaultMaterialContext = require("../resources/materialContext.json");
+const defaultOutputContext = require("../resources/outputContext.json")
 
 export const APP_ACTIONS = {
   MANUAL_PANEL_AMOUNTS: "manualPanelAmounts",
@@ -299,9 +245,7 @@ export const ContextProvider = ({ children }) => {
         value={{ materialState, materialDispatch }}
       >
         <OutputContext.Provider value={{ outputState, outputDispatch }}>
-          <StepsContext.Provider value={{ steps }}>
             {children}
-          </StepsContext.Provider>
         </OutputContext.Provider>
       </MaterialStateContext.Provider>
     </AppStateContext.Provider>
