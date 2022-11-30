@@ -181,6 +181,7 @@ const FormPage = () => {
         appDispatch={appDispatch}
         appDispatchAction={APP_ACTIONS.HOOK_RUSTER}
         type={"number"}
+        step={0.1}
         ratio={[1, 1000]}
         max={3}
         description={`Montážne háky/držiaky sa používajú na každý tám, 

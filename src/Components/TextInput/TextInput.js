@@ -17,6 +17,7 @@ export const TextInput = ({
   withoutMargin,
   min = 0,
   max,
+  step = 1,
   ratio = [1, 1],
 }) => {
   const numberappDispatch = (value) => {
@@ -26,8 +27,8 @@ export const TextInput = ({
 
     if (ratio[0] !== ratio[1]) {
       numericValue = (numericValue / ratio[0]) * ratio[1];
-      ratioMax = (max / ratio[0]) * ratio[1]
-      ratioMin = (min / ratio[0]) * ratio[1]
+      ratioMax = (max / ratio[0]) * ratio[1];
+      ratioMin = (min / ratio[0]) * ratio[1];
     }
 
     const dispatchObject = {
@@ -35,7 +36,8 @@ export const TextInput = ({
       payload: { value: numericValue, idx: idx },
     };
 
-    if (numericValue < ratioMin || value === "") dispatchObject.payload.value = ratioMin;
+    if (numericValue < ratioMin || value === "")
+      dispatchObject.payload.value = ratioMin;
     else if (numericValue > ratioMax) dispatchObject.payload.value = ratioMax;
 
     return appDispatch(dispatchObject);
@@ -60,6 +62,7 @@ export const TextInput = ({
             value={value === 0 || value === "" ? "" : value}
             variant="standard"
             type={type}
+            inputProps={{ step: step }}
             onChange={(e) => {
               type === "number"
                 ? numberappDispatch(e.target.value)

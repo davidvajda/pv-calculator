@@ -141,13 +141,14 @@ console.log("Server listening at port " + port);
 // DONE ->  option to make roof for x rows with x1, x2, x3.. xn panels
 // DONE ->  back button on last page 
 // DONE ->  map of load
-// DONE -> replace mcb with fuse holder + fuses
+// DONE ->  replace mcb with fuse holder + fuses
 // DONE ->  spare rails
 // DONE ->  add protection devices to resources
 // DONE ->  add possibility to change panel
 // DONE ->  change milimeters to meters in input fields
 // DONE ->  add default contexts to resources
 // DONE ->  add panel to resources
+//          fix bug when entering a float and , instead of .
 //          fix bug when adding more powerfull invertor e.g 25kW, brokes the app when selected
 //          performance issue when holding power reserve
 //          don't allow user to continue if some fields are not filled
