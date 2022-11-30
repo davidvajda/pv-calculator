@@ -1,26 +1,13 @@
-import React, { useReducer, createContext } from "react";
+import React, { useState, useEffect, useReducer, createContext } from "react";
+import axios from "axios";
 
 export const AppStateContext = createContext();
 export const MaterialStateContext = createContext();
 export const OutputContext = createContext();
-export const StepsContext = createContext();
-
-const defaultAppContext = require("../resources/appContext.json");
-const defaultMaterialContext = require("../resources/materialContext.json");
-const defaultOutputContext = require("../resources/outputContext.json");
-const panel = require("../resources/panel.json");
-
-[
-  "panelWidth",
-  "panelHeight",
-  "panelVoltage",
-  "panelCurrent",
-  "panelPower",
-].forEach(
-  (attribute) => (defaultMaterialContext[attribute] = panel[attribute][0])
-);
 
 export const APP_ACTIONS = {
+  SET_DEFAULT_VALUE: "setDefaultValue",
+
   MANUAL_PANEL_AMOUNTS: "manualPanelAmounts",
   POWER_RESERVE: "powerReserve",
   ROOF_HEIGHT: "roofHeight",
@@ -45,6 +32,7 @@ export const APP_ACTIONS = {
 };
 
 export const OUTPUT_ACTIONS = {
+  SET_DEFAULT_VALUE: "setDefaultValue",
   PANEL_LAYOUT: "panelLayout",
   MOUNTING_MATERIAL: "mountingMaterial",
   INVERTOR_MATERIAL: "invertorMaterial",
@@ -55,6 +43,7 @@ export const OUTPUT_ACTIONS = {
 };
 
 export const MATERIAL_ACTIONS = {
+  SET_DEFAULT_VALUE: "setDefaultValue",
   USE_DEFAULT_PANEL: "useDefaultPanel",
   PANEL_WIDTH: "panelWidth",
   PANEL_HEIGHT: "panelHeight",
@@ -63,10 +52,54 @@ export const MATERIAL_ACTIONS = {
   PANEL_POWER: "panelPower",
 };
 
+const getResource = (setState, resourceName) => {
+  const port = process.env.PORT || 8080;
+  axios
+    .post(`http://127.0.0.1:${port}/get_resource`, {
+      resourceName: resourceName,
+    })
+    .then((res) => {
+      setState(res.data);
+      return res.data;
+    })
+    .catch((err) => {
+      return {};
+    });
+};
+
 export const ContextProvider = ({ children }) => {
+  const [defaultApp, setDefaultApp] = useState({});
+  const [defaultMaterial, setDefaultMaterial] = useState({});
+  const [defaultOutput, setDefaultOutput] = useState({});
+  const [defaultPanel, setDefaultPanel] = useState({});
+
+  useEffect(() => {
+    getResource(setDefaultApp, "appContext.json");
+    getResource(setDefaultMaterial, "materialContext.json");
+    getResource(setDefaultOutput, "outputContext.json");
+    getResource(setDefaultPanel, "panel.json");
+  }, []);
+
+  useEffect(() => {
+    appDispatch({
+      type: APP_ACTIONS.SET_DEFAULT_VALUE,
+      payload: { value: defaultApp },
+    });
+    materialDispatch({
+      type: MATERIAL_ACTIONS.SET_DEFAULT_VALUE,
+      payload: { materialValue: defaultMaterial, panelValue: defaultPanel },
+    });
+    outputDispatch({
+      type: OUTPUT_ACTIONS.SET_DEFAULT_VALUE,
+      payload: { value: defaultOutput },
+    });
+  }, [defaultApp, defaultMaterial, defaultOutput, defaultPanel]);
+
   const changeAppState = (appState, action) => {
     switch (action.type) {
       // inputs
+      case APP_ACTIONS.SET_DEFAULT_VALUE:
+        return action.payload.value;
       case APP_ACTIONS.MANUAL_PANEL_AMOUNTS:
         return {
           ...appState,
@@ -106,7 +139,7 @@ export const ContextProvider = ({ children }) => {
       case APP_ACTIONS.PREV_SCREEN:
         return { ...appState, screen: appState.screen - 1 };
       case APP_ACTIONS.RESET_FORM:
-        return defaultAppContext;
+        return defaultApp;
 
       default:
         return appState;
@@ -114,16 +147,16 @@ export const ContextProvider = ({ children }) => {
   };
 
   const changeOutputState = (outputState, action) => {
-    const panelsReference = outputState.panelLayout.panels;
-
     switch (action.type) {
+      case OUTPUT_ACTIONS.SET_DEFAULT_VALUE:
+        return action.payload.value;
       case OUTPUT_ACTIONS.CHANGE_ROW_AMOUNT:
         const targetAmount = action.payload.value;
         const panelArray = Array(targetAmount)
           .fill(0)
           .map((_, i) => {
-            if (i < panelsReference.length) {
-              return panelsReference[i];
+            if (i < outputState.panelLayout.panels.length) {
+              return outputState.panelLayout.panels[i];
             }
             return 0;
           });
@@ -143,12 +176,12 @@ export const ContextProvider = ({ children }) => {
       case OUTPUT_ACTIONS.FILL_USABLE_WIDTHS:
         let roofWidth = 600; // safe distance from left and right
 
-        const widestPanelRow = Math.max(...panelsReference);
+        const widestPanelRow = Math.max(...outputState.panelLayout.panels);
         const panelWidth = materialState.panelWidth;
 
-        const newUsableWidths = Array(panelsReference.length).fill(
-          roofWidth + widestPanelRow * panelWidth
-        );
+        const newUsableWidths = Array(
+          outputState.panelLayout.panels.length
+        ).fill(roofWidth + widestPanelRow * panelWidth);
 
         return {
           ...outputState,
@@ -189,6 +222,21 @@ export const ContextProvider = ({ children }) => {
 
   const changeMaterialState = (materialState, action) => {
     switch (action.type) {
+      case MATERIAL_ACTIONS.SET_DEFAULT_VALUE:
+        const panelValue = action.payload.panelValue;
+        const materialValue = action.payload.materialValue;
+        return Object.keys(panelValue).length !== 0
+          ? {
+              ...materialValue,
+              panelWidth: panelValue.panelWidth[0],
+              panelHeight: panelValue.panelHeight[0],
+              panelVoltage: panelValue.panelVoltage[0],
+              panelCurrent: panelValue.panelCurrent[0],
+              panelPower: panelValue.panelPower[0],
+            }
+          : Object.keys(materialValue).length !== 0
+          ? materialValue
+          : {};
       case MATERIAL_ACTIONS.USE_DEFAULT_PANEL:
         return materialState.useDefaultPanel
           ? {
@@ -198,11 +246,11 @@ export const ContextProvider = ({ children }) => {
           : {
               ...materialState,
               useDefaultPanel: true,
-              panelWidth: defaultMaterialContext.panelWidth,
-              panelHeight: defaultMaterialContext.panelHeight,
-              panelVoltage: defaultMaterialContext.panelVoltage,
-              panelCurrent: defaultMaterialContext.panelCurrent,
-              panelPower: defaultMaterialContext.panelPower,
+              panelWidth: defaultMaterial.panelWidth,
+              panelHeight: defaultMaterial.panelHeight,
+              panelVoltage: defaultMaterial.panelVoltage,
+              panelCurrent: defaultMaterial.panelCurrent,
+              panelPower: defaultMaterial.panelPower,
             };
       case MATERIAL_ACTIONS.ROTATE_PANEL:
         return {
@@ -241,27 +289,43 @@ export const ContextProvider = ({ children }) => {
     }
   };
 
+  const [appState, appDispatch] = useReducer(changeAppState, defaultApp);
   const [materialState, materialDispatch] = useReducer(
     changeMaterialState,
-    defaultMaterialContext
+    defaultMaterial
   );
 
   const [outputState, outputDispatch] = useReducer(
     changeOutputState,
-    defaultOutputContext
+    defaultOutput
   );
 
-  const [appState, appDispatch] = useReducer(changeAppState, defaultAppContext);
+  const isAppLoaded = () => {
+    if (
+      Object.keys(appState).length !== 0 &&
+      Object.keys(materialState).length !== 0 &&
+      Object.keys(outputState).length !== 0
+    ) {
+      return true;
+    }
+    return false;
+  };
 
-  return (
-    <AppStateContext.Provider value={{ appState, appDispatch }}>
-      <MaterialStateContext.Provider
-        value={{ materialState, materialDispatch }}
-      >
-        <OutputContext.Provider value={{ outputState, outputDispatch }}>
-          {children}
-        </OutputContext.Provider>
-      </MaterialStateContext.Provider>
-    </AppStateContext.Provider>
+  return isAppLoaded() ? (
+    <>
+      <AppStateContext.Provider value={{ appState, appDispatch }}>
+        <MaterialStateContext.Provider
+          value={{ materialState, materialDispatch }}
+        >
+          <OutputContext.Provider value={{ outputState, outputDispatch }}>
+            {children}
+          </OutputContext.Provider>
+        </MaterialStateContext.Provider>
+      </AppStateContext.Provider>
+    </>
+  ) : (
+    <>
+      waiting<></>
+    </>
   );
 };

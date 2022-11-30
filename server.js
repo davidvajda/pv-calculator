@@ -15,15 +15,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(__dirname));
 app.use(express.static(path.join(__dirname, "build")));
 
-const AVAILABLE_RESOURCES = [
-  "hooks.json",
-  "invertors.json",
-  "others.json",
-  "rails.json",
-  "defaultResources.json",
-  "invertorStructure.json",
-];
-
 const checkEnvPassword = (pass) => {
   const servicePassword = process.env["SERVICE_PASSWORD"];
   return servicePassword === pass ? true : false;
@@ -81,27 +72,15 @@ app.post("/authenticate", (req, res) => {
   res.sendStatus(200);
 });
 
-app.get("/get_available_resources", (req, res) => {
-  res.json(AVAILABLE_RESOURCES);
-  return;
-});
 
 app.post("/get_resource", (req, res) => {
   const resourceName = req.body["resourceName"];
-  const adminPassword = req.body["adminPassword"]
-
-  if (resourceName === undefined || !checkEnvPassword(adminPassword)) {
-    res.sendStatus(400);
-    return;
-  }
-
   const resource = readFile(`./src/resources/${resourceName}`);
   res.json(resource);
 });
 
 app.post("/set_resource", (req, res) => {
   const resourceName = req.body["resourceName"];
-
 
   if (resourceName === undefined) {
     res.sendStatus(400);
