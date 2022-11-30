@@ -19,6 +19,7 @@ export const TextInput = ({
   max,
   step = 1,
   ratio = [1, 1],
+  error = false,
 }) => {
   const numberappDispatch = (value) => {
     let numericValue = parseFloat(value);
@@ -56,6 +57,7 @@ export const TextInput = ({
       >
         <div className={size === "small" ? "small-input" : "input"}>
           <TextField
+            error={error}
             disabled={disabled}
             fullWidth={true}
             label={label}

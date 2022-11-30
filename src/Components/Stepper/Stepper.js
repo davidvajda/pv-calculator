@@ -6,19 +6,57 @@ import Button from "@mui/material/Button";
 
 import {
   AppStateContext,
-  OutputContext,
+  MaterialStateContext,
   APP_ACTIONS,
 } from "../../ContextProvider/ContextProvider";
 
 export default function HorizontalLinearStepper({ children }) {
   const { appState, appDispatch } = useContext(AppStateContext);
-  const { outputState } = useContext(OutputContext);
+  const { materialState } = useContext(MaterialStateContext);
 
   const steps = children.labels;
   const components = children.components;
 
+  const checkForUnfilledFields = (
+    st,
+    nonZeroValues = [],
+    oneOfManyNonZeroValues = []
+  ) => {
+    const foundZeroValueKeys = [];
+    for (let key of nonZeroValues)
+      if (st[key] === 0) foundZeroValueKeys.push(key);
+
+    for (let keyArray of oneOfManyNonZeroValues) {
+      if (!keyArray.some((key) => st[key] !== 0))
+        foundZeroValueKeys.push(...keyArray);
+    }
+    return foundZeroValueKeys;
+  };
   const handleNext = () => {
-    appDispatch({ type: APP_ACTIONS.NEXT_SCREEN });
+    let foundZeroValueKeys = [];
+    if (appState.screen === 0) {
+      foundZeroValueKeys = checkForUnfilledFields(
+        appState,
+        ["roofHeight", "hookRuster"],
+        [["roofWidthBottom", "roofWidthTop"]]
+      );
+    }
+    if (appState.screen === 1) {
+      foundZeroValueKeys = checkForUnfilledFields(materialState, [
+        "panelWidth",
+        "panelHeight",
+        "panelVoltage",
+        "panelCurrent",
+        "panelPower",
+      ]);
+    }
+
+    appDispatch({
+      type: APP_ACTIONS.INPUT_ERRORS,
+      payload: { value: foundZeroValueKeys },
+    });
+    if (foundZeroValueKeys.length === 0)
+      appDispatch({ type: APP_ACTIONS.NEXT_SCREEN });
   };
 
   const handleBack = () => {

@@ -13,5 +13,6 @@
     "powerReserve": 0,
     "manualPanelAmounts": false,
     "overcurrentDevice": "mcb",
-    "overvoltageDevice": "box"
+    "overvoltageDevice": "box",
+    "inputErrors": []
   }

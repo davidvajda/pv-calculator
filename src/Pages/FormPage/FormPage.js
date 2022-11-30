@@ -83,6 +83,7 @@ const FormPage = () => {
 
   return (
     <div className="page-wrapper">
+      
       <CheckboxInput
         label={"Manuálne zadať počet panelov"}
         appDispatch={appDispatch}
@@ -138,6 +139,7 @@ const FormPage = () => {
               max={100}
               ratio={[1, 1000]}
               description={`Šírka vrchnej hrany strechy v metroch.`}
+              error={appState.inputErrors.includes("roofWidthTop")}
             />
           ) : null}
 
@@ -150,6 +152,7 @@ const FormPage = () => {
             max={100}
             ratio={[1, 1000]}
             description={`Šírka strechy v metroch.`}
+            error={appState.inputErrors.includes("roofWidthBottom")}
           />
           <TextInput
             label={"Výška strechy [m]"}
@@ -159,6 +162,7 @@ const FormPage = () => {
             type={"number"}
             max={100}
             ratio={[1, 1000]}
+            error={appState.inputErrors.includes("roofHeight")}
             description={`Výška strehcy v metroch. Výškou je myslená dĺžka povrchu, na ktorej budú panely umiestnené.`}
           />
         </>

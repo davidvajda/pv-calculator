@@ -148,9 +148,9 @@ console.log("Server listening at port " + port);
 // DONE ->  change milimeters to meters in input fields
 // DONE ->  add default contexts to resources
 // DONE ->  add panel to resources
-//          fix bug when entering a float and , instead of .
+// DONE ->  fix bug when entering a float and , instead of .
+// DONE ->  setup page protection devices and panel 
 //          fix bug when adding more powerfull invertor e.g 25kW, brokes the app when selected
 //          performance issue when holding power reserve
 //          don't allow user to continue if some fields are not filled
-//          setup page protection devices and panel 
 //          websupport hosting

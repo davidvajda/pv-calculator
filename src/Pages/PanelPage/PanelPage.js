@@ -4,11 +4,14 @@ import { PanelDimensions } from "../../Components/PanelDimension/PanelDimension"
 import { TextInput } from "../../Components/TextInput/TextInput";
 import { CheckboxInput } from "../../Components/CheckboxInput/CheckboxInput";
 
+import { AppStateContext } from "../../ContextProvider/ContextProvider";
 import { MaterialStateContext } from "../../ContextProvider/ContextProvider";
 import { MATERIAL_ACTIONS } from "../../ContextProvider/ContextProvider";
 
 const PanelPage = () => {
   const { materialState, materialDispatch } = useContext(MaterialStateContext);
+  const { appState } = useContext(AppStateContext);
+
   return (
     <div className="page-wrapper">
       <div className="panel-dimensions">
@@ -25,7 +28,9 @@ const PanelPage = () => {
         value={false}
         appDispatch={materialDispatch}
         appDispatchAction={MATERIAL_ACTIONS.ROTATE_PANEL}
-        description={"Po vybraní možnosti sú vzájomne zmenené hodnoty šírky a výšky panelu. Použite v prípade, že panely potrebujete na strechu položiť horizontálne."}
+        description={
+          "Po vybraní možnosti sú vzájomne zmenené hodnoty šírky a výšky panelu. Použite v prípade, že panely potrebujete na strechu položiť horizontálne."
+        }
       />
       <TextInput
         label={"Šírka panelu [mm]"}
@@ -34,6 +39,7 @@ const PanelPage = () => {
         disabled={materialState.useDefaultPanel}
         appDispatch={materialDispatch}
         appDispatchAction={MATERIAL_ACTIONS.PANEL_WIDTH}
+        error={appState.inputErrors.includes("panelWidth")}
       />
       <TextInput
         label={"Výška panelu [mm]"}
@@ -42,6 +48,7 @@ const PanelPage = () => {
         disabled={materialState.useDefaultPanel}
         appDispatch={materialDispatch}
         appDispatchAction={MATERIAL_ACTIONS.PANEL_HEIGHT}
+        error={appState.inputErrors.includes("panelHeight")}
       />
       <TextInput
         label={"Napätie panelu [V]"}
@@ -50,6 +57,7 @@ const PanelPage = () => {
         disabled={materialState.useDefaultPanel}
         appDispatch={materialDispatch}
         appDispatchAction={MATERIAL_ACTIONS.PANEL_VOLTAGE}
+        error={appState.inputErrors.includes("panelVoltage")}
       />
       <TextInput
         label={"Prúd panelu [A]"}
@@ -58,6 +66,7 @@ const PanelPage = () => {
         disabled={materialState.useDefaultPanel}
         appDispatch={materialDispatch}
         appDispatchAction={MATERIAL_ACTIONS.PANEL_CURRENT}
+        error={appState.inputErrors.includes("panelCurrent")}
       />
       <TextInput
         label={"Výkon panelu [Wp]"}
@@ -66,6 +75,7 @@ const PanelPage = () => {
         disabled={materialState.useDefaultPanel}
         appDispatch={materialDispatch}
         appDispatchAction={MATERIAL_ACTIONS.PANEL_POWER}
+        error={appState.inputErrors.includes("panelPower")}
       />
     </div>
   );

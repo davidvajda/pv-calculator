@@ -36,6 +36,7 @@ export const APP_ACTIONS = {
   OVERVOLTAGE_DEVICE: "overvoltageDevice",
   OVERCURRENT_DEVICE: "overcurrentDevice",
 
+  INPUT_ERRORS: "inputErrors",
   NEXT_SCREEN: "nextScreen",
   PREV_SCREEN: "prevScreen",
   RESET_FORM: "resetForm",
@@ -98,6 +99,8 @@ export const ContextProvider = ({ children }) => {
         return { ...appState, overcurrentDevice: action.payload.value };
 
       // screen handling
+      case APP_ACTIONS.INPUT_ERRORS:
+        return { ...appState, inputErrors: action.payload.value };
       case APP_ACTIONS.NEXT_SCREEN:
         return { ...appState, screen: appState.screen + 1 };
       case APP_ACTIONS.PREV_SCREEN:
