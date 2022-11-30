@@ -24,7 +24,8 @@ export default function HorizontalLinearStepper({ children }) {
   ) => {
     const foundZeroValueKeys = [];
     for (let key of nonZeroValues)
-      if (st[key] === 0) foundZeroValueKeys.push(key);
+      if (st[key] === 0)
+        foundZeroValueKeys.push(key);
 
     for (let keyArray of oneOfManyNonZeroValues) {
       if (!keyArray.some((key) => st[key] !== 0))
@@ -34,7 +35,7 @@ export default function HorizontalLinearStepper({ children }) {
   };
   const handleNext = () => {
     let foundZeroValueKeys = [];
-    if (appState.screen === 0) {
+    if (appState.screen === 0 && !appState.manualPanelAmounts) {
       foundZeroValueKeys = checkForUnfilledFields(
         appState,
         ["roofHeight", "hookRuster"],

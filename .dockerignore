@@ -1,0 +1,5 @@
+// .dockerignore
+node_modules
+screenshots
+README.md
+build

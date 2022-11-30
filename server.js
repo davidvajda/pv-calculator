@@ -64,7 +64,7 @@ const resetResources = () => {
   writeFile("panel.json", panel);
 };
 
-app.get("/", (req, res) => {
+app.get("/*", (req, res) => {
   res.sendFile(path.join(__dirname, "build", "index.html"));
 });
 
@@ -150,7 +150,9 @@ console.log("Server listening at port " + port);
 // DONE ->  add panel to resources
 // DONE ->  fix bug when entering a float and , instead of .
 // DONE ->  setup page protection devices and panel 
+// DONE ->  don't allow user to continue if some fields are not filled
 //          fix bug when adding more powerfull invertor e.g 25kW, brokes the app when selected
 //          performance issue when holding power reserve
-//          don't allow user to continue if some fields are not filled
 //          websupport hosting
+// ############################################
+// URGENT   replace all require reads from frontend with api calls to server.js
