@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { setState, useEffect, useContext, useState } from "react";
 
 import {
   AppStateContext,
@@ -14,6 +14,8 @@ import InvertorCard from "../../Components/InvertorCard/InvertorCard";
 import ItemCard from "../../Components/ItemCard/ItemCard";
 
 import { CSVLink } from "react-csv";
+
+import { getResource } from "../../Utilities/getResource";
 
 const renderInvertor = (invertor) => {
   return <InvertorCard data={invertor} selected={true} />;
@@ -40,25 +42,77 @@ const renderCards = (data) => {
 };
 
 const OutputPage = () => {
+  const [hooks, setHooks] = useState();
+  const [rails, setRails] = useState();
+  const [others, setOthers] = useState();
+  const [protectionMaterial, setProtectionMaterial] = useState();
+  const [defaultPanel, setDefaultPanel] = useState();
+
+  const [mountingMaterial, setMountingMaterial] = useState();
+  const [protectionDevices, setProtectinDevices] = useState();
+  const [panel, setPanel] = useState();
+
   const { appState } = useContext(AppStateContext);
   const { materialState } = useContext(MaterialStateContext);
   const { outputState } = useContext(OutputContext);
 
-  const mountingMaterial = getMountingMaterialAmounts(
-    appState.roofType,
-    appState.hookRuster,
-    materialState.panelWidth,
-    materialState.railLength,
-    materialState.bracketWidth,
-    outputState.panelLayout,
-    appState.snowLoad,
-    appState.windLoad
-  );
-  const protectionDevices = getProtectionDevices(
-    outputState.invertors.stringDivisions,
-    appState.overvoltageDevice,
-    appState.overcurrentDevice
-  );
+  useEffect(() => {
+    getResource(setHooks, "hooks.json");
+    getResource(setRails, "rails.json");
+    getResource(setOthers, "others.json");
+    getResource(setProtectionMaterial, "protectionDevices.json");
+    getResource(setDefaultPanel, "panel.json");
+  }, []);
+
+  useEffect(() => {
+    if (hooks && rails && others)
+      setMountingMaterial(
+        getMountingMaterialAmounts(
+          appState.roofType,
+          appState.hookRuster,
+          materialState.panelWidth,
+          materialState.railLength,
+          materialState.bracketWidth,
+          outputState.panelLayout,
+          appState.snowLoad,
+          appState.windLoad,
+          hooks,
+          rails,
+          others
+        )
+      );
+  }, [hooks, rails, others]);
+
+  useEffect(() => {
+    if (protectionMaterial)
+      setProtectinDevices(
+        getProtectionDevices(
+          outputState.invertors.stringDivisions,
+          appState.overvoltageDevice,
+          appState.overcurrentDevice,
+          protectionMaterial
+        )
+      );
+  }, [protectionMaterial]);
+
+  useEffect(() => {
+    if (defaultPanel)
+      setPanel(
+        materialState.useDefaultPanel && defaultPanel
+          ? {
+              ...defaultPanel,
+              amounts: [countPanels(outputState.panelLayout.panels)],
+            }
+          : {
+              orderNumbers: ["PANEL-----"],
+              descriptions: [
+                `Fotovoltický panel ${materialState.panelPower}Wp`,
+              ],
+              amounts: [countPanels(outputState.panelLayout.panels)],
+            }
+      );
+  }, [defaultPanel]);
+
   const formatCsvData = (obj1, obj2, obj3, inv) => {
     const object3 =
       typeof obj3 === "undefined"
@@ -110,46 +164,40 @@ const OutputPage = () => {
     return csvData;
   };
 
-  const defaultPanel = require("../../resources/panel.json");
-  const panelPower = materialState.panelPower;
-
-  const panel =
-    materialState.useDefaultPanel && defaultPanel
-      ? defaultPanel
-      : {
-          orderNumbers: ["PANEL-----"],
-          descriptions: [`Fotovoltický panel ${panelPower}Wp`],
-        };
-  panel.amounts = [countPanels(outputState.panelLayout.panels)];
-
   return (
     <div className="page-wrapper">
-      <div className="output-page">
-        <div className="output-component-items">
-          {outputState.invertors.invertor
-            ? renderInvertor(outputState.invertors.invertor)
-            : null}
-          {panel ? renderCards(panel) : null}
-          {protectionDevices ? renderCards(protectionDevices) : null}
-        </div>
-        <div className="output-component-items">
-          {mountingMaterial ? renderCards(mountingMaterial) : null}
-        </div>
-      </div>
-      <div className="download-button-wrapper">
-        <CSVLink
-          data={formatCsvData(
-            panel,
-            mountingMaterial,
-            protectionDevices,
-            outputState.invertors.invertor
-          )}
-          className="download-button"
-          download={"pv-calculator-material"}
-        >
-          Stiahnuť zoznam materiálu do .csv
-        </CSVLink>
-      </div>
+      {mountingMaterial && protectionDevices && panel ? (
+        <>
+          <div className="output-page">
+            <div className="output-component-items">
+              {outputState.invertors.invertor
+                ? renderInvertor(outputState.invertors.invertor)
+                : null}
+              {panel ? renderCards(panel) : null}
+              {protectionDevices ? renderCards(protectionDevices) : null}
+            </div>
+            <div className="output-component-items">
+              {mountingMaterial ? renderCards(mountingMaterial) : null}
+            </div>
+          </div>
+          <div className="download-button-wrapper">
+            <CSVLink
+              data={formatCsvData(
+                panel,
+                mountingMaterial,
+                protectionDevices,
+                outputState.invertors.invertor
+              )}
+              className="download-button"
+              download={"pv-calculator-material"}
+            >
+              Stiahnuť zoznam materiálu do .csv
+            </CSVLink>
+          </div>
+        </>
+      ) : (
+        <>loading</>
+      )}
     </div>
   );
 };

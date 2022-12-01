@@ -11,7 +11,10 @@ export const getMountingMaterialAmounts = (
   bracketWidth,
   panelLlayout,
   snowLoad,
-  windLoad
+  windLoad,
+  HOOKS,
+  RAILS,
+  OTHERS
 ) => {
   let hookOrderNumber = null;
 

@@ -1,9 +1,8 @@
-const protectionMaterial = require("../resources/protectionDevices.json");
-
 export const getProtectionDevices = (
   stringDivisions,
   overvoltageDevice,
-  overcurrentDevice
+  overcurrentDevice,
+  protectionMaterial
 ) => {
   if (!stringDivisions) return;
 
