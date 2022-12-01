@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useReducer, createContext } from "react";
-import axios from "axios";
+import { getResource } from "../Utilities/getResource";
 
 export const AppStateContext = createContext();
 export const MaterialStateContext = createContext();
-export const OutputContext = createContext();
+export const OutputContext = createContext(); 
 
 export const APP_ACTIONS = {
   SET_DEFAULT_VALUE: "setDefaultValue",
@@ -50,21 +50,6 @@ export const MATERIAL_ACTIONS = {
   PANEL_VOLTAGE: "panelVoltage",
   PANEL_CURRENT: "panelCurrent",
   PANEL_POWER: "panelPower",
-};
-
-const getResource = (setState, resourceName) => {
-  const port = process.env.PORT || 8080;
-  axios
-    .post(`http://127.0.0.1:${port}/get_resource`, {
-      resourceName: resourceName,
-    })
-    .then((res) => {
-      setState(res.data);
-      return res.data;
-    })
-    .catch((err) => {
-      return {};
-    });
 };
 
 export const ContextProvider = ({ children }) => {
