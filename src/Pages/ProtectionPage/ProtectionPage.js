@@ -52,7 +52,7 @@ const OutputPage = () => {
       ) : (
         <TextBoard
           text_array={[
-            "Typ ochrán je možné vybrať spolu so striedačom.",
+            "Typ ochrán je možné vybrať len ak je zvolený striedač.",
           ]}
           header={"Pozor!"}
         />

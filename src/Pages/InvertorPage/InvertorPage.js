@@ -11,6 +11,7 @@ import { getSuitableInvertorAndStrings } from "../../Utilities/invertorFunctions
 
 import InvertorCard from "../../Components/InvertorCard/InvertorCard";
 import TextBoard from "../../Components/TextBoard/TextBoard";
+import CircularProgress from "@mui/material/CircularProgress";
 
 import { getResource } from "../../Utilities/getResource";
 
@@ -42,7 +43,7 @@ const InvertorPage = () => {
   }, [invertors]);
 
   useEffect(() => {
-    if (selectedInvertor) {
+    if (suitableInvertors) {
       outputDispatch({
         type: OUTPUT_ACTIONS.INVERTOR_MATERIAL,
         payload: {
@@ -51,7 +52,7 @@ const InvertorPage = () => {
         },
       });
     }
-  }, [selectedInvertor]);
+  }, [selectedInvertor, suitableInvertors]);
 
   const renderInvertors = (invertors) => {
     if (invertors.invertors.length === 0) {
@@ -84,9 +85,10 @@ const InvertorPage = () => {
       {suitableInvertors ? (
         <>{renderInvertors(suitableInvertors)}</>
       ) : (
-        <>loading</>
+        <>
+          <CircularProgress />
+        </>
       )}
-      {}
     </div>
   );
 };

@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import TextBoard from "../../Components/TextBoard/TextBoard";
 
-const getResource = (password, setState, resourceName) => {
+const port = process.env.PORT || 8080;
+
+const getResource = (setState, resourceName) => {
   axios
-    .post("http://127.0.0.1:8080/get_resource", {
-      adminPassword: password,
+    .post(`http://127.0.0.1:${port}/get_resource`, {
       resourceName: resourceName,
     })
     .then((res) => {
@@ -16,9 +18,20 @@ const getResource = (password, setState, resourceName) => {
     });
 };
 
+const authenticate = (password, setAuthentified) => {
+  axios
+    .post(`http://127.0.0.1:${port}/authenticate`, {
+      adminPassword: password,
+    })
+    .then((res) => {
+      setAuthentified(res.status === 200 ? true : false);
+    })
+    .catch((err) => console.log(err));
+};
+
 const setResource = (password, state, resourceName) => {
   axios
-    .post("http://127.0.0.1:8080/set_resource", {
+    .post(`http://127.0.0.1:${port}/set_resource`, {
       adminPassword: password,
       resourceName: resourceName,
       resourceContent: state,
@@ -30,7 +43,7 @@ const setResource = (password, state, resourceName) => {
 
 const setDefaultResources = (password) => {
   axios
-    .post("http://127.0.0.1:8080/reset_resources", {
+    .post(`http://127.0.0.1:${port}/reset_resources`, {
       adminPassword: password,
     })
     .then(() => {
@@ -56,7 +69,12 @@ const renderResource = (resource, setState, resourceName) => {
         <input
           key={idx}
           maxLength={10}
-          type={intKeyNamesToParse.includes(key) || floatKeyNamesToParse.includes(key) ? "number" : "text"}
+          type={
+            intKeyNamesToParse.includes(key) ||
+            floatKeyNamesToParse.includes(key)
+              ? "number"
+              : "text"
+          }
           value={item ? item : ""}
           onChange={(e) => {
             setState((prev) => {
@@ -228,7 +246,7 @@ const clearInvertors = (invertors) => {
   });
 };
 
-const MaterialPage = () => {
+const MaterialPage = ({ password }) => {
   const [hooks, setHooks] = useState();
   const [rails, setRails] = useState();
   const [others, setOthers] = useState();
@@ -248,7 +266,7 @@ const MaterialPage = () => {
   ];
 
   useEffect(() => {
-    states.forEach((stObj) => getResource("test", stObj.fn, stObj.fl));
+    states.forEach((stObj) => getResource(stObj.fn, stObj.fl));
   }, []);
 
   return (
@@ -256,7 +274,7 @@ const MaterialPage = () => {
       <button
         onClick={(e) => {
           e.preventDefault();
-          states.forEach((stObj) => setResource("test", stObj.st, stObj.fl));
+          states.forEach((stObj) => setResource(password, stObj.st, stObj.fl));
         }}
       >
         Save modified material
@@ -267,7 +285,7 @@ const MaterialPage = () => {
             "Are you sure you want to reset material to default values? Type YES for confirmation."
           );
           if (confirmation === "YES") {
-            setDefaultResources("test");
+            setDefaultResources(password);
           }
         }}
       >
@@ -280,20 +298,20 @@ const MaterialPage = () => {
   );
 };
 
-const InvertorPage = () => {
+const InvertorPage = ({ password }) => {
   const [invertors, setInvertors] = useState();
   const [invertorStructure, setInvertorStructure] = useState();
 
   useEffect(() => {
-    getResource("test", setInvertors, "invertors.json");
-    getResource("test", setInvertorStructure, "invertorStructure.json");
+    getResource(setInvertors, "invertors.json");
+    getResource(setInvertorStructure, "invertorStructure.json");
   }, []);
 
   return (
     <>
       <button
         onClick={() => {
-          setResource("test", clearInvertors(invertors), "invertors.json");
+          setResource(password, clearInvertors(invertors), "invertors.json");
         }}
       >
         Save modified invertors
@@ -316,25 +334,32 @@ const InvertorPage = () => {
 };
 
 const SetupPage = () => {
-  const servicePassword = "test"; // prompt("Servisné heslo:")
-  // TODO get service password from input
-
+  const password = prompt("Service password:");
+  const [authentified, setAuthentified] = useState(false);
   const [page, setPage] = useState("material");
 
-  return (
+  useEffect(() => {
+    if (password) authenticate(password, setAuthentified);
+  }, []);
+
+  return authentified ? (
     <>
       {page === "material" ? (
         <>
           <button onClick={() => setPage("invertor")}>Modify invertors</button>
-          <MaterialPage />
+          <MaterialPage password={password} />
         </>
       ) : (
         <>
           <button onClick={() => setPage("material")}>Modify material</button>
-          <InvertorPage />
+          <InvertorPage password={password} />
         </>
       )}
     </>
+  ) : (
+    <div className="page-wrapper">
+      <TextBoard header={"Chyba"} text_array={["Zadané heslo je nesprávne."]} />
+    </div>
   );
 };
 

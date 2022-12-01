@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useReducer, createContext } from "react";
+import CircularProgress from "@mui/material/CircularProgress";
 import { getResource } from "../Utilities/getResource";
 
 export const AppStateContext = createContext();
 export const MaterialStateContext = createContext();
-export const OutputContext = createContext(); 
+export const OutputContext = createContext();
 
 export const APP_ACTIONS = {
   SET_DEFAULT_VALUE: "setDefaultValue",
@@ -309,8 +310,10 @@ export const ContextProvider = ({ children }) => {
       </AppStateContext.Provider>
     </>
   ) : (
-    <>
-      waiting<></>
-    </>
+    <div className="page-wrapper">
+      
+        <CircularProgress color="inherit" />
+    
+    </div>
   );
 };

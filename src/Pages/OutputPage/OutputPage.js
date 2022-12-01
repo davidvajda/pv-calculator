@@ -1,4 +1,6 @@
-import React, { setState, useEffect, useContext, useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
+
+import CircularProgress from "@mui/material/CircularProgress";
 
 import {
   AppStateContext,
@@ -22,6 +24,7 @@ const renderInvertor = (invertor) => {
 };
 
 const renderCards = (data) => {
+  if (!data) return;
   const cards = [];
   for (let i = 0; i < data.orderNumbers.length; i++) {
     // Skip items with zero amount
@@ -166,7 +169,7 @@ const OutputPage = () => {
 
   return (
     <div className="page-wrapper">
-      {mountingMaterial && protectionDevices && panel ? (
+      {mountingMaterial && panel ? (
         <>
           <div className="output-page">
             <div className="output-component-items">
@@ -196,7 +199,9 @@ const OutputPage = () => {
           </div>
         </>
       ) : (
-        <>loading</>
+        <>
+          <CircularProgress />
+        </>
       )}
     </div>
   );
