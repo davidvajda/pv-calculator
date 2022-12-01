@@ -2,25 +2,14 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import TextBoard from "../../Components/TextBoard/TextBoard";
 
-const port = process.env.PORT || 8080;
+import { getResource } from "../../Utilities/getResource";
 
-const getResource = (setState, resourceName) => {
-  axios
-    .post(`http://127.0.0.1:${port}/get_resource`, {
-      resourceName: resourceName,
-    })
-    .then((res) => {
-      setState(res.data);
-      return res.data;
-    })
-    .catch((err) => {
-      return {};
-    });
-};
+const deployment = process.env["REACT_APP_DEPLOYMENT"]
+const baseUrl = deployment ? process.env["REACT_APP_BASE_URL"] : "http://127.0.0.1:8080";
 
 const authenticate = (password, setAuthentified) => {
   axios
-    .post(`http://127.0.0.1:${port}/authenticate`, {
+    .post(`${baseUrl}/authenticate`, {
       adminPassword: password,
     })
     .then((res) => {
@@ -31,7 +20,7 @@ const authenticate = (password, setAuthentified) => {
 
 const setResource = (password, state, resourceName) => {
   axios
-    .post(`http://127.0.0.1:${port}/set_resource`, {
+    .post(`${baseUrl}/set_resource`, {
       adminPassword: password,
       resourceName: resourceName,
       resourceContent: state,
@@ -43,7 +32,7 @@ const setResource = (password, state, resourceName) => {
 
 const setDefaultResources = (password) => {
   axios
-    .post(`http://127.0.0.1:${port}/reset_resources`, {
+    .post(`${baseUrl}/reset_resources`, {
       adminPassword: password,
     })
     .then(() => {
@@ -334,13 +323,17 @@ const InvertorPage = ({ password }) => {
 };
 
 const SetupPage = () => {
-  const password = prompt("Service password:");
+  const [password, setPassword] = useState();
   const [authentified, setAuthentified] = useState(false);
   const [page, setPage] = useState("material");
 
   useEffect(() => {
+    setPassword(prompt("Service password:"))
+  }, [])
+
+  useEffect(() => {
     if (password) authenticate(password, setAuthentified);
-  }, []);
+  }, [password]);
 
   return authentified ? (
     <>

@@ -33,4 +33,9 @@ The app composes out of five steps: __roof parameters, panel parameters, roof sk
 
 ## How to run locally
 1. Clone the repository
-2.  npm start
+2. node server.js
+3. npm run dev
+
+## How to run in docker
+1. docker build . -t pv-calculator
+2. docker run -p 8080:8080 -d pv-calculator

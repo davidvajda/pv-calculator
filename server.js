@@ -10,13 +10,14 @@ require("dotenv").config();
 const app = express();
 
 app.use(cors());
+app.options('*', cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(__dirname));
 app.use(express.static(path.join(__dirname, "build")));
 
 const checkEnvPassword = (pass) => {
-  const servicePassword = process.env["SERVICE_PASSWORD"];
+  const servicePassword = process.env["REACT_APP_SERVICE_PASSWORD"];
   return servicePassword === pass ? true : false;
 };
 
