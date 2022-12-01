@@ -36,9 +36,9 @@ export const getSuitableInvertorAndStrings = (
   panelPower,
   panelVoltage,
   panelCurrent,
-  panelLayout
+  panelLayout,
+  invertors
 ) => {
-  const invertors = require("../resources/invertors.json");
   let panelCount = 0;
 
   for (let panelsInRow of panelLayout.panels) {

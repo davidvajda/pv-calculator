@@ -12,29 +12,45 @@ import { getSuitableInvertorAndStrings } from "../../Utilities/invertorFunctions
 import InvertorCard from "../../Components/InvertorCard/InvertorCard";
 import TextBoard from "../../Components/TextBoard/TextBoard";
 
+import { getResource } from "../../Utilities/getResource";
+
 const InvertorPage = () => {
   const { appState } = useContext(AppStateContext);
   const { materialState } = useContext(MaterialStateContext);
   const { outputState, outputDispatch } = useContext(OutputContext);
 
-  const [selectedInvertor, setSelectedInvertor] = useState(() => null);
-
-  const suitableInvertors = getSuitableInvertorAndStrings(
-    appState.powerReserve,
-    materialState.panelPower,
-    materialState.panelVoltage,
-    materialState.panelCurrent,
-    outputState.panelLayout
-  );
+  const [selectedInvertor, setSelectedInvertor] = useState();
+  const [invertors, setInvertors] = useState();
+  const [suitableInvertors, setSuitableInvertors] = useState();
 
   useEffect(() => {
-    outputDispatch({
-      type: OUTPUT_ACTIONS.INVERTOR_MATERIAL,
-      payload: {
-        invertor: suitableInvertors.invertors[selectedInvertor],
-        stringDivisions: suitableInvertors.stringDivisions[selectedInvertor],
-      },
-    });
+    getResource(setInvertors, "invertors.json");
+  }, []);
+
+  useEffect(() => {
+    if (invertors)
+      setSuitableInvertors(
+        getSuitableInvertorAndStrings(
+          appState.powerReserve,
+          materialState.panelPower,
+          materialState.panelVoltage,
+          materialState.panelCurrent,
+          outputState.panelLayout,
+          invertors
+        )
+      );
+  }, [invertors]);
+
+  useEffect(() => {
+    if (selectedInvertor) {
+      outputDispatch({
+        type: OUTPUT_ACTIONS.INVERTOR_MATERIAL,
+        payload: {
+          invertor: suitableInvertors.invertors[selectedInvertor],
+          stringDivisions: suitableInvertors.stringDivisions[selectedInvertor],
+        },
+      });
+    }
   }, [selectedInvertor]);
 
   const renderInvertors = (invertors) => {
@@ -64,7 +80,14 @@ const InvertorPage = () => {
   };
 
   return (
-    <div className="page-wrapper">{renderInvertors(suitableInvertors)}</div>
+    <div className="page-wrapper">
+      {suitableInvertors ? (
+        <>{renderInvertors(suitableInvertors)}</>
+      ) : (
+        <>loading</>
+      )}
+      {}
+    </div>
   );
 };
 
