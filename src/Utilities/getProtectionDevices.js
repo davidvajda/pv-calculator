@@ -31,12 +31,12 @@ export const getProtectionDevices = (
   }
 
   if (overvoltageDevice === "box") {
-    returnObject.amounts.push(1);
-    returnObject.orderNumbers.push(protectionMaterial.box[stringCount - 1]);
+    returnObject.amounts.push(stringCount % 2 === 0 ? stringCount / 2 : stringCount);
+    returnObject.orderNumbers.push(protectionMaterial.box[stringCount % 2 === 0 ? 1 : 0]);
     returnObject.descriptions.push(
       stringCount % 2 === 0
-        ? `Prepäťová skrinka, ${stringCount} stringy`
-        : `Prepäťová skrinka, ${stringCount} string`
+        ? `Prepäťová skrinka, 2 stringy`
+        : `Prepäťová skrinka, 1 string`
     );
   } else {
     returnObject.amounts.push(stringCount);

@@ -1,7 +1,7 @@
 import React from "react";
 
 const getSchrackImageUrl = (orderNumber) => {
-  if (orderNumber === undefined) {
+  if (!orderNumber) {
     return "https://www.schrack.sk/eshop/media/catalog/product/placeholder/default/Schrack_S_CMYK80x80.jpg";
   }
   return (
@@ -12,6 +12,9 @@ const getSchrackImageUrl = (orderNumber) => {
 };
 
 const getScrachEshopUrl = (orderNumber) => {
+  if (!orderNumber) {
+    return "http://www.schrack.sk/";
+  }
   return "http://www.schrack.sk/eshop/sd/sd?a=" + orderNumber.toUpperCase();
 };
 

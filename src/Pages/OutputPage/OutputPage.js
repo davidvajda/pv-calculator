@@ -28,9 +28,8 @@ const renderCards = (data) => {
   const cards = [];
   for (let i = 0; i < data.orderNumbers.length; i++) {
     // Skip items with zero amount
-    if (data.amounts[i] <= 0) {
+    if (data.amounts[i] <= 0 || !data.orderNumbers[i] || !data.descriptions[i])
       continue;
-    }
 
     cards.push(
       <ItemCard

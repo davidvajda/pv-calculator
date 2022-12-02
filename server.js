@@ -116,22 +116,3 @@ app.post("/reset_resources", (req, res) => {
 
 app.listen(port);
 console.log("Server listening at port " + port);
-
-// DONE ->  option to select 0 to 50% of invertor spare capacity
-// DONE ->  option to make roof for x rows with x1, x2, x3.. xn panels
-// DONE ->  back button on last page 
-// DONE ->  map of load
-// DONE ->  replace mcb with fuse holder + fuses
-// DONE ->  spare rails
-// DONE ->  add protection devices to resources
-// DONE ->  add possibility to change panel
-// DONE ->  change milimeters to meters in input fields
-// DONE ->  add default contexts to resources
-// DONE ->  add panel to resources
-// DONE ->  fix bug when entering a float and , instead of .
-// DONE ->  setup page protection devices and panel 
-// DONE ->  don't allow user to continue if some fields are not filled
-// DONE ->  replace all require reads from frontend with api calls to server.js
-//          fix bug when adding more powerfull invertor e.g 25kW, brokes the app when selected
-//          performance issue when holding power reserve
-//          websupport hosting

@@ -1,4 +1,4 @@
-# fly.toml file generated for pv-calculator on 2022-12-01T20:48:16+01:00
+# fly.toml file generated for pv-calculator on 2022-12-01T21:26:07+01:00
 
 app = "pv-calculator"
 kill_signal = "SIGINT"
