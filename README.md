@@ -1,7 +1,10 @@
 # PV-Calculator
 is a React Js app meant for my colleagues and our customers. It allows the user to easily get an electrical and mounting material necessary to build photovoltaic power plant (residential, up to 10kW AC). The app is currently in __Slovak__ language, however, I plan to add possibility to switch to English in near future.
 
-The app runs on heroku: [PV-Calculator](https://pv-calculator.herokuapp.com/)
+~~The app runs on heroku: [PV-Calculator](https://pv-calculator.herokuapp.com/)~~ (screenshots)
+
+The new version runs on fly.io: [PV-Calculator](https://pv-calculator.fly.dev//)
+This version was not properly tested yet, so some flies might occur.
 
 ## Usage
 The app composes out of five steps: __roof parameters, panel parameters, roof sketch, invertor selection__ and finally __material output__. 
